@@ -383,86 +383,147 @@ document.getElementById('wall').innerHTML=wh+`<div class="wax"><span>CE OI</span
 // --- MULTI-STRIKE OI TREND CHART ---
 (function(){
   if(!HIST.times||HIST.times.length<2)return;
-  const W=900,H=200,pad={l:54,r:64,t:18,b:30};
-  const iw=W-pad.l-pad.r, ih=H-pad.t-pad.b;
-  const N=HIST.times.length;
   const strikes=HIST.strikes||[];
-  const PALETTE_CE=['#f85149','#ff7b72','#ffa198','#ffd0cd'];
-  const PALETTE_PE=['#3fb950','#56d364','#7ee787','#aff5b4'];
+  const N=HIST.times.length;
+  const PALETTE_CE=['#f85149','#ff7b72','#ffa198','#e87070'];
+  const PALETTE_PE=['#3fb950','#56d364','#7ee787','#2ea043'];
 
-  // Y axes: OI left, price right
-  const allOI=[...Object.values(HIST.ce_oi),...Object.values(HIST.pe_oi)].flat().filter(v=>v>0);
-  const maxOI=Math.max(...allOI,1)*1.1;
-  const prices=HIST.price.filter(v=>v!=null);
-  const minP=Math.min(...prices)*0.998,maxP=Math.max(...prices)*1.002;
-  const ox=i=>pad.l+i/(N-1)*iw;
-  const oiy=v=>pad.t+ih-(v/maxOI*ih);
-  const py=v=>pad.t+ih-((v-minP)/(maxP-minP)*ih);
+  // Build both absolute and delta (change-from-first) series
+  const ceAbs={},peAbs={},ceDelta={},peDelta={};
+  strikes.forEach(s=>{
+    const ck=String(s);
+    const ca=HIST.ce_oi[ck]||[], pa=HIST.pe_oi[ck]||[];
+    ceAbs[s]=ca; peAbs[s]=pa;
+    const c0=ca[0]||0, p0=pa[0]||0;
+    ceDelta[s]=ca.map(v=>v-c0);
+    peDelta[s]=pa.map(v=>v-p0);
+  });
 
-  let svg=`<svg class="trendsvg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet" style="height:220px">`;
-  // grid
-  for(let i=0;i<=4;i++){
-    const y=(pad.t+ih*(i/4)).toFixed(1);
-    svg+=`<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="#21262d" stroke-width="1"/>`;
-    const v=((1-i/4)*maxOI/1000).toFixed(0);
-    svg+=`<text x="${pad.l-4}" y="${parseFloat(y)+4}" fill="#8b949e" font-size="9" text-anchor="end">${v}K</text>`;
+  function buildSVG(mode){
+    // mode: 'abs' = zoomed absolute OI, 'delta' = change from first snapshot
+    const W=900,H=230;
+    const pl=58,pr=68,pt=22,pb=36;
+    const iw=W-pl-pr, ih=H-pt-pb;
+    const ox=i=>N>1?pl+i/(N-1)*iw:pl+iw/2;
+
+    let minOI,maxOI;
+    if(mode==='abs'){
+      const allV=[...strikes.flatMap(s=>[...ceAbs[s],...peAbs[s]])].filter(v=>v>0);
+      if(!allV.length)return '';
+      minOI=Math.min(...allV); maxOI=Math.max(...allV);
+      // Zoom: show 5% padding above/below actual range (not from 0)
+      const rng=maxOI-minOI||1;
+      minOI=Math.max(0,minOI-rng*0.08); maxOI=maxOI+rng*0.08;
+    } else {
+      const allV=strikes.flatMap(s=>[...ceDelta[s],...peDelta[s]]);
+      const absMax=Math.max(...allV.map(Math.abs),100);
+      minOI=-absMax*1.1; maxOI=absMax*1.1;
+    }
+    const oiy=v=>pt+ih-((v-minOI)/(maxOI-minOI)*ih);
+
+    const prices=HIST.price.filter(v=>v!=null);
+    const minP=Math.min(...prices)*0.9995, maxP=Math.max(...prices)*1.0005;
+    const py=v=>pt+ih-((v-minP)/(maxP-minP)*ih);
+
+    let svg=`<svg class="trendsvg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="width:100%;height:${H}px">`;
+
+    // Y grid + left axis
+    for(let i=0;i<=5;i++){
+      const frac=i/5;
+      const yy=(pt+ih*(1-frac)).toFixed(1);
+      const v=minOI+(maxOI-minOI)*frac;
+      const lbl=mode==='abs'?(v/1000).toFixed(1)+'K':(v>=0?'+':'')+Math.round(v);
+      svg+=`<line x1="${pl}" y1="${yy}" x2="${W-pr}" y2="${yy}" stroke="#21262d" stroke-width="1"/>`;
+      svg+=`<text x="${pl-4}" y="${parseFloat(yy)+3}" fill="#8b949e" font-size="8.5" text-anchor="end">${lbl}</text>`;
+    }
+    // Zero line for delta mode
+    if(mode==='delta'){
+      const zy=oiy(0).toFixed(1);
+      svg+=`<line x1="${pl}" y1="${zy}" x2="${W-pr}" y2="${zy}" stroke="#58a6ff44" stroke-width="1.5" stroke-dasharray="6,3"/>`;
+    }
+    // Day-break lines
+    (HIST.day_breaks||[]).forEach(bi=>{
+      const bx=ox(bi).toFixed(1);
+      svg+=`<line x1="${bx}" y1="${pt}" x2="${bx}" y2="${H-pb}" stroke="#58a6ff33" stroke-width="1.5" stroke-dasharray="5,4"/>`;
+      const dayLbl=(HIST.times[bi]||'').split(' ')[0];
+      svg+=`<text x="${bx}" y="${pt-4}" fill="#58a6ff88" font-size="8" text-anchor="middle">${dayLbl}</text>`;
+    });
+    // X time labels
+    const step2=Math.max(1,Math.floor(N/10));
+    for(let i=0;i<N;i+=step2){
+      const parts=(HIST.times[i]||'').split(' ');
+      const xx=ox(i).toFixed(1);
+      svg+=`<text x="${xx}" y="${H-pb+13}" fill="#8b949e" font-size="7" text-anchor="middle">${parts[0]||''}</text>`;
+      svg+=`<text x="${xx}" y="${H-pb+22}" fill="#8b949e" font-size="7" text-anchor="middle">${parts[1]||''}</text>`;
+    }
+    // PE lines
+    strikes.forEach((s,i)=>{
+      const pts=mode==='abs'?peAbs[s]:peDelta[s];
+      if(!pts||pts.length<2)return;
+      const d=pts.map((v,j)=>`${j===0?'M':'L'}${ox(j).toFixed(1)},${oiy(v).toFixed(1)}`).join(' ');
+      svg+=`<path d="${d}" fill="none" stroke="${PALETTE_PE[i%4]}" stroke-width="2" stroke-linejoin="round"/>`;
+      const lv=pts[N-1], ly=oiy(lv).toFixed(1);
+      svg+=`<text x="${W-pr+4}" y="${parseFloat(ly)+3}" fill="${PALETTE_PE[i%4]}" font-size="8" font-weight="600">${s}P</text>`;
+    });
+    // CE lines
+    strikes.forEach((s,i)=>{
+      const pts=mode==='abs'?ceAbs[s]:ceDelta[s];
+      if(!pts||pts.length<2)return;
+      const d=pts.map((v,j)=>`${j===0?'M':'L'}${ox(j).toFixed(1)},${oiy(v).toFixed(1)}`).join(' ');
+      svg+=`<path d="${d}" fill="none" stroke="${PALETTE_CE[i%4]}" stroke-width="2" stroke-linejoin="round"/>`;
+      const lv=pts[N-1], ly=oiy(lv).toFixed(1);
+      svg+=`<text x="${W-pr+4}" y="${parseFloat(ly)+3}" fill="${PALETTE_CE[i%4]}" font-size="8" font-weight="600">${s}C</text>`;
+    });
+    // Price line (right axis)
+    const pricePts=HIST.price.map((v,i)=>{
+      if(v==null)return null;
+      const prev=i>0?HIST.price[i-1]:null;
+      return`${prev==null?'M':'L'}${ox(i).toFixed(1)},${py(v).toFixed(1)}`;
+    }).filter(Boolean).join(' ');
+    svg+=`<path d="${pricePts}" fill="none" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.9"/>`;
+    // Right axis price labels
+    for(let i=0;i<=4;i++){
+      const v=(minP+(maxP-minP)*(i/4)).toFixed(2);
+      const yy=(pt+ih*(1-i/4)).toFixed(1);
+      svg+=`<text x="${W-2}" y="${parseFloat(yy)+3}" fill="#58a6ff77" font-size="7.5" text-anchor="end">${v}</text>`;
+    }
+    svg+=`<text x="${W-pr+4}" y="${pt+10}" fill="#58a6ff77" font-size="7.5">Price</text>`;
+    svg+=`</svg>`;
+    return svg;
   }
-  // Day-break vertical lines
-  const breaks=HIST.day_breaks||[];
-  breaks.forEach(bi=>{
-    const bx=ox(bi).toFixed(1);
-    svg+=`<line x1="${bx}" y1="${pad.t}" x2="${bx}" y2="${H-pad.b}" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3"/>`;
-    svg+=`<text x="${bx}" y="${pad.t-2}" fill="#30363d" font-size="7" text-anchor="middle">${HIST.times[bi]?.split(' ')[0]||''}</text>`;
-  });
-  // time labels — show day+time for multi-day
-  const step2=Math.max(1,Math.floor(N/8));
-  for(let i=0;i<N;i+=step2){
-    const parts=(HIST.times[i]||'').split(' ');
-    svg+=`<text x="${ox(i).toFixed(1)}" y="${H-12}" fill="#8b949e" font-size="7" text-anchor="middle">${parts[0]||''}</text>`;
-    svg+=`<text x="${ox(i).toFixed(1)}" y="${H-3}" fill="#8b949e" font-size="7" text-anchor="middle">${parts[1]||''}</text>`;
-  }
-  const atmX=ox(N-1);
-  svg+=`<text x="${W-pad.r+4}" y="${pad.t+10}" fill="#8b949e" font-size="8">OI</text>`;
-  // PE OI lines
-  strikes.forEach((s,i)=>{
-    const key=String(s);  // integer key from JSON — matches Python int keys
-    const pts=HIST.pe_oi[key];
-    if(!pts||pts.every(v=>v===0))return;
-    const d=pts.map((v,j)=>`${j===0?'M':'L'}${ox(j).toFixed(1)},${oiy(v).toFixed(1)}`).join('');
-    svg+=`<path d="${d}" fill="none" stroke="${PALETTE_PE[i%4]}" stroke-width="1.5" opacity="0.85"/>`;
-    const lastV=pts[N-1];
-    svg+=`<text x="${W-pad.r+3}" y="${(oiy(lastV)+3).toFixed(1)}" fill="${PALETTE_PE[i%4]}" font-size="8">${s}P</text>`;
-  });
-  strikes.forEach((s,i)=>{
-    const key=String(s);
-    const pts=HIST.ce_oi[key];
-    if(!pts||pts.every(v=>v===0))return;
-    const d=pts.map((v,j)=>`${j===0?'M':'L'}${ox(j).toFixed(1)},${oiy(v).toFixed(1)}`).join('');
-    svg+=`<path d="${d}" fill="none" stroke="${PALETTE_CE[i%4]}" stroke-width="1.5" opacity="0.85"/>`;
-    const lastV=pts[N-1];
-    svg+=`<text x="${W-pad.r+3}" y="${(oiy(lastV)+3).toFixed(1)}" fill="${PALETTE_CE[i%4]}" font-size="8">${s}C</text>`;
-  });
-  // Price line (right axis, dashed dark)
-  const pricePts=HIST.price.map((v,i)=>v!=null?`${i===0||HIST.price[i-1]==null?'M':'L'}${ox(i).toFixed(1)},${py(v).toFixed(1)}`:null).filter(Boolean).join('');
-  svg+=`<path d="${pricePts}" fill="none" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.9"/>`;
-  // price right axis labels
-  for(let i=0;i<=3;i++){
-    const v=(minP+(maxP-minP)*(1-i/3)).toFixed(1);
-    const y=(pad.t+ih*(i/3)).toFixed(1);
-    svg+=`<text x="${W-2}" y="${parseFloat(y)+3}" fill="#58a6ff88" font-size="8" text-anchor="end">${v}</text>`;
-  }
-  svg+=`</svg>`;
 
   // Legend
-  let leg=`<div class="hist-legend">`;
+  let leg=`<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px">`;
+  leg+=`<div class="hist-legend" style="margin:0">`;
   strikes.forEach((s,i)=>{
-    leg+=`<div class="hist-li"><svg width="18" height="3"><line x1="0" y1="1.5" x2="18" y2="1.5" stroke="${PALETTE_CE[i%4]}" stroke-width="2"/></svg>${s}CE</div>`;
-    leg+=`<div class="hist-li"><svg width="18" height="3"><line x1="0" y1="1.5" x2="18" y2="1.5" stroke="${PALETTE_PE[i%4]}" stroke-width="2"/></svg>${s}PE</div>`;
+    leg+=`<div class="hist-li"><svg width="16" height="3"><line x1="0" y1="1.5" x2="16" y2="1.5" stroke="${PALETTE_CE[i%4]}" stroke-width="2.5"/></svg>${s}CE</div>`;
+    leg+=`<div class="hist-li"><svg width="16" height="3"><line x1="0" y1="1.5" x2="16" y2="1.5" stroke="${PALETTE_PE[i%4]}" stroke-width="2.5"/></svg>${s}PE</div>`;
   });
-  leg+=`<div class="hist-li"><svg width="18" height="3"><line x1="0" y1="1.5" x2="18" y2="1.5" stroke="#58a6ff" stroke-width="2" stroke-dasharray="4,3"/></svg>Underlying</div></div>`;
+  leg+=`<div class="hist-li"><svg width="16" height="3"><line x1="0" y1="1.5" x2="16" y2="1.5" stroke="#58a6ff" stroke-width="2" stroke-dasharray="4,3"/></svg>Price</div></div>`;
+  leg+=`<div style="display:flex;gap:6px">
+    <button id="btn-abs" onclick="switchOIMode('abs')" style="font-size:10px;padding:4px 10px;border-radius:4px;border:1px solid #58a6ff;background:#58a6ff22;color:#58a6ff;cursor:pointer">Absolute OI</button>
+    <button id="btn-delta" onclick="switchOIMode('delta')" style="font-size:10px;padding:4px 10px;border-radius:4px;border:1px solid #30363d;background:transparent;color:#8b949e;cursor:pointer">OI Change (from open)</button>
+  </div></div>`;
 
-  document.getElementById('oi-trend-wrap').innerHTML=leg+svg;
-  document.getElementById('oi-trend-sub').textContent=`Top ${strikes.length} strikes OI over time (${HIST.times[0]}–${HIST.times[HIST.times.length-1]}) • ${N} snapshots • right axis = underlying price`;
+  const wrap=document.getElementById('oi-trend-wrap');
+  const svgDiv=document.createElement('div');
+  svgDiv.id='oi-svg-area';
+  wrap.innerHTML=leg;
+  wrap.appendChild(svgDiv);
+
+  window._oiSVGs={abs:buildSVG('abs'),delta:buildSVG('delta')};
+  window.switchOIMode=function(mode){
+    svgDiv.innerHTML=window._oiSVGs[mode]||'';
+    document.getElementById('btn-abs').style.background=mode==='abs'?'#58a6ff22':'transparent';
+    document.getElementById('btn-abs').style.borderColor=mode==='abs'?'#58a6ff':'#30363d';
+    document.getElementById('btn-abs').style.color=mode==='abs'?'#58a6ff':'#8b949e';
+    document.getElementById('btn-delta').style.background=mode==='delta'?'#58a6ff22':'transparent';
+    document.getElementById('btn-delta').style.borderColor=mode==='delta'?'#58a6ff':'#30363d';
+    document.getElementById('btn-delta').style.color=mode==='delta'?'#58a6ff':'#8b949e';
+    const sub=`Top ${strikes.length} strikes • ${N} snapshots • ${HIST.times[0]} – ${HIST.times[N-1]} • ${mode==='abs'?'Y-axis zoomed to actual OI range (not from 0)':'Change vs first snapshot of the day — rising = OI building, falling = OI unwinding'}`;
+    document.getElementById('oi-trend-sub').textContent=sub;
+  };
+  window.switchOIMode('abs');
 })();
 
 // --- OI CHANGE HISTOGRAM (Sensibull-style vertical bars) ---
