@@ -182,10 +182,11 @@ svg.histsvg{display:block}
 
 <!-- OI CHANGE HISTOGRAM (Sensibull-style) + IV Smile + Volume -->
 <div class="g3">
-  <div class="card" style="grid-column:1/-1">
+  <div class="card" style="grid-column:1/-1;position:relative">
     <h3>OI Change Histogram</h3>
-    <div class="csub">Call OI (red) &amp; Put OI (green) per strike &bull; striped = increase since last snapshot &bull; hollow = decrease</div>
-    <div style="overflow-x:auto"><div id="oihist"></div></div>
+    <div class="csub">Call OI (red) &amp; Put OI (green) per strike &bull; striped = today&apos;s increase &bull; hollow outline = decrease &bull; hover bars for values</div>
+    <div style="overflow-x:auto;position:relative"><div id="oihist"></div></div>
+    <div id="hist-tip" style="display:none;position:fixed;background:#1c2128;border:1px solid #30363d;border-radius:7px;padding:10px 14px;font-size:11px;pointer-events:none;z-index:100;min-width:180px;box-shadow:0 4px 20px #00000088"></div>
   </div>
 </div>
 <div class="g3" style="margin-bottom:14px">
@@ -564,25 +565,27 @@ document.getElementById('wall').innerHTML=wh+`<div class="wax"><span>CE OI</span
 
     // CE bar (red) — solid base, striped increase on top
     const cy=by(cOI), ch=bh(cOI);
-    svg2+=`<rect x="${x}" y="${cy.toFixed(1)}" width="${bw}" height="${ch.toFixed(1)}" fill="${cOI>0?'#f8514966':'#21262d'}" rx="1"/>`;
+    const ceInfo=JSON.stringify({s:r.strike,side:'CE',oi:cOI,chg:cChg,ltp:r.CE?.ltp,iv:r.CE?.iv,vol:r.CE?.volume,buildup:r.CE?.buildup}).replace(/"/g,'&quot;');
+    svg2+=`<rect x="${x}" y="${cy.toFixed(1)}" width="${bw}" height="${ch.toFixed(1)}" fill="${cOI>0?'#f8514966':'#21262d'}" rx="1" class="hist-bar" data-info="${ceInfo}" style="cursor:pointer"/>`;
     if(cChg>0){
       const ch2=bh(cChg);
-      svg2+=`<rect x="${x}" y="${(cy-ch2).toFixed(1)}" width="${bw}" height="${ch2.toFixed(1)}" fill="url(#hce)" rx="1"/>`;
+      svg2+=`<rect x="${x}" y="${(cy-ch2).toFixed(1)}" width="${bw}" height="${ch2.toFixed(1)}" fill="url(#hce)" rx="1" pointer-events="none"/>`;
     } else if(cChg<0){
       const ch2=bh(Math.abs(cChg));
-      svg2+=`<rect x="${x}" y="${cy.toFixed(1)}" width="${bw}" height="${ch2.toFixed(1)}" fill="none" stroke="#f8514999" stroke-width="1" rx="1"/>`;
+      svg2+=`<rect x="${x}" y="${cy.toFixed(1)}" width="${bw}" height="${ch2.toFixed(1)}" fill="none" stroke="#f8514999" stroke-width="1" rx="1" pointer-events="none"/>`;
     }
 
     // PE bar (green)
     const px2=x+bw+gap;
     const pyy=by(pOI), ph=bh(pOI);
-    svg2+=`<rect x="${px2}" y="${pyy.toFixed(1)}" width="${bw}" height="${ph.toFixed(1)}" fill="${pOI>0?'#3fb95066':'#21262d'}" rx="1"/>`;
+    const peInfo=JSON.stringify({s:r.strike,side:'PE',oi:pOI,chg:pChg,ltp:r.PE?.ltp,iv:r.PE?.iv,vol:r.PE?.volume,buildup:r.PE?.buildup}).replace(/"/g,'&quot;');
+    svg2+=`<rect x="${px2}" y="${pyy.toFixed(1)}" width="${bw}" height="${ph.toFixed(1)}" fill="${pOI>0?'#3fb95066':'#21262d'}" rx="1" class="hist-bar" data-info="${peInfo}" style="cursor:pointer"/>`;
     if(pChg>0){
       const ph2=bh(pChg);
-      svg2+=`<rect x="${px2}" y="${(pyy-ph2).toFixed(1)}" width="${bw}" height="${ph2.toFixed(1)}" fill="url(#hpe)" rx="1"/>`;
+      svg2+=`<rect x="${px2}" y="${(pyy-ph2).toFixed(1)}" width="${bw}" height="${ph2.toFixed(1)}" fill="url(#hpe)" rx="1" pointer-events="none"/>`;
     } else if(pChg<0){
       const ph2=bh(Math.abs(pChg));
-      svg2+=`<rect x="${px2}" y="${pyy.toFixed(1)}" width="${bw}" height="${ph2.toFixed(1)}" fill="none" stroke="#3fb95099" stroke-width="1" rx="1"/>`;
+      svg2+=`<rect x="${px2}" y="${pyy.toFixed(1)}" width="${bw}" height="${ph2.toFixed(1)}" fill="none" stroke="#3fb95099" stroke-width="1" rx="1" pointer-events="none"/>`;
     }
 
     // Strike label
@@ -614,6 +617,46 @@ document.getElementById('wall').innerHTML=wh+`<div class="wax"><span>CE OI</span
     ${!hasOIChg?'<div class="hist-li" style="color:#d29922">OI change patterns show after 2+ loop snapshots</div>':''}
   </div>`;
   document.getElementById('oihist').innerHTML=histLeg+svg2;
+
+  // Histogram bar hover tooltips
+  const htip=document.getElementById('hist-tip');
+  const hasHistChg=HIST.ce_chg_day&&Object.values(HIST.ce_chg_day).some(v=>v!==0);
+  document.querySelectorAll('.hist-bar').forEach(bar=>{
+    bar.addEventListener('mouseenter',e=>{
+      const d=JSON.parse(bar.dataset.info.replace(/&quot;/g,'"'));
+      const isCE=d.side==='CE';
+      const col=isCE?'#f85149':'#3fb950';
+      const chgSign=d.chg>0?'+':d.chg<0?'':'±0';
+      const chgCol=d.chg>0?'#3fb950':d.chg<0?'#f85149':'#8b949e';
+      const chgLabel=d.chg>0?'ADDING (building)':d.chg<0?'SHEDDING (unwinding)':'No change today';
+      const buStr=d.buildup||'No prior data';
+      const buCls={'Long Buildup':'clb','Short Buildup':'csb','Short Covering':'csc','Long Unwinding':'clu','Neutral':'cn','No prior data':'cn'}[buStr]||'cn';
+      htip.innerHTML=`
+        <div style="font-weight:700;color:${col};font-size:13px;margin-bottom:6px">Strike ${d.s} — ${d.side}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;margin-bottom:8px">
+          <div><div style="color:#8b949e;font-size:9px">TOTAL OI</div><div style="font-size:16px;font-weight:800;color:${col}">${foF(d.oi)}</div><div style="font-size:9px;color:#8b949e">lots</div></div>
+          <div><div style="color:#8b949e;font-size:9px">TODAY&apos;S CHANGE</div>
+            <div style="font-size:16px;font-weight:800;color:${chgCol}">${hasHistChg?(chgSign+foF(Math.abs(d.chg))):'—'}</div>
+            <div style="font-size:9px;color:${chgCol}">${hasHistChg?chgLabel:'run --loop for day data'}</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;padding-top:6px;border-top:1px solid #30363d">
+          <div><span style="color:#8b949e;font-size:9px">LTP</span> <span style="color:#f0f6fc">${d.ltp!=null?f(d.ltp):'—'}</span></div>
+          <div><span style="color:#8b949e;font-size:9px">IV</span> <span style="color:#bc8cff">${d.iv!=null?f(d.iv,1)+'%':'—'}</span></div>
+          <div><span style="color:#8b949e;font-size:9px">Volume</span> <span style="color:#f0f6fc">${foF(d.vol||0)}</span></div>
+          <div><span class="chip ${buCls}" style="font-size:9px">${buStr}</span></div>
+        </div>`;
+      htip.style.left=(e.clientX+14)+'px';
+      htip.style.top=(e.clientY-10)+'px';
+      htip.style.display='block';
+      bar.setAttribute('opacity','0.75');
+    });
+    bar.addEventListener('mousemove',e=>{
+      htip.style.left=(e.clientX+14)+'px';
+      htip.style.top=(e.clientY-10)+'px';
+    });
+    bar.addEventListener('mouseleave',()=>{htip.style.display='none';bar.setAttribute('opacity','1');});
+  });
 })();
 
 // --- IV SMILE SVG + HOVER + INTERPRETATION ---
@@ -650,43 +693,77 @@ document.getElementById('wall').innerHTML=wh+`<div class="wax"><span>CE OI</span
   // Lines
   if(cePts)svg+=`<polyline points="${cePts.trim()}" fill="none" stroke="#f85149" stroke-width="2" stroke-linejoin="round"/>`;
   if(pePts)svg+=`<polyline points="${pePts.trim()}" fill="none" stroke="#3fb950" stroke-width="2" stroke-linejoin="round"/>`;
-  // Dots on each strike for hover hit targets
+  // Visible dots on BOTH CE and PE lines
   ivData.forEach(r=>{
     const x=sx(r.strike).toFixed(1);
-    if(r.CE?.iv) svg+=`<circle cx="${x}" cy="${sy(r.CE.iv).toFixed(1)}" r="4" fill="#f8514900" stroke="#f85149" stroke-width="1.5" class="iv-dot" data-s="${r.strike}" data-ce="${r.CE?.iv||''}" data-pe="${r.PE?.iv||''}" data-ced="${r.CE?.delta||''}" data-ped="${r.PE?.delta||''}" data-cet="${r.CE?.theta||''}" data-pet="${r.PE?.theta||''}" data-v="${r.CE?.vega||''}"/>`;
+    const enc=JSON.stringify({s:r.strike,ce:r.CE?.iv,pe:r.PE?.iv,ced:r.CE?.delta,ped:r.PE?.delta,cet:r.CE?.theta,pet:r.PE?.theta,v:r.CE?.vega||r.PE?.vega}).replace(/"/g,'&quot;');
+    if(r.CE?.iv) svg+=`<circle cx="${x}" cy="${sy(r.CE.iv).toFixed(1)}" r="5" fill="#f85149" stroke="#0d1117" stroke-width="1.5" class="iv-dot" data-info="${enc}" style="cursor:pointer"/>`;
+    if(r.PE?.iv) svg+=`<circle cx="${x}" cy="${sy(r.PE.iv).toFixed(1)}" r="5" fill="#3fb950" stroke="#0d1117" stroke-width="1.5" class="iv-dot" data-info="${enc}" style="cursor:pointer"/>`;
   });
+  // Transparent full-width hover overlay for line tracking
+  svg+=`<rect x="${pad.l}" y="${pad.t}" width="${W-pad.l-pad.r}" height="${H-pad.t-pad.b}" fill="transparent" id="iv-overlay"/>`;
+  // Crosshair (initially hidden)
+  svg+=`<line id="iv-xhair" x1="0" y1="${pad.t}" x2="0" y2="${H-pad.b}" stroke="#ffffff22" stroke-width="1" stroke-dasharray="3,3" display="none"/>`;
   // Legends
-  svg+=`<text x="${W-pad.r}" y="${pad.t+10}" fill="#f85149" font-size="8" text-anchor="end">CE IV</text>`;
-  svg+=`<text x="${W-pad.r}" y="${pad.t+22}" fill="#3fb950" font-size="8" text-anchor="end">PE IV</text>`;
+  svg+=`<circle cx="${W-pad.r-28}" cy="${pad.t+6}" r="4" fill="#f85149"/>`;
+  svg+=`<text x="${W-pad.r-20}" y="${pad.t+10}" fill="#f85149" font-size="8">CE IV</text>`;
+  svg+=`<circle cx="${W-pad.r-28}" cy="${pad.t+20}" r="4" fill="#3fb950"/>`;
+  svg+=`<text x="${W-pad.r-20}" y="${pad.t+24}" fill="#3fb950" font-size="8">PE IV</text>`;
 
   const el=document.getElementById('ivsvg');
   el.innerHTML=svg;
-  document.getElementById('iv-sub').textContent=`IV% vs strike • ATM CE: ${atmRow.CE?.iv?.toFixed(1)||'—'}% • ATM PE: ${atmRow.PE?.iv?.toFixed(1)||'—'}% • hover a dot for details`;
+  document.getElementById('iv-sub').textContent=`IV% vs strike • ATM CE: ${atmRow.CE?.iv?.toFixed(1)||'—'}% • ATM PE: ${atmRow.PE?.iv?.toFixed(1)||'—'}% • hover any dot for full Greeks`;
 
-  // Hover tooltip
+  // Hover tooltip on dots
   const tip=document.getElementById('iv-tip');
+  function showIVTip(d, e){
+    const info=JSON.parse(d.dataset.info.replace(/&quot;/g,'"'));
+    const s=info.s, ce=info.ce, pe=info.pe, ced=info.ced, ped=info.ped, cet=info.cet, pet=info.pet, v=info.v;
+    // Skew at this strike
+    const skewAtStrike=(ce&&pe)?(pe-ce).toFixed(1):null;
+    const skewTxt=skewAtStrike!=null?(parseFloat(skewAtStrike)>2?`<span style="color:#f85149">+${skewAtStrike}% put skew (fear)</span>`:parseFloat(skewAtStrike)<-2?`<span style="color:#3fb950">${skewAtStrike}% call skew (bullish)</span>`:`<span style="color:#8b949e">Flat (${skewAtStrike}%)</span>`):'—';
+    tip.innerHTML=`
+      <div style="font-weight:700;color:#f0f6fc;margin-bottom:6px;font-size:12px">Strike ${s}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin-bottom:6px">
+        <div><span style="color:#8b949e;font-size:10px">CE IV</span><br><span style="color:#f85149;font-size:14px;font-weight:700">${ce?ce.toFixed(1)+'%':'—'}</span></div>
+        <div><span style="color:#8b949e;font-size:10px">PE IV</span><br><span style="color:#3fb950;font-size:14px;font-weight:700">${pe?pe.toFixed(1)+'%':'—'}</span></div>
+        <div><span style="color:#8b949e;font-size:10px">CE Delta</span><br><span style="color:#f0f6fc;font-size:12px">${ced?parseFloat(ced).toFixed(3):'—'}</span></div>
+        <div><span style="color:#8b949e;font-size:10px">PE Delta</span><br><span style="color:#f0f6fc;font-size:12px">${ped?parseFloat(ped).toFixed(3):'—'}</span></div>
+        <div><span style="color:#8b949e;font-size:10px">CE Theta/day</span><br><span style="color:#d29922;font-size:12px">${cet?parseFloat(cet).toFixed(2):'—'} Rs</span></div>
+        <div><span style="color:#8b949e;font-size:10px">PE Theta/day</span><br><span style="color:#d29922;font-size:12px">${pet?parseFloat(pet).toFixed(2):'—'} Rs</span></div>
+      </div>
+      <div style="font-size:10px;color:#8b949e">Vega (per 1% IV): <b style="color:#bc8cff">${v?parseFloat(v).toFixed(2):'—'} Rs</b></div>
+      <div style="font-size:10px;margin-top:4px">Skew: ${skewTxt}</div>`;
+    const wrap=el.parentElement.getBoundingClientRect();
+    const ex=e.clientX-wrap.left+12, ey=e.clientY-wrap.top-10;
+    tip.style.left=(ex+200>wrap.width?ex-215:ex)+'px';
+    tip.style.top=Math.max(0,ey)+'px';
+    tip.style.display='block';
+  }
   el.querySelectorAll('.iv-dot').forEach(dot=>{
-    dot.addEventListener('mouseenter',e=>{
-      const s=dot.dataset.s, ce=dot.dataset.ce, pe=dot.dataset.pe;
-      const ced=dot.dataset.ced, ped=dot.dataset.ped;
-      const cet=dot.dataset.cet, pet=dot.dataset.pet, v=dot.dataset.v;
-      tip.innerHTML=`
-        <div style="font-weight:700;color:#f0f6fc;margin-bottom:5px">Strike ${s}</div>
-        <div style="color:#f85149">CE IV: ${ce?parseFloat(ce).toFixed(1)+'%':'—'}</div>
-        <div style="color:#3fb950">PE IV: ${pe?parseFloat(pe).toFixed(1)+'%':'—'}</div>
-        <hr style="border-color:#30363d;margin:5px 0">
-        <div style="color:#8b949e">CE &Delta;: ${ced?parseFloat(ced).toFixed(3):'—'} &nbsp; PE &Delta;: ${ped?parseFloat(ped).toFixed(3):'—'}</div>
-        <div style="color:#8b949e">Theta: ${cet?parseFloat(cet).toFixed(2):'—'} / ${pet?parseFloat(pet).toFixed(2):'—'} Rs/day</div>
-        <div style="color:#8b949e">Vega: ${v?parseFloat(v).toFixed(2):'—'} Rs/1%IV</div>`;
-      const rect=el.getBoundingClientRect(),wrap=el.parentElement.getBoundingClientRect();
-      const ex=e.clientX-wrap.left+8, ey=e.clientY-wrap.top-20;
-      tip.style.left=(ex+160>wrap.width?ex-175:ex)+'px';
-      tip.style.top=Math.max(0,ey)+'px';
-      tip.style.display='block';
-      dot.setAttribute('fill','#f0f6fc33');
-    });
-    dot.addEventListener('mouseleave',()=>{tip.style.display='none';dot.setAttribute('fill','#f8514900');});
+    dot.addEventListener('mouseenter', e=>showIVTip(dot,e));
+    dot.addEventListener('mouseleave', ()=>{tip.style.display='none';});
   });
+  // Crosshair on overlay
+  const overlay=el.querySelector('#iv-overlay');
+  const xhair=el.querySelector('#iv-xhair');
+  if(overlay&&xhair){
+    overlay.addEventListener('mousemove',e=>{
+      const svgRect=el.getBoundingClientRect();
+      const scaleX=W/svgRect.width;
+      const mx=(e.clientX-svgRect.left)*scaleX;
+      xhair.setAttribute('x1',mx); xhair.setAttribute('x2',mx);
+      xhair.setAttribute('display','inline');
+      // Find nearest strike
+      let nearest=null, minDist=Infinity;
+      ivData.forEach(r=>{const dx=Math.abs(sx(r.strike)-mx); if(dx<minDist){minDist=dx;nearest=r;}});
+      if(nearest&&minDist<20){
+        const fakeEl={dataset:{info:JSON.stringify({s:nearest.strike,ce:nearest.CE?.iv,pe:nearest.PE?.iv,ced:nearest.CE?.delta,ped:nearest.PE?.delta,cet:nearest.CE?.theta,pet:nearest.PE?.theta,v:nearest.CE?.vega||nearest.PE?.vega})}};
+        showIVTip(fakeEl,e);
+      } else tip.style.display='none';
+    });
+    overlay.addEventListener('mouseleave',()=>{xhair.setAttribute('display','none');tip.style.display='none';});
+  }
 
   // IV interpretation
   const atmCEIV=atmRow.CE?.iv, atmPEIV=atmRow.PE?.iv;
