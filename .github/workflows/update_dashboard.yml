@@ -27,7 +27,7 @@ jobs:
           cache: 'pip'
 
       - name: Install dependencies
-        run: pip install smartapi-python pyotp requests pandas scipy truststore
+        run: pip install -r requirements.txt
 
       - name: Run OI snapshot
         env:
