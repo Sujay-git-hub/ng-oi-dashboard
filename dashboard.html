@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="60">
+<title>MCX NATURALGAS - Institutional OI Dashboard</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh}
+.hdr{background:linear-gradient(135deg,#161b22,#1c2128);padding:18px 28px;border-bottom:1px solid #30363d;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.hdr h1{font-size:19px;font-weight:700;color:#f0f6fc}.hdr p{font-size:11px;color:#8b949e;margin-top:3px}
+.ts{font-size:11px;color:#8b949e}.ts b{color:#58a6ff}
+.ct{padding:18px 28px;max-width:1500px;margin:0 auto}
+.note{background:#1a1f2e;border:1px solid #58a6ff33;border-radius:8px;padding:9px 14px;font-size:11px;color:#8b949e;margin-bottom:14px}
+.note b{color:#58a6ff}
+
+/* METRICS STRIP */
+.mstrip{display:flex;background:#161b22;border:1px solid #30363d;border-radius:10px;margin-bottom:14px;overflow:hidden;flex-wrap:wrap}
+.mc{flex:1;padding:12px 14px;border-right:1px solid #30363d;text-align:center;min-width:110px}
+.mc:last-child{border-right:none}
+.ml{font-size:9px;color:#8b949e;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.mv{font-size:20px;font-weight:800;line-height:1}
+.ms{font-size:10px;color:#8b949e;margin-top:3px}
+.gr{color:#3fb950}.rd{color:#f85149}.bl{color:#58a6ff}.yl{color:#d29922}.wh{color:#f0f6fc}.pu{color:#bc8cff}
+.pbar{height:4px;background:linear-gradient(90deg,#3fb950 0%,#d29922 50%,#f85149 100%);border-radius:2px;margin-top:5px;position:relative}
+.pndl{position:absolute;top:-4px;width:3px;height:12px;background:#f0f6fc;border-radius:2px;transform:translateX(-50%)}
+
+/* TWO COL MAIN */
+.g2{display:grid;grid-template-columns:1fr 300px;gap:14px;margin-bottom:14px}
+.card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:16px}
+.card h3{font-size:13px;font-weight:700;color:#f0f6fc;margin-bottom:3px}
+.csub{font-size:11px;color:#8b949e;margin-bottom:12px}
+.leg{display:flex;gap:14px;margin-bottom:10px}
+.li{display:flex;align-items:center;gap:5px;font-size:10px;color:#8b949e}
+.ld{width:9px;height:9px;border-radius:2px}
+
+/* OI WALL */
+.wr{display:flex;align-items:center;height:22px;margin-bottom:2px}
+.wr.atm{background:#58a6ff0d;border-radius:3px}
+.wr.mce{background:#f851490d;border-radius:3px}
+.wr.mpe{background:#3fb9500d;border-radius:3px}
+.wr.mp{background:#bc8cff0d;border-radius:3px}
+.wsk{width:50px;font-size:10px;color:#8b949e;text-align:right;flex-shrink:0;padding-right:6px}
+.wr.atm .wsk{color:#58a6ff;font-weight:700}
+.wb{flex:1;position:relative;height:100%}
+.wc{position:absolute;left:50%;top:0;bottom:0;width:1px;background:#30363d}
+.wce{position:absolute;right:50%;top:3px;bottom:3px;background:linear-gradient(90deg,#f8514966,#f85149);border-radius:2px 0 0 2px;min-width:1px}
+.wpe{position:absolute;left:50%;top:3px;bottom:3px;background:linear-gradient(90deg,#3fb950,#3fb95066);border-radius:0 2px 2px 0;min-width:1px}
+.wax{display:flex;font-size:9px;color:#30363d;justify-content:space-between;margin-top:3px;padding:0 50px}
+
+/* SIDEBAR */
+.sb{display:flex;flex-direction:column;gap:12px}
+.kr{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #21262d}
+.kr:last-child{border-bottom:none}
+.kl{font-size:11px;color:#8b949e}.kv{font-size:13px;font-weight:700}.ko{font-size:10px;color:#8b949e;text-align:right}
+.pg{height:14px;background:linear-gradient(90deg,#3fb950 0%,#d29922 40%,#f85149 100%);border-radius:7px;position:relative;margin-bottom:6px}
+.pn{position:absolute;top:-5px;width:4px;height:24px;background:#f0f6fc;border-radius:2px;transform:translateX(-50%);box-shadow:0 0 6px #f0f6fc88}
+.pls{display:flex;justify-content:space-between;font-size:9px;color:#8b949e;margin-bottom:8px}
+.pbig{text-align:center;font-size:26px;font-weight:900;margin-bottom:3px}
+.pnt{background:#21262d;border-radius:5px;padding:7px 9px;font-size:11px;color:#8b949e;margin-top:8px;line-height:1.5}
+.bl-row{display:flex;align-items:flex-start;gap:7px;margin-bottom:7px}
+.chip{font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+.bt{font-size:11px;color:#8b949e;line-height:1.4}
+.clb{background:#0d2b0d;color:#3fb950}.csb{background:#2d1010;color:#f85149}
+.csc{background:#0d1e38;color:#79c0ff}.clu{background:#2d2510;color:#d29922}
+.cn{background:#21262d;color:#8b949e}
+
+/* THREE CHARTS ROW */
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+
+/* OI CHANGE CHART */
+.ochg-row{display:flex;align-items:center;height:20px;margin-bottom:2px}
+.ochg-sk{width:46px;font-size:10px;color:#8b949e;text-align:right;padding-right:6px;flex-shrink:0}
+.ochg-bars{flex:1;position:relative;height:100%}
+.ochg-ctr{position:absolute;left:50%;top:0;bottom:0;width:1px;background:#30363d}
+.ochg-ce{position:absolute;right:50%;top:3px;bottom:3px;border-radius:2px 0 0 2px;min-width:1px}
+.ochg-pe{position:absolute;left:50%;top:3px;bottom:3px;border-radius:0 2px 2px 0;min-width:1px}
+
+/* IV SMILE SVG */
+.iv-wrap{overflow:hidden}
+svg.ivchart{width:100%;height:160px}
+
+/* VOLUME BARS */
+.vol-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.vol-sk{width:42px;font-size:9px;color:#8b949e;text-align:right;flex-shrink:0}
+.vol-track{flex:1;height:14px;background:#21262d;border-radius:2px;display:flex;overflow:hidden}
+.vol-ce{background:#f8514988;height:100%}
+.vol-pe{background:#3fb95088;height:100%}
+
+/* OI TREND CHART */
+svg.trendsvg{width:100%;display:block}
+
+/* OI HISTOGRAM */
+svg.histsvg{display:block}
+.hist-legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:8px}
+.hist-li{display:flex;align-items:center;gap:5px;font-size:10px;color:#8b949e}
+
+/* TRADE SIGNALS */
+.sig-bias{text-align:center;padding:14px;border-radius:8px;margin-bottom:14px;border:1px solid}
+.sig-bias-lbl{font-size:24px;font-weight:900;letter-spacing:.04em}
+.sig-bias-note{font-size:12px;margin-top:6px;opacity:.85}
+.sig-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.sig-card{background:#21262d;border-radius:7px;padding:12px}
+.sig-card h4{font-size:11px;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.sig-txt{font-size:12px;color:#e6edf3;line-height:1.6}
+.sig-iv{font-size:12px;padding:10px 14px;border-radius:6px;border:1px solid;line-height:1.6}
+.setup-card{background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:12px;margin-bottom:10px}
+.setup-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.setup-name{font-size:13px;font-weight:700;color:#f0f6fc}
+.setup-type{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;background:#21262d;color:#8b949e}
+.setup-row{display:flex;gap:8px;margin-bottom:5px;font-size:11px}
+.setup-lbl{min-width:70px;color:#8b949e;flex-shrink:0;font-weight:600}
+.setup-val{color:#e6edf3;line-height:1.4}
+.flag-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:6px;font-size:11px;color:#d29922}
+.flag-row:before{content:"⚠";flex-shrink:0}
+
+/* GREEKS TABLE */
+.g-note{font-size:10px;color:#8b949e;margin-bottom:10px;padding:6px 8px;background:#21262d;border-radius:4px}
+
+/* FULL CHAIN TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:11px}
+.tbl th{background:#21262d;color:#8b949e;padding:7px 8px;text-align:center;border-bottom:1px solid #30363d;font-size:10px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
+.tbl th.ce{text-align:right}.tbl th.pe{text-align:left}.tbl th.sk{color:#58a6ff}
+.tbl td{padding:6px 8px;border-bottom:1px solid #21262d;text-align:center;white-space:nowrap}
+.tbl td.ce{text-align:right}.tbl td.pe{text-align:left}
+.tbl tr:hover td{background:#1c2128}
+.tbl tr.atm td{background:#58a6ff0d}
+.tbl tr.atm td.sk{color:#58a6ff;font-weight:700}
+.ibar{height:4px;border-radius:2px;display:inline-block;vertical-align:middle;margin-right:3px}
+.ib-ce{background:#f85149}.ib-pe{background:#3fb950}
+.up{color:#3fb950}.dn{color:#f85149}.neu{color:#8b949e}
+.mp-line{border-top:2px dashed #bc8cff44;margin:1px 0}
+
+@media(max-width:1000px){.g2,.g3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div><h1>MCX NATURALGAS &mdash; Institutional OI Dashboard</h1><p>1250 mmBtu lot &nbsp;|&nbsp; Live option chain analysis &nbsp;|&nbsp; Black-76 IV &amp; Greeks</p></div>
+  <div class="ts">Snapshot: <b id="ts">—</b></div>
+</div>
+<div class="ct">
+<div class="note"><b>Auto-refresh:</b> Page reloads every 60s. Run <code>python ng_option_chain.py --loop</code> during market hours (Mon-Sat 9:00-23:30 IST). Open this file directly in browser.</div>
+
+<!-- METRICS STRIP ROW 1 -->
+<div class="mstrip" id="m1"></div>
+<!-- METRICS STRIP ROW 2 -->
+<div class="mstrip" id="m2" style="margin-top:8px"></div>
+
+<!-- MAIN: OI WALL + SIDEBAR -->
+<div class="g2">
+  <div class="card">
+    <h3>Open Interest Wall</h3>
+    <div class="csub">CE (resistance) &larr; | &rarr; PE (support) &nbsp;&bull;&nbsp; ATM &plusmn;10 strikes &nbsp;&bull;&nbsp; <span style="color:#bc8cff">&#9670; Max Pain</span></div>
+    <div class="leg">
+      <div class="li"><div class="ld" style="background:#f85149"></div>Call OI</div>
+      <div class="li"><div class="ld" style="background:#3fb950"></div>Put OI</div>
+      <div class="li"><div class="ld" style="background:#f851490d;border:1px solid #f8514944"></div>Max CE</div>
+      <div class="li"><div class="ld" style="background:#3fb9500d;border:1px solid #3fb95044"></div>Max PE</div>
+    </div>
+    <div id="wall"></div>
+  </div>
+  <div class="sb">
+    <div class="card"><h3>Key S/R Levels</h3><div id="kl"></div></div>
+    <div class="card">
+      <h3>Put-Call Ratio (OI)</h3>
+      <div class="pg"><div class="pn" id="pneedle"></div></div>
+      <div class="pls"><span>Bull &lt;0.7</span><span>Neutral</span><span>Bear &gt;1.3</span></div>
+      <div class="pbig" id="pval">—</div>
+      <div style="text-align:center;font-size:10px;color:#8b949e">PE OI / CE OI</div>
+      <div class="pnt" id="pnote">—</div>
+    </div>
+  </div>
+</div>
+
+<!-- MULTI-STRIKE OI TIME SERIES + PRICE -->
+<div class="card" style="margin-bottom:14px">
+  <h3>Multi-Strike OI Trend &mdash; Today</h3>
+  <div class="csub" id="oi-trend-sub">Top strikes OI over time &bull; right axis = underlying price</div>
+  <div id="oi-trend-wrap"><div style="color:#8b949e;font-size:11px;padding:14px 0">Run <code>--loop</code> during market hours to build time series (needs 2+ snapshots today)</div></div>
+</div>
+
+<!-- OI CHANGE HISTOGRAM (Sensibull-style) + IV Smile + Volume -->
+<div class="g3">
+  <div class="card" style="grid-column:1/-1;position:relative">
+    <h3>OI Change Histogram</h3>
+    <div class="csub">Call OI (red) &amp; Put OI (green) per strike &bull; striped = today&apos;s increase &bull; hollow outline = decrease &bull; hover bars for values</div>
+    <div style="overflow-x:auto;position:relative"><div id="oihist"></div></div>
+    <div id="hist-tip" style="display:none;position:fixed;background:#1c2128;border:1px solid #30363d;border-radius:7px;padding:10px 14px;font-size:11px;pointer-events:none;z-index:100;min-width:180px;box-shadow:0 4px 20px #00000088"></div>
+  </div>
+</div>
+<div class="g3" style="margin-bottom:14px">
+  <div class="card" style="grid-column:span 2;position:relative">
+    <h3>IV Smile (Black-76) &mdash; Hover for details</h3>
+    <div class="csub" id="iv-sub">Implied Volatility across strikes</div>
+    <div class="iv-wrap" style="position:relative">
+      <svg class="ivchart" id="ivsvg" viewBox="0 0 560 180" preserveAspectRatio="none" style="width:100%;height:180px"></svg>
+      <div id="iv-tip" style="display:none;position:absolute;background:#1c2128;border:1px solid #30363d;border-radius:6px;padding:8px 12px;font-size:11px;pointer-events:none;min-width:160px;z-index:10"></div>
+    </div>
+    <div id="iv-interp" style="margin-top:10px;padding:10px;background:#21262d;border-radius:6px;font-size:11px;color:#8b949e;line-height:1.7"></div>
+  </div>
+  <div class="card">
+    <h3>Volume Analysis</h3>
+    <div class="csub" id="vol-sub">CE vs PE volume by strike (ATM&plusmn;8)</div>
+    <div id="volbars"></div>
+  </div>
+</div>
+
+<!-- EXPECTED MOVE CARD -->
+<div class="card" style="margin-bottom:14px">
+  <h3>Expected Move &mdash; <span id="em-pct" style="color:#d29922">—</span></h3>
+  <div class="csub">ATM straddle price as % of underlying &bull; market&apos;s implied &plusmn; range until expiry</div>
+  <div id="em-card"></div>
+</div>
+
+<!-- GREEKS + BUILDUP GUIDE -->
+<div class="g2" style="margin-bottom:14px">
+  <div class="card">
+    <h3>Option Greeks Summary (ATM &plusmn;4 strikes)</h3>
+    <div class="g-note">Black-76 model &bull; r=6.5% &bull; Delta: CE(+)/PE(-) &bull; Theta: daily decay &bull; Vega: per 1% IV move &bull; Gamma: delta change per 1pt</div>
+    <div style="overflow-x:auto"><table class="tbl" id="greekstbl">
+      <thead><tr>
+        <th class="ce" colspan="5" style="color:#f85149">CALLS</th>
+        <th class="sk">Strike</th>
+        <th class="pe" colspan="5" style="color:#3fb950">PUTS</th>
+      </tr><tr>
+        <th class="ce">IV%</th><th class="ce">&Delta;</th><th class="ce">&Theta;</th><th class="ce">Vega</th><th class="ce">&Gamma;</th>
+        <th class="sk">Strike</th>
+        <th class="pe">&Gamma;</th><th class="pe">Vega</th><th class="pe">&Theta;</th><th class="pe">&Delta;</th><th class="pe">IV%</th>
+      </tr></thead>
+      <tbody id="greeksbody"></tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <h3>Buildup Classification Guide</h3>
+    <div style="margin-bottom:10px;font-size:11px;color:#8b949e">Signals require 2+ snapshots (prior OI data needed)</div>
+    <div class="bl-row"><span class="chip clb">Long Buildup</span><span class="bt">Price &uarr; + OI &uarr; &mdash; fresh longs entering. Bullish continuation signal.</span></div>
+    <div class="bl-row"><span class="chip csb">Short Buildup</span><span class="bt">Price &darr; + OI &uarr; &mdash; fresh shorts entering. Bearish continuation signal.</span></div>
+    <div class="bl-row"><span class="chip csc">Short Covering</span><span class="bt">Price &uarr; + OI &darr; &mdash; shorts forced to cover. Bullish but weak/temporary.</span></div>
+    <div class="bl-row"><span class="chip clu">Long Unwinding</span><span class="bt">Price &darr; + OI &darr; &mdash; longs exiting. Bearish, not fresh shorts.</span></div>
+    <div class="bl-row"><span class="chip cn">Neutral</span><span class="bt">No significant directional OI change.</span></div>
+    <div style="margin-top:10px;padding:8px;background:#21262d;border-radius:5px;font-size:10px;color:#8b949e">
+      <b style="color:#f0f6fc">Max Pain:</b> Strike where option buyers lose the most at expiry. Sellers/writers tend to pin price near this level near expiry.<br>
+      <b style="color:#f0f6fc">Expected Move:</b> ATM straddle price = market's implied +/- range till expiry.
+    </div>
+  </div>
+</div>
+
+<!-- TRADE SIGNALS -->
+<div class="card" style="margin-bottom:14px" id="signals-card">
+  <h3>Institutional OI Trade Signals</h3>
+  <div class="csub">Derived from live OI data &bull; Positional bias &bull; Max pain gravity &bull; OI wall strategy &bull; IV environment</div>
+  <div id="sig-bias" class="sig-bias"></div>
+  <div class="sig-grid">
+    <div class="sig-card"><h4>Max Pain Gravity</h4><div class="sig-txt" id="sig-mp"></div></div>
+    <div class="sig-card"><h4>OI Wall Strategy</h4><div class="sig-txt" id="sig-wall"></div></div>
+  </div>
+  <div class="sig-iv" id="sig-iv" style="margin-bottom:12px"></div>
+  <h4 style="font-size:11px;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px">Actionable Trade Setups</h4>
+  <div id="sig-setups"></div>
+  <div id="sig-flags" style="margin-top:10px"></div>
+  <div style="background:#21262d;border-radius:6px;padding:8px 12px;font-size:10px;color:#8b949e;margin-top:10px">
+    <b style="color:#f0f6fc">Disclaimer:</b> These are OI-derived signals only — not financial advice. Always use your own judgment. OI data reflects positioning, not certainty of price movement.
+  </div>
+</div>
+
+<!-- FULL CHAIN TABLE -->
+<div class="card" style="margin-bottom:16px">
+  <h3>Full Option Chain &mdash; NATURALGAS 1250 mmBtu</h3>
+  <div class="csub" id="csub">—</div>
+  <div style="overflow-x:auto"><table class="tbl">
+    <thead><tr>
+      <th class="ce" colspan="7" style="color:#f85149;border-bottom:2px solid #f8514944">CALLS (CE)</th>
+      <th class="sk">STRIKE</th>
+      <th class="pe" colspan="7" style="color:#3fb950;border-bottom:2px solid #3fb95044">PUTS (PE)</th>
+    </tr><tr>
+      <th class="ce">Buildup</th><th class="ce">OI Chg</th><th class="ce">OI</th><th class="ce">Vol</th><th class="ce">IV%</th><th class="ce">%Chg</th><th class="ce">LTP</th>
+      <th class="sk">Strike</th>
+      <th class="pe">LTP</th><th class="pe">%Chg</th><th class="pe">IV%</th><th class="pe">Vol</th><th class="pe">OI</th><th class="pe">OI Chg</th><th class="pe">Buildup</th>
+    </tr></thead>
+    <tbody id="tbody"></tbody>
+  </table></div>
+</div>
+</div>
+
+<script>
+const D = {"contract": "NATURALGAS", "expiry": "2026-06-23", "underlying_price": 310.2, "atm_strike": 310.0, "strike_step": 5.0, "timestamp": "2026-06-22 14:19:59", "total_ce_oi": 150062, "total_pe_oi": 179707, "total_ce_vol": 970, "total_pe_vol": 978, "pcr": 1.198, "vol_pcr": 1.008, "max_oi_resistance": 310.0, "max_oi_support": 310.0, "top_resistance": [{"strike": 310.0, "oi": 29096}, {"strike": 315.0, "oi": 28472}, {"strike": 320.0, "oi": 25544}], "top_support": [{"strike": 310.0, "oi": 23679}, {"strike": 300.0, "oi": 22785}, {"strike": 305.0, "oi": 19874}], "max_pain": 310.0, "atm_straddle": 9.05, "expected_move_pct": 2.92, "iv_available": true, "strikes": [{"strike": 250.0, "CE": {"token": "568264", "symbol": "NATURALGAS23JUN26250CE", "ltp": 59.3, "oi": 71, "oi_chg": null, "volume": 0, "pct_change": 11.68, "buildup": "No prior data", "iv": null, "delta": 0.9942, "gamma": 0.000601, "theta": -0.2279, "vega": 0.0026}, "PE": {"token": "568344", "symbol": "NATURALGAS23JUN26250PE", "ltp": 0.05, "oi": 6632, "oi_chg": null, "volume": 1, "pct_change": 0.0, "buildup": "No prior data", "iv": 165.61, "delta": -0.0057, "gamma": 0.000601, "theta": -0.2172, "vega": 0.0026}}, {"strike": 255.0, "CE": {"token": "568263", "symbol": "NATURALGAS23JUN26255CE", "ltp": 48.15, "oi": 0, "oi_chg": null, "volume": 0, "pct_change": 0.0, "buildup": "No prior data", "iv": null, "delta": 0.9937, "gamma": 0.000703, "theta": -0.2238, "vega": 0.0028}, "PE": {"token": "568343", "symbol": "NATURALGAS23JUN26255PE", "ltp": 0.05, "oi": 886, "oi_chg": null, "volume": 0, "pct_change": 0.0, "buildup": "No prior data", "iv": 151.92, "delta": -0.0061, "gamma": 0.000703, "theta": -0.214, "vega": 0.0028}}, {"strike": 260.0, "CE": {"token": "568262", "symbol": "NATURALGAS23JUN26260CE", "ltp": 53.6, "oi": 92, "oi_chg": null, "volume": 0, "pct_change": 24.07, "buildup": "No prior data", "iv": 315.4, "delta": 0.8752, "gamma": 0.004012, "theta": -5.2702, "vega": 0.0334}, "PE": {"token": "568342", "symbol": "NATURALGAS23JUN26260PE", "ltp": 0.05, "oi": 3154, "oi_chg": null, "volume": 1, "pct_change": -50.0, "buildup": "No prior data", "iv": 138.4, "delta": -0.1247, "gamma": 0.004012, "theta": -5.26, "vega": 0.0334}}, {"strike": 265.0, "CE": {"token": "568261", "symbol": "NATURALGAS23JUN26265CE", "ltp": 38.2, "oi": 38, "oi_chg": null, "volume": 0, "pct_change": 18.08, "buildup": "No prior data", "iv": null, "delta": 0.9925, "gamma": 0.001003, "theta": -0.2147, "vega": 0.0033}, "PE": {"token": "568341", "symbol": "NATURALGAS23JUN26265PE", "ltp": 0.05, "oi": 1668, "oi_chg": null, "volume": 1, "pct_change": -50.0, "buildup": "No prior data", "iv": 125.02, "delta": -0.0074, "gamma": 0.001003, "theta": -0.2066, "vega": 0.0033}}, {"strike": 270.0, "CE": {"token": "568260", "symbol": "NATURALGAS23JUN26270CE", "ltp": 40.2, "oi": 194, "oi_chg": null, "volume": 0, "pct_change": 23.5, "buildup": "No prior data", "iv": null, "delta": 0.9917, "gamma": 0.001229, "theta": -0.2095, "vega": 0.0036}, "PE": {"token": "568340", "symbol": "NATURALGAS23JUN26270PE", "ltp": 0.05, "oi": 11759, "oi_chg": null, "volume": 4, "pct_change": -66.67, "buildup": "No prior data", "iv": 111.77, "delta": -0.0082, "gamma": 0.001229, "theta": -0.2023, "vega": 0.0036}}, {"strike": 275.0, "CE": {"token": "568259", "symbol": "NATURALGAS23JUN26275CE", "ltp": 33.7, "oi": 47, "oi_chg": null, "volume": 0, "pct_change": 22.99, "buildup": "No prior data", "iv": null, "delta": 0.9842, "gamma": 0.002235, "theta": -0.3518, "vega": 0.0064}, "PE": {"token": "568339", "symbol": "NATURALGAS23JUN26275PE", "ltp": 0.1, "oi": 8960, "oi_chg": null, "volume": 4, "pct_change": -60.0, "buildup": "No prior data", "iv": 108.31, "delta": -0.0157, "gamma": 0.002235, "theta": -0.3455, "vega": 0.0064}}, {"strike": 280.0, "CE": {"token": "568258", "symbol": "NATURALGAS23JUN26280CE", "ltp": 30.35, "oi": 1835, "oi_chg": null, "volume": 0, "pct_change": 35.49, "buildup": "No prior data", "iv": 100.93, "delta": 0.9751, "gamma": 0.003529, "theta": -0.4793, "vega": 0.0094}, "PE": {"token": "568338", "symbol": "NATURALGAS23JUN26280PE", "ltp": 0.1, "oi": 16300, "oi_chg": null, "volume": 24, "pct_change": -71.43, "buildup": "No prior data", "iv": 94.2, "delta": -0.0247, "gamma": 0.003529, "theta": -0.4738, "vega": 0.0094}}, {"strike": 285.0, "CE": {"token": "568257", "symbol": "NATURALGAS23JUN26285CE", "ltp": 25.0, "oi": 618, "oi_chg": null, "volume": 0, "pct_change": 41.24, "buildup": "No prior data", "iv": null, "delta": 0.9721, "gamma": 0.004591, "theta": -0.4472, "vega": 0.0104}, "PE": {"token": "568337", "symbol": "NATURALGAS23JUN26285PE", "ltp": 0.15, "oi": 14776, "oi_chg": null, "volume": 33, "pct_change": -75.0, "buildup": "No prior data", "iv": 85.53, "delta": -0.0277, "gamma": 0.004591, "theta": -0.4427, "vega": 0.0104}}, {"strike": 290.0, "CE": {"token": "568256", "symbol": "NATURALGAS23JUN26290CE", "ltp": 20.2, "oi": 2432, "oi_chg": null, "volume": 5, "pct_change": 47.99, "buildup": "No prior data", "iv": null, "delta": 0.9407, "gamma": 0.008681, "theta": -0.8017, "vega": 0.0191}, "PE": {"token": "568336", "symbol": "NATURALGAS23JUN26290PE", "ltp": 0.35, "oi": 18877, "oi_chg": null, "volume": 70, "pct_change": -74.07, "buildup": "No prior data", "iv": 83.51, "delta": -0.0591, "gamma": 0.008681, "theta": -0.7979, "vega": 0.0191}}, {"strike": 295.0, "CE": {"token": "568255", "symbol": "NATURALGAS23JUN26295CE", "ltp": 15.7, "oi": 1376, "oi_chg": null, "volume": 7, "pct_change": 59.39, "buildup": "No prior data", "iv": 72.74, "delta": 0.9095, "gamma": 0.013786, "theta": -0.9643, "vega": 0.0264}, "PE": {"token": "568335", "symbol": "NATURALGAS23JUN26295PE", "ltp": 0.7, "oi": 15701, "oi_chg": null, "volume": 46, "pct_change": -74.07, "buildup": "No prior data", "iv": 79.65, "delta": -0.0903, "gamma": 0.013786, "theta": -0.9614, "vega": 0.0264}}, {"strike": 300.0, "CE": {"token": "568254", "symbol": "NATURALGAS23JUN26300CE", "ltp": 11.4, "oi": 6606, "oi_chg": null, "volume": 51, "pct_change": 66.42, "buildup": "No prior data", "iv": 72.47, "delta": 0.8159, "gamma": 0.022601, "theta": -1.5667, "vega": 0.0432}, "PE": {"token": "568334", "symbol": "NATURALGAS23JUN26300PE", "ltp": 1.4, "oi": 22785, "oi_chg": null, "volume": 138, "pct_change": -69.89, "buildup": "No prior data", "iv": 76.95, "delta": -0.1839, "gamma": 0.022601, "theta": -1.5644, "vega": 0.0432}}, {"strike": 305.0, "CE": {"token": "568253", "symbol": "NATURALGAS23JUN26305CE", "ltp": 7.6, "oi": 8358, "oi_chg": null, "volume": 81, "pct_change": 63.44, "buildup": "No prior data", "iv": 70.61, "delta": 0.6828, "gamma": 0.031067, "theta": -2.043, "vega": 0.0578}, "PE": {"token": "568333", "symbol": "NATURALGAS23JUN26305PE", "ltp": 2.55, "oi": 19874, "oi_chg": null, "volume": 168, "pct_change": -65.31, "buildup": "No prior data", "iv": 73.18, "delta": -0.317, "gamma": 0.031067, "theta": -2.0412, "vega": 0.0578}}, {"strike": 310.0, "CE": {"token": "568252", "symbol": "NATURALGAS23JUN26310CE", "ltp": 4.55, "oi": 29096, "oi_chg": null, "volume": 227, "pct_change": 54.24, "buildup": "No prior data", "iv": 68.73, "delta": 0.5142, "gamma": 0.03572, "theta": -2.225, "vega": 0.0647}, "PE": {"token": "568332", "symbol": "NATURALGAS23JUN26310PE", "ltp": 4.5, "oi": 23679, "oi_chg": null, "volume": 266, "pct_change": -57.14, "buildup": "No prior data", "iv": 71.04, "delta": -0.4856, "gamma": 0.03572, "theta": -2.2234, "vega": 0.0647}}, {"strike": 315.0, "CE": {"token": "568251", "symbol": "NATURALGAS23JUN26315CE", "ltp": 2.6, "oi": 28472, "oi_chg": null, "volume": 213, "pct_change": 44.44, "buildup": "No prior data", "iv": 70.6, "delta": 0.3456, "gamma": 0.032159, "theta": -2.1133, "vega": 0.0599}, "PE": {"token": "568331", "symbol": "NATURALGAS23JUN26315PE", "ltp": 7.5, "oi": 8884, "oi_chg": null, "volume": 142, "pct_change": -48.1, "buildup": "No prior data", "iv": 72.28, "delta": -0.6542, "gamma": 0.032159, "theta": -2.1115, "vega": 0.0599}}, {"strike": 320.0, "CE": {"token": "568247", "symbol": "NATURALGAS23JUN26320CE", "ltp": 1.4, "oi": 25544, "oi_chg": null, "volume": 183, "pct_change": 27.27, "buildup": "No prior data", "iv": 72.76, "delta": 0.2125, "gamma": 0.024563, "theta": -1.7143, "vega": 0.0471}, "PE": {"token": "568248", "symbol": "NATURALGAS23JUN26320PE", "ltp": 11.4, "oi": 3352, "oi_chg": null, "volume": 57, "pct_change": -39.04, "buildup": "No prior data", "iv": 76.97, "delta": -0.7873, "gamma": 0.024563, "theta": -1.7121, "vega": 0.0471}}, {"strike": 325.0, "CE": {"token": "568291", "symbol": "NATURALGAS23JUN26325CE", "ltp": 0.7, "oi": 11832, "oi_chg": null, "volume": 73, "pct_change": 16.67, "buildup": "No prior data", "iv": 74.46, "delta": 0.1197, "gamma": 0.016516, "theta": -1.2072, "vega": 0.0324}, "PE": {"token": "568371", "symbol": "NATURALGAS23JUN26325PE", "ltp": 15.85, "oi": 993, "oi_chg": null, "volume": 15, "pct_change": -31.83, "buildup": "No prior data", "iv": 84.45, "delta": -0.8801, "gamma": 0.016516, "theta": -1.2043, "vega": 0.0324}}, {"strike": 330.0, "CE": {"token": "568292", "symbol": "NATURALGAS23JUN26330CE", "ltp": 0.45, "oi": 9579, "oi_chg": null, "volume": 66, "pct_change": 12.5, "buildup": "No prior data", "iv": 81.62, "delta": 0.0768, "gamma": 0.010874, "theta": -0.9549, "vega": 0.0234}, "PE": {"token": "568372", "symbol": "NATURALGAS23JUN26330PE", "ltp": 20.4, "oi": 934, "oi_chg": null, "volume": 7, "pct_change": -26.49, "buildup": "No prior data", "iv": 87.71, "delta": -0.923, "gamma": 0.010874, "theta": -0.9512, "vega": 0.0234}}, {"strike": 335.0, "CE": {"token": "568293", "symbol": "NATURALGAS23JUN26335CE", "ltp": 0.25, "oi": 3609, "oi_chg": null, "volume": 20, "pct_change": 0.0, "buildup": "No prior data", "iv": 85.37, "delta": 0.0447, "gamma": 0.006797, "theta": -0.653, "vega": 0.0153}, "PE": {"token": "568373", "symbol": "NATURALGAS23JUN26335PE", "ltp": 24.65, "oi": 157, "oi_chg": null, "volume": 1, "pct_change": -25.08, "buildup": "No prior data", "iv": null, "delta": -0.9552, "gamma": 0.006797, "theta": -0.6485, "vega": 0.0153}}, {"strike": 340.0, "CE": {"token": "568294", "symbol": "NATURALGAS23JUN26340CE", "ltp": 0.15, "oi": 5282, "oi_chg": null, "volume": 26, "pct_change": -25.0, "buildup": "No prior data", "iv": 90.06, "delta": 0.0273, "gamma": 0.004299, "theta": -0.4597, "vega": 0.0102}, "PE": {"token": "568374", "symbol": "NATURALGAS23JUN26340PE", "ltp": 29.3, "oi": 114, "oi_chg": null, "volume": 0, "pct_change": -21.24, "buildup": "No prior data", "iv": null, "delta": -0.9725, "gamma": 0.004299, "theta": -0.4543, "vega": 0.0102}}, {"strike": 345.0, "CE": {"token": "568295", "symbol": "NATURALGAS23JUN26345CE", "ltp": 0.1, "oi": 1390, "oi_chg": null, "volume": 6, "pct_change": -50.0, "buildup": "No prior data", "iv": 95.77, "delta": 0.018, "gamma": 0.002852, "theta": -0.3448, "vega": 0.0072}, "PE": {"token": "568375", "symbol": "NATURALGAS23JUN26345PE", "ltp": 32.65, "oi": 44, "oi_chg": null, "volume": 0, "pct_change": -23.8, "buildup": "No prior data", "iv": null, "delta": -0.9818, "gamma": 0.002852, "theta": -0.3385, "vega": 0.0072}}, {"strike": 350.0, "CE": {"token": "568296", "symbol": "NATURALGAS23JUN26350CE", "ltp": 0.05, "oi": 8250, "oi_chg": null, "volume": 10, "pct_change": -66.67, "buildup": "No prior data", "iv": 97.33, "delta": 0.0095, "gamma": 0.001618, "theta": -0.202, "vega": 0.0042}, "PE": {"token": "568376", "symbol": "NATURALGAS23JUN26350PE", "ltp": 39.0, "oi": 166, "oi_chg": null, "volume": 0, "pct_change": -16.49, "buildup": "No prior data", "iv": null, "delta": -0.9903, "gamma": 0.001618, "theta": -0.1949, "vega": 0.0042}}, {"strike": 355.0, "CE": {"token": "568297", "symbol": "NATURALGAS23JUN26355CE", "ltp": 0.1, "oi": 1185, "oi_chg": null, "volume": 0, "pct_change": -33.33, "buildup": "No prior data", "iv": 117.25, "delta": 0.0151, "gamma": 0.002, "theta": -0.3625, "vega": 0.0062}, "PE": {"token": "568377", "symbol": "NATURALGAS23JUN26355PE", "ltp": 44.8, "oi": 3, "oi_chg": null, "volume": 0, "pct_change": -15.23, "buildup": "No prior data", "iv": null, "delta": -0.9847, "gamma": 0.002, "theta": -0.3545, "vega": 0.0062}}, {"strike": 360.0, "CE": {"token": "568298", "symbol": "NATURALGAS23JUN26360CE", "ltp": 0.05, "oi": 2269, "oi_chg": null, "volume": 1, "pct_change": -50.0, "buildup": "No prior data", "iv": 116.83, "delta": 0.0081, "gamma": 0.001169, "theta": -0.2103, "vega": 0.0036}, "PE": {"token": "568378", "symbol": "NATURALGAS23JUN26360PE", "ltp": 50.0, "oi": 9, "oi_chg": null, "volume": 0, "pct_change": -13.57, "buildup": "No prior data", "iv": 141.99, "delta": -0.9917, "gamma": 0.001169, "theta": -0.2014, "vega": 0.0036}}, {"strike": 365.0, "CE": {"token": "568299", "symbol": "NATURALGAS23JUN26365CE", "ltp": 0.05, "oi": 368, "oi_chg": null, "volume": 0, "pct_change": 0.0, "buildup": "No prior data", "iv": 126.22, "delta": 0.0076, "gamma": 0.001018, "theta": -0.2138, "vega": 0.0034}, "PE": {"token": "568379", "symbol": "NATURALGAS23JUN26365PE", "ltp": 61.75, "oi": 0, "oi_chg": null, "volume": 0, "pct_change": 0.0, "buildup": "No prior data", "iv": 363.56, "delta": -0.9923, "gamma": 0.001018, "theta": -0.204, "vega": 0.0034}}, {"strike": 370.0, "CE": {"token": "568300", "symbol": "NATURALGAS23JUN26370CE", "ltp": 0.05, "oi": 1519, "oi_chg": null, "volume": 1, "pct_change": 0.0, "buildup": "No prior data", "iv": 135.4, "delta": 0.0071, "gamma": 0.000898, "theta": -0.217, "vega": 0.0032}, "PE": {"token": "568380", "symbol": "NATURALGAS23JUN26370PE", "ltp": 66.75, "oi": 0, "oi_chg": null, "volume": 0, "pct_change": 0.0, "buildup": "No prior data", "iv": 380.92, "delta": -0.9927, "gamma": 0.000898, "theta": -0.2063, "vega": 0.0032}}]};
+const HIST = {"insufficient": true};
+const SIG = {"bias": "MILDLY BEARISH", "bias_col": "#d29922", "bias_note": "PCR 1.20 \u2014 put-heavy but not extreme. Watch 310.0 PE wall as support.", "mp_note": "Price pinned at max pain (310.0). Expiry likely to stay near current level \u2014 avoid directional bets.", "mp_action": "SELL STRADDLE / IRON CONDOR near max pain", "mp_dist": 0.2, "wall_note": "Resistance (310.0) closer (-0.2 pts) than support (310.0, 0.2 pts away). Selling CEs near 310.0 is the higher-probability trade. | 2nd levels: CE=315.0, PE=300.0", "iv_strategy": "LOW IV (\u00b12.9%). BUY premium: long straddle at ATM 310.0 or directional debit spread. Risk defined, reward open-ended.", "iv_col": "#3fb950", "setups": [{"name": "OI Wall Short (Premium Sell)", "type": "SHORT PREMIUM", "col": "#f85149", "entry": "Sell 310.0 CE (call sell) when price approaches within 2\u20133 pts", "target": "Full premium decay / price rejects 310.0", "stop": "Close if price sustains beyond 310.0 with increasing OI", "rationale": "310.0 has highest CE OI \u2014 strong writer presence. Sellers defend this wall."}, {"name": "NATURALGAS Futures - SELL", "type": "FUTURES", "col": "#f85149", "entry": "Sell NATURALGAS futures at current levels or on bounce to 310.0 resistance", "target": "310.0 (0.2 pts downside)", "stop": "315.0 (above CE wall \u2014 shorts get squeezed)", "rationale": "1 lot = 1250 mmBtu. Risk = ~6000.0 Rs/lot"}, {"name": "Iron Condor / Strangle (Range)", "type": "NEUTRAL SPREAD", "col": "#d29922", "entry": "Sell 310.0 CE + Sell 310.0 PE", "target": "Collect 2.7 pts (30% of straddle)", "stop": "Close if price breaks 305 or 315", "rationale": "Neutral PCR + strong OI walls = classic range. Collect theta between walls."}], "flags": [], "em": 2.92, "em_pts": 9.1, "em_low": 301.1, "em_high": 319.3, "strd": 9.05, "max_ce": 310.0, "max_pe": 310.0, "fut_action": "SELL", "fut_col": "#f85149", "price": 310.2, "atm": 310.0};
+const ng = D;
+
+// --- HELPERS ---
+function f(n,d=2){return n!=null?Number(n).toLocaleString('en-IN',{minimumFractionDigits:d,maximumFractionDigits:d}):'—'}
+function fo(n){if(n==null||n===undefined)return'—';const a=Math.abs(n);return a>=1000?(n/1000).toFixed(1)+'K':String(n)}
+function foF(n){return n!=null?Number(n).toLocaleString('en-IN'):'—'}
+function pnp(p){return Math.max(0,Math.min(100,((p-0.5)/1.5)*100))}
+function pc(p){return p<0.7?'#3fb950':p<1?'#79c0ff':p<1.3?'#d29922':'#f85149'}
+function pl(p){
+  if(p<0.7)return['Strongly Bullish','<b style="color:#3fb950">Bullish</b> &mdash; call sellers dominant. Watch for push higher.'];
+  if(p<1.0)return['Mildly Bullish','<b style="color:#79c0ff">Mild bullish lean</b> &mdash; slight put dominance.'];
+  if(p<1.3)return['Neutral-Cautious','<b style="color:#d29922">Neutral-cautious</b> &mdash; more puts than calls; market hedging downside.'];
+  if(p<1.6)return['Bearish','<b style="color:#f85149">Bearish bias</b> &mdash; heavy put buying. Watch PE max-OI as price magnet.'];
+  return['Strongly Bearish','<b style="color:#f85149">Extreme puts</b> &mdash; may also signal contrarian reversal zone.'];
+}
+function chip(b){
+  const m={'Long Buildup':['clb','LB'],'Short Buildup':['csb','SB'],'Short Covering':['csc','SC'],'Long Unwinding':['clu','LU'],'Neutral':['cn','NEU'],'No prior data':['cn','—']};
+  const[c,t]=m[b]||['cn',b||'—'];
+  return`<span class="chip ${c}">${t}</span>`
+}
+function ochg(v){
+  if(v===null||v===undefined)return'<span class="neu">—</span>';
+  if(v>0)return`<span class="up">+${fo(v)}</span>`;
+  if(v<0)return`<span class="dn">${fo(v)}</span>`;
+  return'<span class="neu">0</span>'
+}
+function pctCell(v){
+  if(v==null)return'—';
+  const s=v>0?'up':v<0?'dn':'neu';
+  return`<span class="${s}">${v>0?'+':''}${f(v,1)}%</span>`
+}
+function ivCell(v){return v!=null?`<span style="color:#bc8cff">${f(v,1)}</span>`:'—'}
+function gk(v,d=4){return v!=null?f(v,d):'—'}
+
+document.getElementById('ts').textContent = ng.timestamp;
+const pcr = ng.pcr||0;
+const vpcr = ng.vol_pcr||0;
+const[plbl,pnote]=pl(pcr);
+const atm = ng.atm_strike, step = ng.strike_step||5;
+
+// --- METRICS ROW 1: price/position ---
+document.getElementById('m1').innerHTML=`
+  <div class="mc"><div class="ml">Underlying</div><div class="mv wh">${f(ng.underlying_price)}</div><div class="ms">NATURALGAS Fut</div></div>
+  <div class="mc"><div class="ml">ATM Strike</div><div class="mv bl">${atm}</div><div class="ms">Expiry ${ng.expiry}</div></div>
+  <div class="mc"><div class="ml">PCR (OI)</div><div class="mv" style="color:${pc(pcr)}">${f(pcr)}</div><div class="ms">${plbl}</div><div class="pbar"><div class="pndl" style="left:${pnp(pcr)}%"></div></div></div>
+  <div class="mc"><div class="ml">Vol PCR</div><div class="mv" style="color:${pc(vpcr)}">${f(vpcr)}</div><div class="ms">PE vol / CE vol</div></div>
+  <div class="mc"><div class="ml">Total CE OI</div><div class="mv rd">${fo(ng.total_ce_oi)}</div><div class="ms">Calls (resistance)</div></div>
+  <div class="mc"><div class="ml">Total PE OI</div><div class="mv gr">${fo(ng.total_pe_oi)}</div><div class="ms">Puts (support)</div></div>
+  <div class="mc"><div class="ml">CE Wall</div><div class="mv rd">${ng.max_oi_resistance}</div><div class="ms">Max CE OI strike</div></div>
+  <div class="mc"><div class="ml">PE Wall</div><div class="mv gr">${ng.max_oi_support}</div><div class="ms">Max PE OI strike</div></div>`;
+
+// --- METRICS ROW 2: analytics ---
+const atmRow = ng.strikes.find(r=>r.strike===atm)||{};
+const atmCEIV = atmRow.CE?.iv; const atmPEIV = atmRow.PE?.iv;
+const avgATMIV = (atmCEIV&&atmPEIV)?((atmCEIV+atmPEIV)/2).toFixed(1):atmCEIV||atmPEIV||null;
+document.getElementById('m2').innerHTML=`
+  <div class="mc"><div class="ml">Max Pain</div><div class="mv pu">${ng.max_pain??'—'}</div><div class="ms">Pin risk strike</div></div>
+  <div class="mc"><div class="ml">ATM Straddle</div><div class="mv yl">${f(ng.atm_straddle)}</div><div class="ms">CE+PE at ${atm}</div></div>
+  <div class="mc"><div class="ml">Expected Move</div><div class="mv yl">${ng.expected_move_pct!=null?'±'+f(ng.expected_move_pct,1)+'%':'—'}</div><div class="ms">Till expiry ${ng.expiry}</div></div>
+  <div class="mc"><div class="ml">ATM IV (avg)</div><div class="mv pu">${avgATMIV!=null?f(avgATMIV,1)+'%':'—'}</div><div class="ms">Implied Vol ATM</div></div>
+  <div class="mc"><div class="ml">Total CE Vol</div><div class="mv rd">${fo(ng.total_ce_vol)}</div><div class="ms">Call volume</div></div>
+  <div class="mc"><div class="ml">Total PE Vol</div><div class="mv gr">${fo(ng.total_pe_vol)}</div><div class="ms">Put volume</div></div>
+  <div class="mc"><div class="ml">2nd Resistance</div><div class="mv rd">${ng.top_resistance[1]?.strike??'—'}</div><div class="ms">${ng.top_resistance[1]?foF(ng.top_resistance[1].oi)+' lots':''}</div></div>
+  <div class="mc"><div class="ml">2nd Support</div><div class="mv gr">${ng.top_support[1]?.strike??'—'}</div><div class="ms">${ng.top_support[1]?foF(ng.top_support[1].oi)+' lots':''}</div></div>`;
+
+// --- PCR SIDEBAR ---
+document.getElementById('pval').textContent = f(pcr);
+document.getElementById('pval').style.color = pc(pcr);
+document.getElementById('pneedle').style.left = pnp(pcr)+'%';
+document.getElementById('pnote').innerHTML = pnote;
+
+// --- KEY LEVELS SIDEBAR ---
+const tr = ng.top_resistance, ts = ng.top_support;
+document.getElementById('kl').innerHTML=`
+  <div class="kr"><span class="kl">Underlying</span><div><div class="kv bl">${f(ng.underlying_price)}</div></div></div>
+  <div class="kr"><span class="kl">ATM / Max Pain</span><div><div class="kv bl">${atm} / <span class="pu">${ng.max_pain??'—'}</span></div></div></div>
+  ${tr.map((x,i)=>`<div class="kr"><span class="kl">Resistance ${i+1}</span><div><div class="kv rd">${x.strike}</div><div class="ko">${foF(x.oi)} lots</div></div></div>`).join('')}
+  ${ts.map((x,i)=>`<div class="kr"><span class="kl">Support ${i+1}</span><div><div class="kv gr">${x.strike}</div><div class="ko">${foF(x.oi)} lots</div></div></div>`).join('')}
+  <div class="kr"><span class="kl">Expiry</span><div><div class="kv yl">${ng.expiry}</div></div></div>`;
+
+// --- OI WALL ---
+const vis=[...ng.strikes].reverse().filter(r=>Math.abs(r.strike-atm)<=10*step);
+const mxO=Math.max(...vis.map(r=>r.CE?.oi||0),...vis.map(r=>r.PE?.oi||0),1);
+let wh='';
+for(const r of vis){
+  const co=r.CE?.oi||0,po=r.PE?.oi||0;
+  const cw=(co/mxO*46).toFixed(1),pw=(po/mxO*46).toFixed(1);
+  const iA=r.strike===atm,iC=r.strike===ng.max_oi_resistance,iP=r.strike===ng.max_oi_support,iM=r.strike===ng.max_pain;
+  const rc=iA?'atm':iC?'mce':iP?'mpe':iM?'mp':'';
+  const mpMark=iM&&!iA?'<span style="color:#bc8cff;font-size:9px"> &#9670;</span>':'';
+  const winfo=JSON.stringify({
+    strike:r.strike,
+    ce_oi:co, ce_ltp:r.CE?.ltp??null, ce_iv:r.CE?.iv??null, ce_vol:r.CE?.volume??null, ce_bl:r.CE?.buildup??null,
+    pe_oi:po, pe_ltp:r.PE?.ltp??null, pe_iv:r.PE?.iv??null, pe_vol:r.PE?.volume??null, pe_bl:r.PE?.buildup??null,
+    is_atm:iA, is_ce_wall:iC, is_pe_wall:iP, is_mp:iM
+  }).replace(/"/g,'&quot;');
+  wh+=`<div class="wr ${rc}" data-info="${winfo}" onmouseenter="showWallTip(this,event)" onmousemove="moveWallTip(event)" onmouseleave="hideWallTip()"><div class="wsk">${r.strike}${iA?' ▶':''}${mpMark}</div><div class="wb"><div class="wc"></div><div class="wce" style="width:${cw}%"></div><div class="wpe" style="width:${pw}%"></div></div></div>`;
+}
+document.getElementById('wall').innerHTML=wh+`<div class="wax"><span>CE OI</span><span>Resistance | Support</span><span>PE OI</span></div>`;
+
+// OI Wall tooltip
+const wallTip=document.createElement('div');
+wallTip.id='wall-tip';
+wallTip.style.cssText='display:none;position:fixed;background:#1c2128;border:1px solid #30363d;border-radius:7px;padding:10px 14px;font-size:11px;pointer-events:none;z-index:200;min-width:220px;box-shadow:0 4px 20px #00000088';
+document.body.appendChild(wallTip);
+window.showWallTip=function(el,e){
+  const d=JSON.parse(el.getAttribute('data-info').replace(/&quot;/g,'"'));
+  const fo2=v=>v!=null?Number(v).toLocaleString():'—';
+  const fp=v=>v!=null?v.toFixed(2):'—';
+  const fiv=v=>v!=null?(v*100).toFixed(1)+'%':'—';
+  let tags='';
+  if(d.is_atm) tags+='<span style="color:#58a6ff;font-size:9px;margin-left:4px">ATM</span>';
+  if(d.is_ce_wall) tags+='<span style="color:#f85149;font-size:9px;margin-left:4px">CE WALL</span>';
+  if(d.is_pe_wall) tags+='<span style="color:#3fb950;font-size:9px;margin-left:4px">PE WALL</span>';
+  if(d.is_mp) tags+='<span style="color:#bc8cff;font-size:9px;margin-left:4px">MAX PAIN</span>';
+  wallTip.innerHTML=`
+    <div style="font-weight:700;font-size:12px;color:#f0f6fc;margin-bottom:8px">Strike ${d.strike}${tags}</div>
+    <table style="width:100%;border-collapse:collapse;font-size:10.5px">
+      <tr><td style="color:#8b949e;padding:1px 0">Metric</td><td style="color:#f85149;text-align:right;padding:1px 4px">CE (Call)</td><td style="color:#3fb950;text-align:right;padding:1px 0">PE (Put)</td></tr>
+      <tr><td style="color:#8b949e">OI (lots)</td><td style="color:#f85149;text-align:right">${fo2(d.ce_oi)}</td><td style="color:#3fb950;text-align:right">${fo2(d.pe_oi)}</td></tr>
+      <tr><td style="color:#8b949e">LTP</td><td style="color:#f85149;text-align:right">${fp(d.ce_ltp)}</td><td style="color:#3fb950;text-align:right">${fp(d.pe_ltp)}</td></tr>
+      <tr><td style="color:#8b949e">IV</td><td style="color:#f85149;text-align:right">${fiv(d.ce_iv)}</td><td style="color:#3fb950;text-align:right">${fiv(d.pe_iv)}</td></tr>
+      <tr><td style="color:#8b949e">Volume</td><td style="color:#f85149;text-align:right">${fo2(d.ce_vol)}</td><td style="color:#3fb950;text-align:right">${fo2(d.pe_vol)}</td></tr>
+      <tr><td style="color:#8b949e">Buildup</td><td style="color:#f85149;text-align:right;font-size:9.5px">${d.ce_bl||'—'}</td><td style="color:#3fb950;text-align:right;font-size:9.5px">${d.pe_bl||'—'}</td></tr>
+    </table>`;
+  wallTip.style.display='block';
+  moveWallTip(e);
+};
+window.moveWallTip=function(e){
+  const gap=14;
+  let lft=e.clientX+gap, top=e.clientY-40;
+  if(lft+240>window.innerWidth) lft=e.clientX-240-gap;
+  wallTip.style.left=lft+'px'; wallTip.style.top=top+'px';
+};
+window.hideWallTip=function(){wallTip.style.display='none';};
+
+// --- MULTI-STRIKE OI TREND CHART ---
+(function(){
+  if(!HIST.times||HIST.times.length<2)return;
+  const strikes=HIST.strikes||[];
+  const N=HIST.times.length;
+  const PALETTE_CE=['#f85149','#ff7b72','#ffa198','#e87070'];
+  const PALETTE_PE=['#3fb950','#56d364','#7ee787','#2ea043'];
+
+  // Build both absolute and delta (change-from-first) series
+  const ceAbs={},peAbs={},ceDelta={},peDelta={};
+  strikes.forEach(s=>{
+    const ck=String(s);
+    const ca=HIST.ce_oi[ck]||[], pa=HIST.pe_oi[ck]||[];
+    ceAbs[s]=ca; peAbs[s]=pa;
+    const c0=ca[0]||0, p0=pa[0]||0;
+    ceDelta[s]=ca.map(v=>v-c0);
+    peDelta[s]=pa.map(v=>v-p0);
+  });
+
+  function buildSVG(mode){
+    // mode: 'abs' = zoomed absolute OI, 'delta' = change from first snapshot
+    const W=900,H=230;
+    const pl=58,pr=68,pt=22,pb=36;
+    const iw=W-pl-pr, ih=H-pt-pb;
+    const ox=i=>N>1?pl+i/(N-1)*iw:pl+iw/2;
+
+    let minOI,maxOI;
+    if(mode==='abs'){
+      const allV=[...strikes.flatMap(s=>[...ceAbs[s],...peAbs[s]])].filter(v=>v>0);
+      if(!allV.length)return '';
+      minOI=Math.min(...allV); maxOI=Math.max(...allV);
+      // Zoom: show 5% padding above/below actual range (not from 0)
+      const rng=maxOI-minOI||1;
+      minOI=Math.max(0,minOI-rng*0.08); maxOI=maxOI+rng*0.08;
+    } else {
+      const allV=strikes.flatMap(s=>[...ceDelta[s],...peDelta[s]]);
+      const absMax=Math.max(...allV.map(Math.abs),100);
+      minOI=-absMax*1.1; maxOI=absMax*1.1;
+    }
+    const oiy=v=>pt+ih-((v-minOI)/(maxOI-minOI)*ih);
+
+    const prices=HIST.price.filter(v=>v!=null);
+    const minP=Math.min(...prices)*0.9995, maxP=Math.max(...prices)*1.0005;
+    const py=v=>pt+ih-((v-minP)/(maxP-minP)*ih);
+
+    let svg=`<svg class="trendsvg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="width:100%;height:${H}px">`;
+
+    // Y grid + left axis
+    for(let i=0;i<=5;i++){
+      const frac=i/5;
+      const yy=(pt+ih*(1-frac)).toFixed(1);
+      const v=minOI+(maxOI-minOI)*frac;
+      const lbl=mode==='abs'?(v/1000).toFixed(1)+'K':(v>=0?'+':'')+Math.round(v);
+      svg+=`<line x1="${pl}" y1="${yy}" x2="${W-pr}" y2="${yy}" stroke="#21262d" stroke-width="1"/>`;
+      svg+=`<text x="${pl-4}" y="${parseFloat(yy)+3}" fill="#8b949e" font-size="8.5" text-anchor="end">${lbl}</text>`;
+    }
+    // Zero line for delta mode
+    if(mode==='delta'){
+      const zy=oiy(0).toFixed(1);
+      svg+=`<line x1="${pl}" y1="${zy}" x2="${W-pr}" y2="${zy}" stroke="#58a6ff44" stroke-width="1.5" stroke-dasharray="6,3"/>`;
+    }
+    // Day-break lines
+    (HIST.day_breaks||[]).forEach(bi=>{
+      const bx=ox(bi).toFixed(1);
+      svg+=`<line x1="${bx}" y1="${pt}" x2="${bx}" y2="${H-pb}" stroke="#58a6ff33" stroke-width="1.5" stroke-dasharray="5,4"/>`;
+      const dayLbl=(HIST.times[bi]||'').split(' ')[0];
+      svg+=`<text x="${bx}" y="${pt-4}" fill="#58a6ff88" font-size="8" text-anchor="middle">${dayLbl}</text>`;
+    });
+    // X time labels
+    const step2=Math.max(1,Math.floor(N/10));
+    for(let i=0;i<N;i+=step2){
+      const parts=(HIST.times[i]||'').split(' ');
+      const xx=ox(i).toFixed(1);
+      svg+=`<text x="${xx}" y="${H-pb+13}" fill="#8b949e" font-size="7" text-anchor="middle">${parts[0]||''}</text>`;
+      svg+=`<text x="${xx}" y="${H-pb+22}" fill="#8b949e" font-size="7" text-anchor="middle">${parts[1]||''}</text>`;
+    }
+    // PE lines
+    strikes.forEach((s,i)=>{
+      const pts=mode==='abs'?peAbs[s]:peDelta[s];
+      if(!pts||pts.length<2)return;
+      const d=pts.map((v,j)=>`${j===0?'M':'L'}${ox(j).toFixed(1)},${oiy(v).toFixed(1)}`).join(' ');
+      svg+=`<path d="${d}" fill="none" stroke="${PALETTE_PE[i%4]}" stroke-width="2" stroke-linejoin="round"/>`;
+      const lv=pts[N-1], ly=oiy(lv).toFixed(1);
+      svg+=`<text x="${W-pr+4}" y="${parseFloat(ly)+3}" fill="${PALETTE_PE[i%4]}" font-size="8" font-weight="600">${s}P</text>`;
+    });
+    // CE lines
+    strikes.forEach((s,i)=>{
+      const pts=mode==='abs'?ceAbs[s]:ceDelta[s];
+      if(!pts||pts.length<2)return;
+      const d=pts.map((v,j)=>`${j===0?'M':'L'}${ox(j).toFixed(1)},${oiy(v).toFixed(1)}`).join(' ');
+      svg+=`<path d="${d}" fill="none" stroke="${PALETTE_CE[i%4]}" stroke-width="2" stroke-linejoin="round"/>`;
+      const lv=pts[N-1], ly=oiy(lv).toFixed(1);
+      svg+=`<text x="${W-pr+4}" y="${parseFloat(ly)+3}" fill="${PALETTE_CE[i%4]}" font-size="8" font-weight="600">${s}C</text>`;
+    });
+    // Price line (right axis)
+    const pricePts=HIST.price.map((v,i)=>{
+      if(v==null)return null;
+      const prev=i>0?HIST.price[i-1]:null;
+      return`${prev==null?'M':'L'}${ox(i).toFixed(1)},${py(v).toFixed(1)}`;
+    }).filter(Boolean).join(' ');
+    svg+=`<path d="${pricePts}" fill="none" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.9"/>`;
+    // Right axis price labels
+    for(let i=0;i<=4;i++){
+      const v=(minP+(maxP-minP)*(i/4)).toFixed(2);
+      const yy=(pt+ih*(1-i/4)).toFixed(1);
+      svg+=`<text x="${W-2}" y="${parseFloat(yy)+3}" fill="#58a6ff77" font-size="7.5" text-anchor="end">${v}</text>`;
+    }
+    svg+=`<text x="${W-pr+4}" y="${pt+10}" fill="#58a6ff77" font-size="7.5">Price</text>`;
+    // Crosshair vertical line (hidden by default, shown on hover)
+    svg+=`<line id="oi-xhair" x1="0" y1="${pt}" x2="0" y2="${H-pb}" stroke="#58a6ff55" stroke-width="1" stroke-dasharray="4,3" style="display:none;pointer-events:none"/>`;
+    // Transparent overlay to capture mouse
+    svg+=`<rect x="${pl}" y="${pt}" width="${iw}" height="${ih}" fill="transparent" style="cursor:crosshair"
+      onmousemove="oiTrendMove(event,this,${W},${pl},${pr},${pt},${ih},${iw},'${mode}')"
+      onmouseleave="oiTrendHide()"/>`;
+    svg+=`</svg>`;
+    return svg;
+  }
+
+  // Legend
+  let leg=`<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px">`;
+  leg+=`<div class="hist-legend" style="margin:0">`;
+  strikes.forEach((s,i)=>{
+    leg+=`<div class="hist-li"><svg width="16" height="3"><line x1="0" y1="1.5" x2="16" y2="1.5" stroke="${PALETTE_CE[i%4]}" stroke-width="2.5"/></svg>${s}CE</div>`;
+    leg+=`<div class="hist-li"><svg width="16" height="3"><line x1="0" y1="1.5" x2="16" y2="1.5" stroke="${PALETTE_PE[i%4]}" stroke-width="2.5"/></svg>${s}PE</div>`;
+  });
+  leg+=`<div class="hist-li"><svg width="16" height="3"><line x1="0" y1="1.5" x2="16" y2="1.5" stroke="#58a6ff" stroke-width="2" stroke-dasharray="4,3"/></svg>Price</div></div>`;
+  leg+=`<div style="display:flex;gap:6px">
+    <button id="btn-abs" onclick="switchOIMode('abs')" style="font-size:10px;padding:4px 10px;border-radius:4px;border:1px solid #58a6ff;background:#58a6ff22;color:#58a6ff;cursor:pointer">Absolute OI</button>
+    <button id="btn-delta" onclick="switchOIMode('delta')" style="font-size:10px;padding:4px 10px;border-radius:4px;border:1px solid #30363d;background:transparent;color:#8b949e;cursor:pointer">OI Change (from open)</button>
+  </div></div>`;
+
+  const wrap=document.getElementById('oi-trend-wrap');
+  const svgDiv=document.createElement('div');
+  svgDiv.id='oi-svg-area';
+  wrap.innerHTML=leg;
+  wrap.appendChild(svgDiv);
+
+  window._oiSVGs={abs:buildSVG('abs'),delta:buildSVG('delta')};
+  window.switchOIMode=function(mode){
+    svgDiv.innerHTML=window._oiSVGs[mode]||'';
+    document.getElementById('btn-abs').style.background=mode==='abs'?'#58a6ff22':'transparent';
+    document.getElementById('btn-abs').style.borderColor=mode==='abs'?'#58a6ff':'#30363d';
+    document.getElementById('btn-abs').style.color=mode==='abs'?'#58a6ff':'#8b949e';
+    document.getElementById('btn-delta').style.background=mode==='delta'?'#58a6ff22':'transparent';
+    document.getElementById('btn-delta').style.borderColor=mode==='delta'?'#58a6ff':'#30363d';
+    document.getElementById('btn-delta').style.color=mode==='delta'?'#58a6ff':'#8b949e';
+    const sub=`Top ${strikes.length} strikes • ${N} snapshots • ${HIST.times[0]} – ${HIST.times[N-1]} • ${mode==='abs'?'Y-axis zoomed to actual OI range (not from 0)':'Change vs first snapshot of the day — rising = OI building, falling = OI unwinding'}`;
+    document.getElementById('oi-trend-sub').textContent=sub;
+  };
+  window.switchOIMode('abs');
+
+  // OI Trend tooltip + crosshair
+  const oiTip=document.createElement('div');
+  oiTip.id='oi-trend-tip';
+  oiTip.style.cssText='display:none;position:fixed;background:#1c2128;border:1px solid #30363d;border-radius:7px;padding:10px 14px;font-size:11px;pointer-events:none;z-index:200;min-width:200px;box-shadow:0 4px 20px #00000088';
+  document.body.appendChild(oiTip);
+
+  window.oiTrendMove=function(e,rect,W,pl,pr,pt,ih,iw,mode){
+    const svgEl=rect.closest('svg');
+    const bb=svgEl.getBoundingClientRect();
+    const scaleX=W/bb.width;
+    const mx=(e.clientX-bb.left)*scaleX;
+    const ix=(mx-pl)/iw*(N-1);
+    const i=Math.max(0,Math.min(N-1,Math.round(ix)));
+    const xLine=svgEl.getElementById('oi-xhair')||svgEl.querySelector('#oi-xhair');
+    if(xLine){xLine.setAttribute('x1',pl+i/(N-1)*iw);xLine.setAttribute('x2',pl+i/(N-1)*iw);xLine.style.display='';}
+    const fo2=v=>v!=null?Number(v).toLocaleString():'—';
+    const signStr=v=>v>0?'+'+Number(v).toLocaleString():Number(v).toLocaleString();
+    const chgSpan=(chg,show)=>{if(!show||chg==null)return '';const col=chg>=0?'#3fb950':'#f85149';return ' <span style="font-size:9px;color:'+col+'">('+signStr(chg)+')</span>';};
+    let rows='';
+    strikes.forEach((s,si)=>{
+      const cv0=ceAbs[s]?ceAbs[s][0]||0:0;
+      const pv0=peAbs[s]?peAbs[s][0]||0:0;
+      const cvAbs=ceAbs[s]?ceAbs[s][i]??null:null;
+      const pvAbs=peAbs[s]?peAbs[s][i]??null:null;
+      const cvChg=cvAbs!=null?cvAbs-cv0:null;
+      const pvChg=pvAbs!=null?pvAbs-pv0:null;
+      const cCol=PALETTE_CE[si%4], pCol=PALETTE_PE[si%4];
+      rows+='<tr>'
+        +'<td style="color:#8b949e;padding:1px 0">'+s+'</td>'
+        +'<td style="color:'+cCol+';text-align:right;padding:1px 4px">'+fo2(cvAbs)+chgSpan(cvChg,mode==='abs')+'</td>'
+        +'<td style="color:'+pCol+';text-align:right">'+fo2(pvAbs)+chgSpan(pvChg,mode==='abs')+'</td>'
+        +'</tr>';
+    });
+    const pr2=HIST.price[i];
+    oiTip.innerHTML=`
+      <div style="font-weight:700;font-size:11px;color:#f0f6fc;margin-bottom:7px">${HIST.times[i]||''}${pr2!=null?` &nbsp;<span style="color:#58a6ff">₹${pr2.toFixed(2)}</span>`:''}</div>
+      <table style="width:100%;border-collapse:collapse;font-size:10.5px">
+        <tr><td style="color:#8b949e">Strike</td><td style="color:#f85149;text-align:right;padding:0 4px">CE OI</td><td style="color:#3fb950;text-align:right">PE OI</td></tr>
+        ${rows}
+      </table>
+      <div style="color:#8b949e;font-size:9px;margin-top:6px">${mode==='abs'?'Lots (Δ from open in brackets)':'OI change from day open'}</div>`;
+    oiTip.style.display='block';
+    const gap=14;
+    let lft=e.clientX+gap, top=e.clientY-60;
+    if(lft+220>window.innerWidth) lft=e.clientX-220-gap;
+    if(top<0) top=e.clientY+gap;
+    oiTip.style.left=lft+'px'; oiTip.style.top=top+'px';
+  };
+  window.oiTrendHide=function(){
+    oiTip.style.display='none';
+    const svgEl=document.querySelector('#oi-svg-area svg');
+    if(svgEl){const xLine=svgEl.querySelector('#oi-xhair');if(xLine)xLine.style.display='none';}
+  };
+})();
+
+// --- OI CHANGE HISTOGRAM (Sensibull-style vertical bars) ---
+(function(){
+  const rows=[...ng.strikes];
+  const bw=22,gap=4,grpGap=2;   // bar width, gap between CE/PE pair, gap between strikes
+  const totalW=rows.length*(bw*2+gap+grpGap)+60;
+  const H=200;
+  const pl2=44,pr2=16,pt2=14,pb2=32;
+  const ih2=H-pt2-pb2;
+  const maxOI2=Math.max(...rows.flatMap(r=>[(r.CE?.oi||0),(r.PE?.oi||0)]),1);
+  const bh=v=>Math.max(1,(v/maxOI2)*ih2);
+  const by=v=>pt2+ih2-bh(v);
+
+  // Y axis ticks
+  let svg2=`<svg class="histsvg" viewBox="0 0 ${totalW} ${H}" width="${totalW}" height="${H}" style="min-width:${totalW}px">`;
+  for(let i=0;i<=4;i++){
+    const v=(maxOI2*(1-i/4)/1000).toFixed(0);
+    const y=(pt2+ih2*(i/4)).toFixed(1);
+    svg2+=`<line x1="${pl2}" y1="${y}" x2="${totalW-pr2}" y2="${y}" stroke="#21262d" stroke-width="1"/>`;
+    svg2+=`<text x="${pl2-3}" y="${parseFloat(y)+3}" fill="#8b949e" font-size="8" text-anchor="end">${v}K</text>`;
+  }
+
+  // ATM vertical guide
+  const atmIdx=rows.findIndex(r=>r.strike===atm);
+  if(atmIdx>=0){
+    const ax=(pl2+atmIdx*(bw*2+gap+grpGap)+bw).toFixed(1);
+    svg2+=`<line x1="${ax}" y1="${pt2}" x2="${ax}" y2="${H-pb2}" stroke="#58a6ff44" stroke-width="1" stroke-dasharray="3,3"/>`;
+  }
+
+  rows.forEach((r,i)=>{
+    const x=pl2+i*(bw*2+gap+grpGap);
+    const cOI=r.CE?.oi||0, pOI=r.PE?.oi||0;
+    const sk=String(r.strike);
+    const cChg=(HIST.ce_chg_day&&HIST.ce_chg_day[sk]!=null)?HIST.ce_chg_day[sk]:(r.CE?.oi_chg||0);
+    const pChg=(HIST.pe_chg_day&&HIST.pe_chg_day[sk]!=null)?HIST.pe_chg_day[sk]:(r.PE?.oi_chg||0);
+    const iA=r.strike===atm, iM=r.strike===ng.max_pain;
+
+    // CE bar (red) — solid base, striped increase on top
+    const cy=by(cOI), ch=bh(cOI);
+    const ceInfo=JSON.stringify({s:r.strike,side:'CE',oi:cOI,chg:cChg,ltp:r.CE?.ltp,iv:r.CE?.iv,vol:r.CE?.volume,buildup:r.CE?.buildup}).replace(/"/g,'&quot;');
+    svg2+=`<rect x="${x}" y="${cy.toFixed(1)}" width="${bw}" height="${ch.toFixed(1)}" fill="${cOI>0?'#f8514966':'#21262d'}" rx="1" class="hist-bar" data-info="${ceInfo}" style="cursor:pointer"/>`;
+    if(cChg>0){
+      const ch2=bh(cChg);
+      svg2+=`<rect x="${x}" y="${(cy-ch2).toFixed(1)}" width="${bw}" height="${ch2.toFixed(1)}" fill="url(#hce)" rx="1" pointer-events="none"/>`;
+    } else if(cChg<0){
+      const ch2=bh(Math.abs(cChg));
+      svg2+=`<rect x="${x}" y="${cy.toFixed(1)}" width="${bw}" height="${ch2.toFixed(1)}" fill="none" stroke="#f8514999" stroke-width="1" rx="1" pointer-events="none"/>`;
+    }
+
+    // PE bar (green)
+    const px2=x+bw+gap;
+    const pyy=by(pOI), ph=bh(pOI);
+    const peInfo=JSON.stringify({s:r.strike,side:'PE',oi:pOI,chg:pChg,ltp:r.PE?.ltp,iv:r.PE?.iv,vol:r.PE?.volume,buildup:r.PE?.buildup}).replace(/"/g,'&quot;');
+    svg2+=`<rect x="${px2}" y="${pyy.toFixed(1)}" width="${bw}" height="${ph.toFixed(1)}" fill="${pOI>0?'#3fb95066':'#21262d'}" rx="1" class="hist-bar" data-info="${peInfo}" style="cursor:pointer"/>`;
+    if(pChg>0){
+      const ph2=bh(pChg);
+      svg2+=`<rect x="${px2}" y="${(pyy-ph2).toFixed(1)}" width="${bw}" height="${ph2.toFixed(1)}" fill="url(#hpe)" rx="1" pointer-events="none"/>`;
+    } else if(pChg<0){
+      const ph2=bh(Math.abs(pChg));
+      svg2+=`<rect x="${px2}" y="${pyy.toFixed(1)}" width="${bw}" height="${ph2.toFixed(1)}" fill="none" stroke="#3fb95099" stroke-width="1" rx="1" pointer-events="none"/>`;
+    }
+
+    // Strike label
+    const lx=(x+bw).toFixed(1);
+    svg2+=`<text x="${lx}" y="${H-pb2+12}" fill="${iA?'#58a6ff':iM?'#bc8cff':'#8b949e'}" font-size="7.5" text-anchor="middle" font-weight="${iA||iM?'bold':'normal'}">${r.strike}${iA?' ★':''}${iM?' ◆':''}</text>`;
+  });
+
+  // Hatching patterns
+  svg2=`<svg class="histsvg" viewBox="0 0 ${totalW} ${H}" width="${totalW}" height="${H}" style="min-width:${totalW}px">
+<defs>
+<pattern id="hce" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+<line x1="0" y1="0" x2="0" y2="6" stroke="#f85149" stroke-width="3" opacity="0.8"/>
+</pattern>
+<pattern id="hpe" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+<line x1="0" y1="0" x2="0" y2="6" stroke="#3fb950" stroke-width="3" opacity="0.8"/>
+</pattern>
+</defs>`+svg2.replace(/^<svg[^>]*>/,'')+`</svg>`;
+
+  const hasOIChg=ng.strikes.some(r=>(r.CE?.oi_chg||0)!==0||(r.PE?.oi_chg||0)!==0);
+  const histLeg=`<div class="hist-legend">
+    <div class="hist-li"><svg width="14" height="12"><rect x="0" y="0" width="6" height="12" fill="#f8514966" rx="1"/><rect x="8" y="0" width="6" height="12" fill="#3fb95066" rx="1"/></svg>CE / PE OI</div>
+    <div class="hist-li"><svg width="14" height="12"><rect x="0" y="0" width="6" height="12" fill="url(#hce_l)" rx="1"/><rect x="8" y="0" width="6" height="12" fill="url(#hpe_l)" rx="1"/>
+    <defs><pattern id="hce_l" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="4" stroke="#f85149" stroke-width="2"/></pattern>
+    <pattern id="hpe_l" patternUnits="userSpaceOnUse" width="4" height="4" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="4" stroke="#3fb950" stroke-width="2"/></pattern>
+    </defs></svg>Increase</div>
+    <div class="hist-li"><svg width="14" height="12"><rect x="0" y="0" width="6" height="12" fill="none" stroke="#f8514999" rx="1"/><rect x="8" y="0" width="6" height="12" fill="none" stroke="#3fb95099" rx="1"/></svg>Decrease</div>
+    <div class="hist-li" style="color:#58a6ff"><span>★</span> ATM</div>
+    <div class="hist-li" style="color:#bc8cff"><span>◆</span> Max Pain=${ng.max_pain}</div>
+    ${!hasOIChg?'<div class="hist-li" style="color:#d29922">OI change patterns show after 2+ loop snapshots</div>':''}
+  </div>`;
+  document.getElementById('oihist').innerHTML=histLeg+svg2;
+
+  // Histogram bar hover tooltips
+  const htip=document.getElementById('hist-tip');
+  const hasHistChg=HIST.ce_chg_day&&Object.values(HIST.ce_chg_day).some(v=>v!==0);
+  document.querySelectorAll('.hist-bar').forEach(bar=>{
+    bar.addEventListener('mouseenter',e=>{
+      const d=JSON.parse(bar.dataset.info.replace(/&quot;/g,'"'));
+      const isCE=d.side==='CE';
+      const col=isCE?'#f85149':'#3fb950';
+      const chgSign=d.chg>0?'+':d.chg<0?'':'±0';
+      const chgCol=d.chg>0?'#3fb950':d.chg<0?'#f85149':'#8b949e';
+      const chgLabel=d.chg>0?'ADDING (building)':d.chg<0?'SHEDDING (unwinding)':'No change today';
+      const buStr=d.buildup||'No prior data';
+      const buCls={'Long Buildup':'clb','Short Buildup':'csb','Short Covering':'csc','Long Unwinding':'clu','Neutral':'cn','No prior data':'cn'}[buStr]||'cn';
+      htip.innerHTML=`
+        <div style="font-weight:700;color:${col};font-size:13px;margin-bottom:6px">Strike ${d.s} — ${d.side}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;margin-bottom:8px">
+          <div><div style="color:#8b949e;font-size:9px">TOTAL OI</div><div style="font-size:16px;font-weight:800;color:${col}">${foF(d.oi)}</div><div style="font-size:9px;color:#8b949e">lots</div></div>
+          <div><div style="color:#8b949e;font-size:9px">TODAY&apos;S CHANGE</div>
+            <div style="font-size:16px;font-weight:800;color:${chgCol}">${hasHistChg?(chgSign+foF(Math.abs(d.chg))):'—'}</div>
+            <div style="font-size:9px;color:${chgCol}">${hasHistChg?chgLabel:'run --loop for day data'}</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 14px;padding-top:6px;border-top:1px solid #30363d">
+          <div><span style="color:#8b949e;font-size:9px">LTP</span> <span style="color:#f0f6fc">${d.ltp!=null?f(d.ltp):'—'}</span></div>
+          <div><span style="color:#8b949e;font-size:9px">IV</span> <span style="color:#bc8cff">${d.iv!=null?f(d.iv,1)+'%':'—'}</span></div>
+          <div><span style="color:#8b949e;font-size:9px">Volume</span> <span style="color:#f0f6fc">${foF(d.vol||0)}</span></div>
+          <div><span class="chip ${buCls}" style="font-size:9px">${buStr}</span></div>
+        </div>`;
+      htip.style.left=(e.clientX+14)+'px';
+      htip.style.top=(e.clientY-10)+'px';
+      htip.style.display='block';
+      bar.setAttribute('opacity','0.75');
+    });
+    bar.addEventListener('mousemove',e=>{
+      htip.style.left=(e.clientX+14)+'px';
+      htip.style.top=(e.clientY-10)+'px';
+    });
+    bar.addEventListener('mouseleave',()=>{htip.style.display='none';bar.setAttribute('opacity','1');});
+  });
+})();
+
+// --- IV SMILE SVG + HOVER + INTERPRETATION ---
+(function(){
+  const ivData=ng.strikes.filter(r=>r.CE?.iv||r.PE?.iv);
+  if(ivData.length<2)return;
+  const allIV=[...ivData.map(r=>r.CE?.iv||0),...ivData.map(r=>r.PE?.iv||0)].filter(v=>v>0);
+  const minIV=Math.min(...allIV)*0.88, maxIV=Math.max(...allIV)*1.06;
+  const minSK=ivData[0].strike, maxSK=ivData[ivData.length-1].strike;
+  const W=560,H=180,pad={l:32,r:32,t:14,b:28};
+  const sx=s=>pad.l+(s-minSK)/(maxSK-minSK)*(W-pad.l-pad.r);
+  const sy=v=>H-pad.b-(v-minIV)/(maxIV-minIV)*(H-pad.t-pad.b);
+  let cePts='',pePts='';
+  for(const r of ivData){
+    if(r.CE?.iv)cePts+=`${sx(r.strike).toFixed(1)},${sy(r.CE.iv).toFixed(1)} `;
+    if(r.PE?.iv)pePts+=`${sx(r.strike).toFixed(1)},${sy(r.PE.iv).toFixed(1)} `;
+  }
+  const atmX=sx(atm).toFixed(1);
+  let svg='';
+  // grid
+  [0,0.25,0.5,0.75,1].forEach(t=>{
+    const yy=(pad.t+(1-t)*(H-pad.t-pad.b)).toFixed(1);
+    const v=(minIV+t*(maxIV-minIV)).toFixed(1);
+    svg+=`<line x1="${pad.l}" y1="${yy}" x2="${W-pad.r}" y2="${yy}" stroke="#21262d" stroke-width="1"/>`;
+    svg+=`<text x="${pad.l-3}" y="${parseFloat(yy)+3}" fill="#8b949e" font-size="7.5" text-anchor="end">${v}%</text>`;
+  });
+  // Strike X labels
+  ivData.filter((_,i)=>i%4===0).forEach(r=>{
+    svg+=`<text x="${sx(r.strike).toFixed(1)}" y="${H-pad.b+12}" fill="#8b949e" font-size="7.5" text-anchor="middle">${r.strike}</text>`;
+  });
+  // ATM line
+  svg+=`<line x1="${atmX}" y1="${pad.t}" x2="${atmX}" y2="${H-pad.b}" stroke="#58a6ff55" stroke-width="1.5" stroke-dasharray="4,3"/>`;
+  svg+=`<text x="${atmX}" y="${pad.t-2}" fill="#58a6ff" font-size="7.5" text-anchor="middle">ATM ${atm}</text>`;
+  // Lines
+  if(cePts)svg+=`<polyline points="${cePts.trim()}" fill="none" stroke="#f85149" stroke-width="2" stroke-linejoin="round"/>`;
+  if(pePts)svg+=`<polyline points="${pePts.trim()}" fill="none" stroke="#3fb950" stroke-width="2" stroke-linejoin="round"/>`;
+  // Visible dots on BOTH CE and PE lines
+  ivData.forEach(r=>{
+    const x=sx(r.strike).toFixed(1);
+    const enc=JSON.stringify({s:r.strike,ce:r.CE?.iv,pe:r.PE?.iv,ced:r.CE?.delta,ped:r.PE?.delta,cet:r.CE?.theta,pet:r.PE?.theta,v:r.CE?.vega||r.PE?.vega}).replace(/"/g,'&quot;');
+    if(r.CE?.iv) svg+=`<circle cx="${x}" cy="${sy(r.CE.iv).toFixed(1)}" r="5" fill="#f85149" stroke="#0d1117" stroke-width="1.5" class="iv-dot" data-info="${enc}" style="cursor:pointer"/>`;
+    if(r.PE?.iv) svg+=`<circle cx="${x}" cy="${sy(r.PE.iv).toFixed(1)}" r="5" fill="#3fb950" stroke="#0d1117" stroke-width="1.5" class="iv-dot" data-info="${enc}" style="cursor:pointer"/>`;
+  });
+  // Transparent full-width hover overlay for line tracking
+  svg+=`<rect x="${pad.l}" y="${pad.t}" width="${W-pad.l-pad.r}" height="${H-pad.t-pad.b}" fill="transparent" id="iv-overlay"/>`;
+  // Crosshair (initially hidden)
+  svg+=`<line id="iv-xhair" x1="0" y1="${pad.t}" x2="0" y2="${H-pad.b}" stroke="#ffffff22" stroke-width="1" stroke-dasharray="3,3" display="none"/>`;
+  // Legends
+  svg+=`<circle cx="${W-pad.r-28}" cy="${pad.t+6}" r="4" fill="#f85149"/>`;
+  svg+=`<text x="${W-pad.r-20}" y="${pad.t+10}" fill="#f85149" font-size="8">CE IV</text>`;
+  svg+=`<circle cx="${W-pad.r-28}" cy="${pad.t+20}" r="4" fill="#3fb950"/>`;
+  svg+=`<text x="${W-pad.r-20}" y="${pad.t+24}" fill="#3fb950" font-size="8">PE IV</text>`;
+
+  const el=document.getElementById('ivsvg');
+  el.innerHTML=svg;
+  document.getElementById('iv-sub').textContent=`IV% vs strike • ATM CE: ${atmRow.CE?.iv?.toFixed(1)||'—'}% • ATM PE: ${atmRow.PE?.iv?.toFixed(1)||'—'}% • hover any dot for full Greeks`;
+
+  // Hover tooltip on dots
+  const tip=document.getElementById('iv-tip');
+  function showIVTip(d, e){
+    const info=JSON.parse(d.dataset.info.replace(/&quot;/g,'"'));
+    const s=info.s, ce=info.ce, pe=info.pe, ced=info.ced, ped=info.ped, cet=info.cet, pet=info.pet, v=info.v;
+    // Skew at this strike
+    const skewAtStrike=(ce&&pe)?(pe-ce).toFixed(1):null;
+    const skewTxt=skewAtStrike!=null?(parseFloat(skewAtStrike)>2?`<span style="color:#f85149">+${skewAtStrike}% put skew (fear)</span>`:parseFloat(skewAtStrike)<-2?`<span style="color:#3fb950">${skewAtStrike}% call skew (bullish)</span>`:`<span style="color:#8b949e">Flat (${skewAtStrike}%)</span>`):'—';
+    tip.innerHTML=`
+      <div style="font-weight:700;color:#f0f6fc;margin-bottom:6px;font-size:12px">Strike ${s}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin-bottom:6px">
+        <div><span style="color:#8b949e;font-size:10px">CE IV</span><br><span style="color:#f85149;font-size:14px;font-weight:700">${ce?ce.toFixed(1)+'%':'—'}</span></div>
+        <div><span style="color:#8b949e;font-size:10px">PE IV</span><br><span style="color:#3fb950;font-size:14px;font-weight:700">${pe?pe.toFixed(1)+'%':'—'}</span></div>
+        <div><span style="color:#8b949e;font-size:10px">CE Delta</span><br><span style="color:#f0f6fc;font-size:12px">${ced?parseFloat(ced).toFixed(3):'—'}</span></div>
+        <div><span style="color:#8b949e;font-size:10px">PE Delta</span><br><span style="color:#f0f6fc;font-size:12px">${ped?parseFloat(ped).toFixed(3):'—'}</span></div>
+        <div><span style="color:#8b949e;font-size:10px">CE Theta/day</span><br><span style="color:#d29922;font-size:12px">${cet?parseFloat(cet).toFixed(2):'—'} Rs</span></div>
+        <div><span style="color:#8b949e;font-size:10px">PE Theta/day</span><br><span style="color:#d29922;font-size:12px">${pet?parseFloat(pet).toFixed(2):'—'} Rs</span></div>
+      </div>
+      <div style="font-size:10px;color:#8b949e">Vega (per 1% IV): <b style="color:#bc8cff">${v?parseFloat(v).toFixed(2):'—'} Rs</b></div>
+      <div style="font-size:10px;margin-top:4px">Skew: ${skewTxt}</div>`;
+    const wrap=el.parentElement.getBoundingClientRect();
+    const ex=e.clientX-wrap.left+12, ey=e.clientY-wrap.top-10;
+    tip.style.left=(ex+200>wrap.width?ex-215:ex)+'px';
+    tip.style.top=Math.max(0,ey)+'px';
+    tip.style.display='block';
+  }
+  el.querySelectorAll('.iv-dot').forEach(dot=>{
+    dot.addEventListener('mouseenter', e=>showIVTip(dot,e));
+    dot.addEventListener('mouseleave', ()=>{tip.style.display='none';});
+  });
+  // Crosshair on overlay
+  const overlay=el.querySelector('#iv-overlay');
+  const xhair=el.querySelector('#iv-xhair');
+  if(overlay&&xhair){
+    overlay.addEventListener('mousemove',e=>{
+      const svgRect=el.getBoundingClientRect();
+      const scaleX=W/svgRect.width;
+      const mx=(e.clientX-svgRect.left)*scaleX;
+      xhair.setAttribute('x1',mx); xhair.setAttribute('x2',mx);
+      xhair.setAttribute('display','inline');
+      // Find nearest strike
+      let nearest=null, minDist=Infinity;
+      ivData.forEach(r=>{const dx=Math.abs(sx(r.strike)-mx); if(dx<minDist){minDist=dx;nearest=r;}});
+      if(nearest&&minDist<20){
+        const fakeEl={dataset:{info:JSON.stringify({s:nearest.strike,ce:nearest.CE?.iv,pe:nearest.PE?.iv,ced:nearest.CE?.delta,ped:nearest.PE?.delta,cet:nearest.CE?.theta,pet:nearest.PE?.theta,v:nearest.CE?.vega||nearest.PE?.vega})}};
+        showIVTip(fakeEl,e);
+      } else tip.style.display='none';
+    });
+    overlay.addEventListener('mouseleave',()=>{xhair.setAttribute('display','none');tip.style.display='none';});
+  }
+
+  // IV interpretation
+  const atmCEIV=atmRow.CE?.iv, atmPEIV=atmRow.PE?.iv;
+  const avgIV=atmCEIV&&atmPEIV?(atmCEIV+atmPEIV)/2:atmCEIV||atmPEIV||0;
+  // Skew: PE IV vs CE IV at ATM — positive = put skew (fear)
+  const skew=atmPEIV&&atmCEIV?(atmPEIV-atmCEIV).toFixed(1):null;
+  let ivInterp='<b style="color:#f0f6fc">IV Smile Reading:</b> ';
+  if(avgIV>55) ivInterp+='<span style="color:#f85149">High IV (>55%)</span> — market pricing big move. Premium sellers have edge: short straddles/strangles. ';
+  else if(avgIV>35) ivInterp+='<span style="color:#d29922">Normal IV (35–55%)</span> — balanced. Debit spreads vs. credit spreads both viable depending on direction. ';
+  else ivInterp+='<span style="color:#3fb950">Low IV (<35%)</span> — cheap options. Buy ATM straddle / debit spreads before a catalyst. ';
+  if(skew!==null){
+    if(parseFloat(skew)>3) ivInterp+=`<br><b style="color:#f0f6fc">Skew:</b> <span style="color:#f85149">+${skew}% put skew</span> — market paying premium for downside protection. Bearish fear dominant. Short PE spread or sell puts at support.`;
+    else if(parseFloat(skew)<-3) ivInterp+=`<br><b style="color:#f0f6fc">Skew:</b> <span style="color:#3fb950">${skew}% call skew</span> — market pricing upside breakout. Bullish sentiment in options. Short CE spread or sell calls at resistance.`;
+    else ivInterp+=`<br><b style="color:#f0f6fc">Skew:</b> <span style="color:#8b949e">Symmetric (${skew}%)</span> — no directional fear premium. Market neutral.`;
+  }
+  document.getElementById('iv-interp').innerHTML=ivInterp;
+})();
+
+// --- VOLUME BARS ---
+const volRows=ng.strikes.filter(r=>Math.abs(r.strike-atm)<=8*step).reverse();
+const mxVol=Math.max(...volRows.map(r=>(r.CE?.volume||0)+(r.PE?.volume||0)),1);
+let vb='';
+for(const r of volRows){
+  const cv=r.CE?.volume||0,pv=r.PE?.volume||0,tot=cv+pv||1;
+  const cp=(cv/tot*100).toFixed(0),pp=(pv/tot*100).toFixed(0);
+  vb+=`<div class="vol-row"><div class="vol-sk">${r.strike}</div><div class="vol-track" style="height:${Math.max(6,Math.round(tot/mxVol*14))}px"><div class="vol-ce" style="width:${cp}%"></div><div class="vol-pe" style="width:${pp}%"></div></div></div>`;
+}
+document.getElementById('volbars').innerHTML=vb||'<div style="color:#8b949e;font-size:11px">No volume data</div>';
+
+// --- EXPECTED MOVE CARD ---
+(function(){
+  const s=SIG;
+  if(!s.em)return;
+  document.getElementById('em-pct').textContent=`±${f(s.em,1)}% (${s.em_pts!=null?'±'+f(s.em_pts,1)+' pts':'—'})`;
+  const lo=s.em_low, hi=s.em_high, pr=s.price, st=s.atm, strd=s.strd;
+  const em=s.em;
+
+  let strategy='', stratCol='#d29922';
+  if(em<3){strategy='Low IV — <b>BUY the straddle/strangle</b>. Market underpricing risk. One big move pays for multiple contracts.'; stratCol='#3fb950';}
+  else if(em<5){strategy='Moderate IV — <b>directional bias trade preferred</b>. If you have a view on direction, use vertical debit spreads. If no view, sell iron condor between walls.'; stratCol='#d29922';}
+  else{strategy='High IV — <b>SELL the straddle/strangle</b>. Market overpricing risk. Collect premium and profit from time decay.'; stratCol='#f85149';}
+
+  const barW=500;
+  const lo_pct=(lo-lo*0.995)/(hi*1.005-lo*0.995)*100;
+  const hi_pct=(hi-lo*0.995)/(hi*1.005-lo*0.995)*100;
+  const pr_pct=(pr-lo*0.995)/(hi*1.005-lo*0.995)*100;
+
+  document.getElementById('em-card').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+      <div style="background:#21262d;border-radius:6px;padding:10px;text-align:center">
+        <div style="font-size:10px;color:#8b949e;margin-bottom:4px">LOWER BOUND</div>
+        <div style="font-size:20px;font-weight:800;color:#f85149">${f(lo)}</div>
+        <div style="font-size:10px;color:#8b949e">-${f(s.em_pts,1)} pts (-${f(em,1)}%)</div>
+      </div>
+      <div style="background:#21262d;border-radius:6px;padding:10px;text-align:center">
+        <div style="font-size:10px;color:#8b949e;margin-bottom:4px">CURRENT PRICE</div>
+        <div style="font-size:20px;font-weight:800;color:#58a6ff">${f(pr)}</div>
+        <div style="font-size:10px;color:#8b949e">ATM Straddle: ${f(strd)} pts</div>
+      </div>
+      <div style="background:#21262d;border-radius:6px;padding:10px;text-align:center">
+        <div style="font-size:10px;color:#8b949e;margin-bottom:4px">UPPER BOUND</div>
+        <div style="font-size:20px;font-weight:800;color:#3fb950">${f(hi)}</div>
+        <div style="font-size:10px;color:#8b949e">+${f(s.em_pts,1)} pts (+${f(em,1)}%)</div>
+      </div>
+    </div>
+    <div style="background:#21262d;border-radius:6px;padding:12px;margin-bottom:10px">
+      <div style="font-size:10px;color:#8b949e;margin-bottom:8px">EXPECTED RANGE VISUALIZER</div>
+      <div style="position:relative;height:24px;background:#0d1117;border-radius:4px;overflow:hidden">
+        <div style="position:absolute;left:${lo_pct.toFixed(1)}%;right:${(100-hi_pct).toFixed(1)}%;top:0;bottom:0;background:#58a6ff1a;border-left:2px solid #f85149;border-right:2px solid #3fb950"></div>
+        <div style="position:absolute;left:${pr_pct.toFixed(1)}%;top:0;bottom:0;width:2px;background:#58a6ff;transform:translateX(-50%)"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;margin-top:4px">
+        <span style="color:#f85149">${f(lo)} (-${f(em,1)}%)</span>
+        <span style="color:#58a6ff">Current: ${f(pr)}</span>
+        <span style="color:#3fb950">${f(hi)} (+${f(em,1)}%)</span>
+      </div>
+    </div>
+    <div style="background:#21262d;border-radius:6px;padding:10px;font-size:11px;color:${stratCol};line-height:1.7;margin-bottom:8px">
+      <b>Strategy:</b> ${strategy}
+    </div>
+    <div style="font-size:11px;color:#8b949e;line-height:1.7;padding:8px 10px;background:#161b22;border-radius:6px">
+      <b style="color:#f0f6fc">How to read:</b> The market is pricing a move of <b style="color:#d29922">±${f(em,1)}% (±${f(s.em_pts,1)} pts)</b> until expiry ${ng.expiry}.<br>
+      &bull; If price stays within ${f(lo)}–${f(hi)}, <b>option sellers win</b> (the straddle premium decays).<br>
+      &bull; If price breaks outside this range, <b>option buyers win</b>.<br>
+      &bull; The straddle costs <b>${f(strd)} pts (₹${foF(Math.round(strd*1250))} per lot)</b>. That is your breakeven for a long straddle.<br>
+      &bull; For institutionals: use this range as the iron condor wings — sell ${f(lo)} PE and ${f(hi)} CE, collect premium within range.
+    </div>`;
+})();
+
+// --- TRADE SIGNALS ---
+(function(){
+  const s=SIG;
+  // Bias banner
+  document.getElementById('sig-bias').innerHTML=`<div class="sig-bias-lbl" style="color:${s.bias_col}">${s.bias}</div><div class="sig-bias-note">${s.bias_note}</div>`;
+  document.getElementById('sig-bias').style.borderColor=s.bias_col+'44';
+  document.getElementById('sig-bias').style.background=s.bias_col+'0d';
+
+  // Max pain
+  const mpDist=s.mp_dist;
+  const mpColor=mpDist==null?'#8b949e':mpDist>0?'#f85149':mpDist<0?'#3fb950':'#58a6ff';
+  document.getElementById('sig-mp').innerHTML=
+    `<div style="margin-bottom:6px">${s.mp_note}</div>`+
+    `<div style="color:${mpColor};font-weight:700;font-size:12px">&rarr; ${s.mp_action}</div>`;
+
+  // OI wall
+  document.getElementById('sig-wall').innerHTML=s.wall_note;
+
+  // IV strategy
+  document.getElementById('sig-iv').innerHTML=`<b>IV Environment:</b> ${s.iv_strategy}`;
+  document.getElementById('sig-iv').style.borderColor=s.iv_col+'44';
+  document.getElementById('sig-iv').style.color=s.iv_col;
+
+  // Setups
+  let sh='';
+  for(const t of s.setups){
+    sh+=`<div class="setup-card" style="border-left:3px solid ${t.col}">
+      <div class="setup-header">
+        <div class="setup-name">${t.name}</div>
+        <div class="setup-type" style="color:${t.col};border:1px solid ${t.col}44">${t.type}</div>
+      </div>
+      <div class="setup-row"><div class="setup-lbl">Entry</div><div class="setup-val">${t.entry}</div></div>
+      <div class="setup-row"><div class="setup-lbl">Target</div><div class="setup-val gr">${t.target}</div></div>
+      <div class="setup-row"><div class="setup-lbl">Stop</div><div class="setup-val rd">${t.stop}</div></div>
+      <div class="setup-row"><div class="setup-lbl">Rationale</div><div class="setup-val neu">${t.rationale}</div></div>
+    </div>`;
+  }
+  document.getElementById('sig-setups').innerHTML=sh||'<div style="color:#8b949e;font-size:11px">No setups generated.</div>';
+
+  // Flags
+  let fh='';
+  for(const fl of s.flags) fh+=`<div class="flag-row">${fl}</div>`;
+  document.getElementById('sig-flags').innerHTML=fh;
+})();
+
+// --- GREEKS TABLE (ATM ±4) ---
+const gRows=ng.strikes.filter(r=>Math.abs(r.strike-atm)<=4*step);
+let gr='';
+for(const r of gRows){
+  const ce=r.CE||{},pe=r.PE||{};
+  const iA=r.strike===atm;
+  gr+=`<tr class="${iA?'atm':''}">
+    <td class="ce">${ivCell(ce.iv)}</td>
+    <td class="ce">${gk(ce.delta)}</td>
+    <td class="ce">${gk(ce.theta)}</td>
+    <td class="ce">${gk(ce.vega)}</td>
+    <td class="ce">${gk(ce.gamma,6)}</td>
+    <td class="sk" style="font-weight:700">${r.strike}${iA?' ★':''}</td>
+    <td class="pe">${gk(pe.gamma,6)}</td>
+    <td class="pe">${gk(pe.vega)}</td>
+    <td class="pe">${gk(pe.theta)}</td>
+    <td class="pe">${gk(pe.delta)}</td>
+    <td class="pe">${ivCell(pe.iv)}</td>
+  </tr>`;
+}
+document.getElementById('greeksbody').innerHTML=gr;
+
+// --- FULL CHAIN TABLE ---
+const mxCOI=Math.max(...ng.strikes.map(r=>r.CE?.oi||0),1);
+const mxPOI=Math.max(...ng.strikes.map(r=>r.PE?.oi||0),1);
+document.getElementById('csub').textContent=`Expiry: ${ng.expiry} • ${ng.strikes.length} strikes • OI in lots • Underlying: ${ng.underlying_price} • Max Pain: ${ng.max_pain}`;
+let th='';
+for(const r of ng.strikes){
+  const ce=r.CE||{},pe=r.PE||{};
+  const iA=r.strike===atm,iM=r.strike===ng.max_pain&&!iA;
+  const cbw=Math.round((ce.oi||0)/mxCOI*50),pbw=Math.round((pe.oi||0)/mxPOI*50);
+  th+=`${iM?'<tr class="mp-line"><td colspan="15"></td></tr>':''}
+  <tr class="${iA?'atm':''}">
+    <td class="ce">${chip(ce.buildup)}</td>
+    <td class="ce">${ochg(ce.oi_chg)}</td>
+    <td class="ce"><span class="ibar ib-ce" style="width:${cbw}px"></span>${fo(ce.oi)}</td>
+    <td class="ce">${fo(ce.volume)}</td>
+    <td class="ce">${ivCell(ce.iv)}</td>
+    <td class="ce">${pctCell(ce.pct_change)}</td>
+    <td class="ce" style="font-weight:600">${f(ce.ltp)}</td>
+    <td class="sk" style="font-weight:700">${r.strike}${iA?' ★':''}${iM?' &#9670;':''}</td>
+    <td class="pe" style="font-weight:600">${f(pe.ltp)}</td>
+    <td class="pe">${pctCell(pe.pct_change)}</td>
+    <td class="pe">${ivCell(pe.iv)}</td>
+    <td class="pe">${fo(pe.volume)}</td>
+    <td class="pe"><span class="ibar ib-pe" style="width:${pbw}px"></span>${fo(pe.oi)}</td>
+    <td class="pe">${ochg(pe.oi_chg)}</td>
+    <td class="pe">${chip(pe.buildup)}</td>
+  </tr>`;
+}
+document.getElementById('tbody').innerHTML=th;
+</script>
+</body>
+</html>
