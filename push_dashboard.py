@@ -72,15 +72,16 @@ def push(message: str = None):
             run(['git', 'checkout', '--orphan', BRANCH], cwd=REPO_DIR)
             print(f"  Created new gh-pages branch")
     else:
-        print(f"  Pulling latest...")
+        print(f"  Syncing with remote...")
         # Update remote URL in case PAT changed
         run(['git', 'remote', 'set-url', 'origin', repo_url], cwd=REPO_DIR, check=False)
-        run(['git', 'pull', '--rebase'], cwd=REPO_DIR, check=False)
+        run(['git', 'fetch', 'origin', BRANCH], cwd=REPO_DIR, check=False)
+        run(['git', 'reset', '--hard', f'origin/{BRANCH}'], cwd=REPO_DIR, check=False)
 
-    dest = REPO_DIR / 'index.html'
-    shutil.copy2(DASHBOARD_SRC, dest)
+    shutil.copy2(DASHBOARD_SRC, REPO_DIR / 'index.html')
+    shutil.copy2(DASHBOARD_SRC, REPO_DIR / 'dashboard.html')
 
-    run(['git', 'add', 'index.html'], cwd=REPO_DIR)
+    run(['git', 'add', 'index.html', 'dashboard.html'], cwd=REPO_DIR)
 
     diff = run(['git', 'diff', '--cached', '--quiet'], cwd=REPO_DIR, check=False)
     if diff.returncode == 0:
