@@ -3,9 +3,12 @@ name: Update NG OI Dashboard
 on:
   schedule:
     # Every 5 min, Mon-Sat, 03:30-18:00 UTC = 09:00-23:30 IST
-    - cron: '*/5 3-17 * * 1-6'    # 03:30-17:59 UTC
-    - cron: '*/5 18 * * 1-6'      # 18:00-18:59 UTC (catches 23:00-23:30 IST)
-  workflow_dispatch:               # allow manual trigger from GitHub UI / mobile
+    - cron: '*/5 3-17 * * 1-6'
+    - cron: '*/5 18 * * 1-6'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   update:
@@ -36,15 +39,12 @@ jobs:
           ANGEL_TOTP_SECRET: ${{ secrets.ANGEL_TOTP_SECRET }}
           ANGEL_PIN:         ${{ secrets.ANGEL_PIN }}
         run: python ng_option_chain.py --no-push
-        # --no-push: generate dashboard.html only; we commit below via git
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          personal_token: ${{ secrets.GH_PAT }}
           publish_dir: ./output
           publish_branch: gh-pages
-          destination_dir: .
           keep_files: false
           commit_message: "OI snapshot ${{ github.run_id }}"
-          force_orphan: false
