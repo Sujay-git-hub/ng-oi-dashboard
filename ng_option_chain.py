@@ -85,28 +85,33 @@ HISTORY_DIR.mkdir(exist_ok=True)
 # -----------------------------------------------------------------------------
 
 def load_env() -> dict:
-    """Load credentials from .env file. Never hardcode these in source."""
-    if not ENV_FILE.exists():
-        print(f"ERROR: {ENV_FILE} not found.")
-        print("Create it with these lines (see .env.example):")
-        print("  ANGEL_API_KEY=your_api_key")
-        print("  ANGEL_CLIENT_CODE=your_client_code")
-        print("  ANGEL_MPIN=your_mpin")
-        print("  ANGEL_TOTP_SECRET=your_totp_secret")
-        sys.exit(1)
-
+    """Load credentials from environment variables (GitHub Actions) or .env file (local)."""
+    import os
     env = {}
-    for line in ENV_FILE.read_text().splitlines():
-        line = line.strip()
-        if not line or line.startswith('#') or '=' not in line:
-            continue
-        k, v = line.split('=', 1)
-        env[k.strip()] = v.strip().strip('"').strip("'")
+
+    # First: read .env file if present
+    if ENV_FILE.exists():
+        for line in ENV_FILE.read_text().splitlines():
+            line = line.strip()
+            if not line or line.startswith('#') or '=' not in line:
+                continue
+            k, v = line.split('=', 1)
+            env[k.strip()] = v.strip().strip('"').strip("'")
+
+    # Then: OS environment variables override (used by GitHub Actions secrets)
+    for key in ['ANGEL_API_KEY', 'ANGEL_CLIENT_CODE', 'ANGEL_MPIN', 'ANGEL_PIN', 'ANGEL_TOTP_SECRET']:
+        if os.environ.get(key):
+            env[key] = os.environ[key]
+
+    # ANGEL_PIN is the same as ANGEL_MPIN (Actions secret uses PIN name)
+    if 'ANGEL_PIN' in env and 'ANGEL_MPIN' not in env:
+        env['ANGEL_MPIN'] = env['ANGEL_PIN']
 
     required = ['ANGEL_API_KEY', 'ANGEL_CLIENT_CODE', 'ANGEL_MPIN', 'ANGEL_TOTP_SECRET']
     missing = [k for k in required if k not in env]
     if missing:
-        print(f"ERROR: .env missing keys: {missing}")
+        print(f"ERROR: Missing credentials: {missing}")
+        print(f"Set them in .env file (local) or GitHub Actions secrets (CI).")
         sys.exit(1)
 
     return env
