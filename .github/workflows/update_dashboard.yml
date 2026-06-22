@@ -2,9 +2,9 @@ name: Update NG OI Dashboard
 
 on:
   schedule:
-    # Every 5 min, Mon-Sat, 03:30-18:00 UTC = 09:00-23:30 IST
-    - cron: '*/5 3-17 * * 1-6'
-    - cron: '*/5 18 * * 1-6'
+    # Every 5 min, Mon-Fri, 03:30-18:00 UTC = 09:00-23:30 IST
+    - cron: '*/5 3-17 * * 1-5'
+    - cron: '*/5 18 * * 1-5'
   workflow_dispatch:
 
 permissions:
@@ -39,6 +39,9 @@ jobs:
           ANGEL_TOTP_SECRET: ${{ secrets.ANGEL_TOTP_SECRET }}
           ANGEL_PIN:         ${{ secrets.ANGEL_PIN }}
         run: python ng_option_chain.py --no-push
+
+      - name: Prepare publish directory
+        run: cp output/dashboard.html output/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
