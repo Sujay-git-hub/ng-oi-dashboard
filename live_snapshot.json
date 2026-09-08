@@ -2,49 +2,49 @@
   "NATURALGAS": {
     "contract": "NATURALGAS",
     "expiry": "2026-09-23",
-    "underlying_price": 273.3,
+    "underlying_price": 274.4,
     "atm_strike": 275.0,
     "strike_step": 5.0,
-    "timestamp": "2026-09-08 16:43:30",
-    "total_ce_oi": 139139,
-    "total_pe_oi": 85198,
-    "total_ce_vol": 468,
-    "total_pe_vol": 401,
-    "pcr": 0.612,
-    "vol_pcr": 0.857,
+    "timestamp": "2026-09-08 19:36:24",
+    "total_ce_oi": 123372,
+    "total_pe_oi": 86061,
+    "total_ce_vol": 516,
+    "total_pe_vol": 425,
+    "pcr": 0.698,
+    "vol_pcr": 0.824,
     "max_oi_resistance": 280.0,
     "max_oi_support": 280.0,
     "top_resistance": [
       {
         "strike": 280.0,
-        "oi": 30728
+        "oi": 25588
       },
       {
         "strike": 285.0,
-        "oi": 17243
+        "oi": 15288
       },
       {
         "strike": 300.0,
-        "oi": 15091
+        "oi": 14463
       }
     ],
     "top_support": [
       {
         "strike": 280.0,
-        "oi": 17255
+        "oi": 15764
+      },
+      {
+        "strike": 295.0,
+        "oi": 9348
       },
       {
         "strike": 270.0,
-        "oi": 11114
-      },
-      {
-        "strike": 250.0,
-        "oi": 9525
+        "oi": 9331
       }
     ],
-    "max_pain": 275.0,
-    "atm_straddle": 21.0,
-    "expected_move_pct": 7.68,
+    "max_pain": 280.0,
+    "atm_straddle": 20.5,
+    "expected_move_pct": 7.47,
     "iv_available": true,
     "strikes": [
       {
@@ -58,11 +58,11 @@
           "volume": 0,
           "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 136.97,
-          "delta": 0.8398,
-          "gamma": 0.003171,
-          "theta": -0.6203,
-          "vega": 0.1333
+          "iv": 129.81,
+          "delta": 0.8528,
+          "gamma": 0.003146,
+          "theta": -0.5585,
+          "vega": 0.1264
         },
         "PE": {
           "token": "578361",
@@ -73,11 +73,11 @@
           "volume": 0,
           "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 52.0,
-          "delta": -0.1575,
-          "gamma": 0.003171,
-          "theta": -0.6074,
-          "vega": 0.1333
+          "iv": 52.75,
+          "delta": -0.1445,
+          "gamma": 0.003146,
+          "theta": -0.5458,
+          "vega": 0.1264
         }
       },
       {
@@ -91,26 +91,26 @@
           "volume": 0,
           "pct_change": 5.24,
           "buildup": "No prior data",
-          "iv": 128.17,
-          "delta": 0.8305,
-          "gamma": 0.003518,
-          "theta": -0.602,
-          "vega": 0.1384
+          "iv": 121.34,
+          "delta": 0.8442,
+          "gamma": 0.003499,
+          "theta": -0.5422,
+          "vega": 0.1314
         },
         "PE": {
           "token": "578360",
           "symbol": "NATURALGAS23SEP26220PE",
-          "ltp": 0.25,
-          "oi": 1379,
+          "ltp": 0.2,
+          "oi": 1407,
           "oi_chg": null,
           "volume": 0,
-          "pct_change": 0.0,
+          "pct_change": -20.0,
           "buildup": "No prior data",
-          "iv": 54.41,
-          "delta": -0.1669,
-          "gamma": 0.003518,
-          "theta": -0.59,
-          "vega": 0.1384
+          "iv": 53.35,
+          "delta": -0.1532,
+          "gamma": 0.003499,
+          "theta": -0.5303,
+          "vega": 0.1314
         }
       },
       {
@@ -124,26 +124,26 @@
           "volume": 0,
           "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 119.8,
-          "delta": 0.8196,
-          "gamma": 0.003918,
-          "theta": -0.5852,
-          "vega": 0.1441
+          "iv": 113.33,
+          "delta": 0.8339,
+          "gamma": 0.003909,
+          "theta": -0.5277,
+          "vega": 0.1371
         },
         "PE": {
           "token": "578359",
           "symbol": "NATURALGAS23SEP26225PE",
           "ltp": 0.3,
-          "oi": 295,
+          "oi": 284,
           "oi_chg": null,
           "volume": 0,
           "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 51.1,
-          "delta": -0.1777,
-          "gamma": 0.003918,
-          "theta": -0.5741,
-          "vega": 0.1441
+          "iv": 51.95,
+          "delta": -0.1634,
+          "gamma": 0.003909,
+          "theta": -0.5168,
+          "vega": 0.1371
         }
       },
       {
@@ -157,26 +157,26 @@
           "volume": 0,
           "pct_change": 0.6,
           "buildup": "No prior data",
-          "iv": 111.14,
-          "delta": 0.8079,
-          "gamma": 0.004394,
-          "theta": -0.5643,
-          "vega": 0.1499
+          "iv": 105.01,
+          "delta": 0.8231,
+          "gamma": 0.004397,
+          "theta": -0.5091,
+          "vega": 0.1429
         },
         "PE": {
           "token": "578358",
           "symbol": "NATURALGAS23SEP26230PE",
           "ltp": 0.35,
-          "oi": 1503,
+          "oi": 1504,
           "oi_chg": null,
           "volume": 1,
           "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 47.48,
-          "delta": -0.1894,
-          "gamma": 0.004394,
-          "theta": -0.5541,
-          "vega": 0.1499
+          "iv": 48.36,
+          "delta": -0.1743,
+          "gamma": 0.004397,
+          "theta": -0.499,
+          "vega": 0.1429
         }
       },
       {
@@ -190,26 +190,26 @@
           "volume": 0,
           "pct_change": 11.69,
           "buildup": "No prior data",
-          "iv": 102.84,
-          "delta": 0.7942,
-          "gamma": 0.004955,
-          "theta": -0.5442,
-          "vega": 0.1564
+          "iv": 97.07,
+          "delta": 0.81,
+          "gamma": 0.004976,
+          "theta": -0.4917,
+          "vega": 0.1495
         },
         "PE": {
           "token": "578357",
           "symbol": "NATURALGAS23SEP26235PE",
-          "ltp": 0.55,
-          "oi": 609,
+          "ltp": 0.5,
+          "oi": 595,
           "oi_chg": null,
           "volume": 1,
-          "pct_change": 57.14,
+          "pct_change": 42.86,
           "buildup": "No prior data",
-          "iv": 46.48,
-          "delta": -0.2032,
-          "gamma": 0.004955,
-          "theta": -0.5349,
-          "vega": 0.1564
+          "iv": 46.52,
+          "delta": -0.1873,
+          "gamma": 0.004976,
+          "theta": -0.4825,
+          "vega": 0.1495
         }
       },
       {
@@ -217,32 +217,32 @@
         "CE": {
           "token": "578276",
           "symbol": "NATURALGAS23SEP26240CE",
-          "ltp": 34.7,
-          "oi": 101,
+          "ltp": 34.4,
+          "oi": 99,
           "oi_chg": null,
           "volume": 0,
-          "pct_change": -16.59,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 52.8,
-          "delta": 0.8951,
-          "gamma": 0.006092,
-          "theta": -0.18,
-          "vega": 0.0987
+          "iv": null,
+          "delta": 0.9374,
+          "gamma": 0.004884,
+          "theta": -0.1027,
+          "vega": 0.0661
         },
         "PE": {
           "token": "578356",
           "symbol": "NATURALGAS23SEP26240PE",
-          "ltp": 0.85,
-          "oi": 3865,
+          "ltp": 0.65,
+          "oi": 3720,
           "oi_chg": null,
           "volume": 5,
-          "pct_change": 41.67,
+          "pct_change": -13.33,
           "buildup": "No prior data",
-          "iv": 45.54,
-          "delta": -0.1022,
-          "gamma": 0.006092,
-          "theta": -0.1735,
-          "vega": 0.0987
+          "iv": 43.76,
+          "delta": -0.0599,
+          "gamma": 0.004884,
+          "theta": -0.0964,
+          "vega": 0.0661
         }
       },
       {
@@ -254,28 +254,28 @@
           "oi": 45,
           "oi_chg": null,
           "volume": 0,
-          "pct_change": -1.94,
+          "pct_change": -7.74,
           "buildup": "No prior data",
-          "iv": 69.64,
-          "delta": 0.7988,
-          "gamma": 0.007217,
-          "theta": -0.364,
-          "vega": 0.1543
+          "iv": 63.62,
+          "delta": 0.825,
+          "gamma": 0.007206,
+          "theta": -0.3067,
+          "vega": 0.1419
         },
         "PE": {
           "token": "578355",
           "symbol": "NATURALGAS23SEP26245PE",
-          "ltp": 1.3,
-          "oi": 3679,
+          "ltp": 1.1,
+          "oi": 3838,
           "oi_chg": null,
-          "volume": 7,
-          "pct_change": 62.5,
+          "volume": 8,
+          "pct_change": 4.76,
           "buildup": "No prior data",
-          "iv": 44.76,
-          "delta": -0.1986,
-          "gamma": 0.007217,
-          "theta": -0.3573,
-          "vega": 0.1543
+          "iv": 43.82,
+          "delta": -0.1723,
+          "gamma": 0.007206,
+          "theta": -0.3002,
+          "vega": 0.1419
         }
       },
       {
@@ -283,32 +283,32 @@
         "CE": {
           "token": "578274",
           "symbol": "NATURALGAS23SEP26250CE",
-          "ltp": 25.4,
-          "oi": 620,
+          "ltp": 25.7,
+          "oi": 611,
           "oi_chg": null,
           "volume": 0,
-          "pct_change": -21.48,
+          "pct_change": -0.77,
           "buildup": "No prior data",
-          "iv": 45.71,
-          "delta": 0.841,
-          "gamma": 0.009453,
-          "theta": -0.2066,
-          "vega": 0.1326
+          "iv": 40.42,
+          "delta": 0.8782,
+          "gamma": 0.008847,
+          "theta": -0.1537,
+          "vega": 0.1107
         },
         "PE": {
           "token": "578354",
           "symbol": "NATURALGAS23SEP26250PE",
-          "ltp": 2.0,
-          "oi": 9525,
+          "ltp": 1.75,
+          "oi": 9308,
           "oi_chg": null,
-          "volume": 23,
-          "pct_change": 53.85,
+          "volume": 24,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 44.47,
-          "delta": -0.1563,
-          "gamma": 0.009453,
-          "theta": -0.2017,
-          "vega": 0.1326
+          "iv": 43.73,
+          "delta": -0.1192,
+          "gamma": 0.008847,
+          "theta": -0.1488,
+          "vega": 0.1107
         }
       },
       {
@@ -316,32 +316,32 @@
         "CE": {
           "token": "578273",
           "symbol": "NATURALGAS23SEP26255CE",
-          "ltp": 21.5,
-          "oi": 202,
+          "ltp": 21.65,
+          "oi": 927,
           "oi_chg": null,
           "volume": 0,
-          "pct_change": -23.08,
+          "pct_change": -0.92,
           "buildup": "No prior data",
-          "iv": 45.95,
-          "delta": 0.7833,
-          "gamma": 0.011434,
-          "theta": -0.2508,
-          "vega": 0.1613
+          "iv": 41.19,
+          "delta": 0.819,
+          "gamma": 0.011375,
+          "theta": -0.2029,
+          "vega": 0.145
         },
         "PE": {
           "token": "578353",
           "symbol": "NATURALGAS23SEP26255PE",
-          "ltp": 3.05,
-          "oi": 5032,
+          "ltp": 2.55,
+          "oi": 3828,
           "oi_chg": null,
-          "volume": 14,
-          "pct_change": 52.5,
+          "volume": 16,
+          "pct_change": -5.56,
           "buildup": "No prior data",
-          "iv": 44.71,
-          "delta": -0.214,
-          "gamma": 0.011434,
-          "theta": -0.2464,
-          "vega": 0.1613
+          "iv": 42.88,
+          "delta": -0.1783,
+          "gamma": 0.011375,
+          "theta": -0.1986,
+          "vega": 0.145
         }
       },
       {
@@ -349,32 +349,32 @@
         "CE": {
           "token": "578272",
           "symbol": "NATURALGAS23SEP26260CE",
-          "ltp": 17.95,
-          "oi": 2199,
+          "ltp": 18.2,
+          "oi": 2007,
           "oi_chg": null,
-          "volume": 3,
-          "pct_change": -25.21,
+          "volume": 4,
+          "pct_change": -0.27,
           "buildup": "No prior data",
-          "iv": 46.25,
-          "delta": 0.7168,
-          "gamma": 0.013131,
-          "theta": -0.2906,
-          "vega": 0.1864
+          "iv": 43.22,
+          "delta": 0.7431,
+          "gamma": 0.013319,
+          "theta": -0.2599,
+          "vega": 0.1781
         },
         "PE": {
           "token": "578352",
           "symbol": "NATURALGAS23SEP26260PE",
-          "ltp": 4.45,
-          "oi": 8124,
+          "ltp": 3.95,
+          "oi": 7577,
           "oi_chg": null,
-          "volume": 29,
-          "pct_change": 50.85,
+          "volume": 31,
+          "pct_change": -2.47,
           "buildup": "No prior data",
-          "iv": 44.98,
-          "delta": -0.2806,
-          "gamma": 0.013131,
-          "theta": -0.2866,
-          "vega": 0.1864
+          "iv": 43.85,
+          "delta": -0.2543,
+          "gamma": 0.013319,
+          "theta": -0.2559,
+          "vega": 0.1781
         }
       },
       {
@@ -382,32 +382,32 @@
         "CE": {
           "token": "578271",
           "symbol": "NATURALGAS23SEP26265CE",
-          "ltp": 14.8,
-          "oi": 2502,
+          "ltp": 14.9,
+          "oi": 2030,
           "oi_chg": null,
-          "volume": 7,
-          "pct_change": -27.09,
+          "volume": 8,
+          "pct_change": -1.0,
           "buildup": "No prior data",
-          "iv": 46.67,
-          "delta": 0.6438,
-          "gamma": 0.014352,
-          "theta": -0.3225,
-          "vega": 0.2056
+          "iv": 43.62,
+          "delta": 0.6677,
+          "gamma": 0.014895,
+          "theta": -0.295,
+          "vega": 0.201
         },
         "PE": {
           "token": "578351",
           "symbol": "NATURALGAS23SEP26265PE",
-          "ltp": 6.35,
-          "oi": 4911,
+          "ltp": 5.75,
+          "oi": 4476,
           "oi_chg": null,
-          "volume": 30,
-          "pct_change": 49.41,
+          "volume": 32,
+          "pct_change": -1.71,
           "buildup": "No prior data",
-          "iv": 45.83,
-          "delta": -0.3535,
-          "gamma": 0.014352,
-          "theta": -0.3187,
-          "vega": 0.2056
+          "iv": 44.74,
+          "delta": -0.3297,
+          "gamma": 0.014895,
+          "theta": -0.2913,
+          "vega": 0.201
         }
       },
       {
@@ -415,32 +415,32 @@
         "CE": {
           "token": "578270",
           "symbol": "NATURALGAS23SEP26270CE",
-          "ltp": 11.95,
-          "oi": 8933,
+          "ltp": 12.25,
+          "oi": 7367,
           "oi_chg": null,
-          "volume": 27,
-          "pct_change": -29.5,
+          "volume": 33,
+          "pct_change": 0.41,
           "buildup": "No prior data",
-          "iv": 46.66,
-          "delta": 0.5682,
-          "gamma": 0.015155,
-          "theta": -0.3397,
-          "vega": 0.2171
+          "iv": 45.12,
+          "delta": 0.5865,
+          "gamma": 0.015465,
+          "theta": -0.3269,
+          "vega": 0.2159
         },
         "PE": {
           "token": "578350",
           "symbol": "NATURALGAS23SEP26270PE",
-          "ltp": 8.6,
-          "oi": 11114,
+          "ltp": 7.8,
+          "oi": 9331,
           "oi_chg": null,
-          "volume": 60,
-          "pct_change": 47.01,
+          "volume": 65,
+          "pct_change": -3.11,
           "buildup": "No prior data",
-          "iv": 46.39,
-          "delta": -0.4291,
-          "gamma": 0.015155,
-          "theta": -0.3361,
-          "vega": 0.2171
+          "iv": 44.83,
+          "delta": -0.4109,
+          "gamma": 0.015465,
+          "theta": -0.3233,
+          "vega": 0.2159
         }
       },
       {
@@ -448,32 +448,32 @@
         "CE": {
           "token": "578269",
           "symbol": "NATURALGAS23SEP26275CE",
-          "ltp": 9.7,
-          "oi": 14019,
+          "ltp": 9.85,
+          "oi": 10629,
           "oi_chg": null,
-          "volume": 48,
-          "pct_change": -30.71,
+          "volume": 57,
+          "pct_change": -0.51,
           "buildup": "No prior data",
-          "iv": 47.62,
-          "delta": 0.4923,
-          "gamma": 0.015079,
-          "theta": -0.3516,
-          "vega": 0.2204
+          "iv": 45.81,
+          "delta": 0.5078,
+          "gamma": 0.01561,
+          "theta": -0.3396,
+          "vega": 0.2213
         },
         "PE": {
           "token": "578349",
           "symbol": "NATURALGAS23SEP26275PE",
-          "ltp": 11.3,
-          "oi": 8423,
+          "ltp": 10.65,
+          "oi": 7210,
           "oi_chg": null,
-          "volume": 57,
-          "pct_change": 43.04,
+          "volume": 61,
+          "pct_change": 0.47,
           "buildup": "No prior data",
-          "iv": 47.19,
-          "delta": -0.505,
-          "gamma": 0.015079,
-          "theta": -0.3478,
-          "vega": 0.2204
+          "iv": 46.72,
+          "delta": -0.4896,
+          "gamma": 0.01561,
+          "theta": -0.336,
+          "vega": 0.2213
         }
       },
       {
@@ -481,32 +481,32 @@
         "CE": {
           "token": "578268",
           "symbol": "NATURALGAS23SEP26280CE",
-          "ltp": 7.65,
-          "oi": 30728,
+          "ltp": 7.8,
+          "oi": 25588,
           "oi_chg": null,
-          "volume": 112,
-          "pct_change": -32.89,
+          "volume": 123,
+          "pct_change": -1.27,
           "buildup": "No prior data",
-          "iv": 47.79,
-          "delta": 0.419,
-          "gamma": 0.014725,
-          "theta": -0.3455,
-          "vega": 0.216
+          "iv": 46.33,
+          "delta": 0.4321,
+          "gamma": 0.015222,
+          "theta": -0.3384,
+          "vega": 0.2182
         },
         "PE": {
           "token": "578348",
           "symbol": "NATURALGAS23SEP26280PE",
-          "ltp": 14.35,
-          "oi": 17255,
+          "ltp": 13.55,
+          "oi": 15764,
           "oi_chg": null,
-          "volume": 101,
-          "pct_change": 40.0,
+          "volume": 106,
+          "pct_change": -0.73,
           "buildup": "No prior data",
-          "iv": 47.87,
-          "delta": -0.5783,
-          "gamma": 0.014725,
-          "theta": -0.3415,
-          "vega": 0.216
+          "iv": 47.08,
+          "delta": -0.5653,
+          "gamma": 0.015222,
+          "theta": -0.3346,
+          "vega": 0.2182
         }
       },
       {
@@ -514,32 +514,32 @@
         "CE": {
           "token": "578267",
           "symbol": "NATURALGAS23SEP26285CE",
-          "ltp": 6.1,
-          "oi": 17243,
+          "ltp": 6.2,
+          "oi": 15288,
           "oi_chg": null,
-          "volume": 80,
-          "pct_change": -33.7,
+          "volume": 87,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 48.71,
-          "delta": 0.3528,
-          "gamma": 0.013741,
-          "theta": -0.3347,
-          "vega": 0.2055
+          "iv": 47.29,
+          "delta": 0.3632,
+          "gamma": 0.014239,
+          "theta": -0.3296,
+          "vega": 0.2084
         },
         "PE": {
           "token": "578347",
           "symbol": "NATURALGAS23SEP26285PE",
-          "ltp": 17.5,
-          "oi": 3728,
+          "ltp": 16.75,
+          "oi": 3262,
           "oi_chg": null,
-          "volume": 47,
-          "pct_change": 34.62,
+          "volume": 49,
+          "pct_change": -0.89,
           "buildup": "No prior data",
-          "iv": 47.39,
-          "delta": -0.6445,
-          "gamma": 0.013741,
-          "theta": -0.3304,
-          "vega": 0.2055
+          "iv": 47.18,
+          "delta": -0.6342,
+          "gamma": 0.014239,
+          "theta": -0.3255,
+          "vega": 0.2084
         }
       },
       {
@@ -547,32 +547,32 @@
         "CE": {
           "token": "578266",
           "symbol": "NATURALGAS23SEP26290CE",
-          "ltp": 4.75,
-          "oi": 12523,
+          "ltp": 4.85,
+          "oi": 11047,
           "oi_chg": null,
-          "volume": 51,
-          "pct_change": -34.48,
+          "volume": 55,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 49.14,
-          "delta": 0.2919,
-          "gamma": 0.012593,
-          "theta": -0.312,
-          "vega": 0.19
+          "iv": 47.96,
+          "delta": 0.3007,
+          "gamma": 0.013027,
+          "theta": -0.3099,
+          "vega": 0.1933
         },
         "PE": {
           "token": "578346",
           "symbol": "NATURALGAS23SEP26290PE",
-          "ltp": 21.25,
-          "oi": 2917,
+          "ltp": 20.45,
+          "oi": 2704,
           "oi_chg": null,
           "volume": 19,
-          "pct_change": 32.4,
+          "pct_change": -0.24,
           "buildup": "No prior data",
-          "iv": 48.32,
-          "delta": -0.7054,
-          "gamma": 0.012593,
-          "theta": -0.3073,
-          "vega": 0.19
+          "iv": 48.18,
+          "delta": -0.6966,
+          "gamma": 0.013027,
+          "theta": -0.3054,
+          "vega": 0.1933
         }
       },
       {
@@ -580,32 +580,32 @@
         "CE": {
           "token": "578265",
           "symbol": "NATURALGAS23SEP26295CE",
-          "ltp": 3.65,
-          "oi": 9208,
+          "ltp": 3.75,
+          "oi": 8693,
           "oi_chg": null,
-          "volume": 26,
-          "pct_change": -35.4,
+          "volume": 27,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 49.49,
-          "delta": 0.2378,
-          "gamma": 0.011267,
-          "theta": -0.283,
-          "vega": 0.1712
+          "iv": 48.53,
+          "delta": 0.2455,
+          "gamma": 0.011644,
+          "theta": -0.2835,
+          "vega": 0.1748
         },
         "PE": {
           "token": "578345",
           "symbol": "NATURALGAS23SEP26295PE",
-          "ltp": 25.1,
-          "oi": 920,
+          "ltp": 24.5,
+          "oi": 9348,
           "oi_chg": null,
           "volume": 4,
-          "pct_change": 29.38,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 48.36,
-          "delta": -0.7596,
-          "gamma": 0.011267,
-          "theta": -0.2778,
-          "vega": 0.1712
+          "iv": 49.7,
+          "delta": -0.7518,
+          "gamma": 0.011644,
+          "theta": -0.2785,
+          "vega": 0.1748
         }
       },
       {
@@ -613,32 +613,32 @@
         "CE": {
           "token": "578264",
           "symbol": "NATURALGAS23SEP26300CE",
-          "ltp": 2.85,
-          "oi": 15091,
+          "ltp": 2.9,
+          "oi": 14463,
           "oi_chg": null,
-          "volume": 45,
-          "pct_change": -35.23,
+          "volume": 48,
+          "pct_change": -1.69,
           "buildup": "No prior data",
-          "iv": 50.32,
-          "delta": 0.1936,
-          "gamma": 0.009836,
-          "theta": -0.2554,
-          "vega": 0.1519
+          "iv": 49.24,
+          "delta": 0.1989,
+          "gamma": 0.010176,
+          "theta": -0.255,
+          "vega": 0.1551
         },
         "PE": {
           "token": "578344",
           "symbol": "NATURALGAS23SEP26300PE",
-          "ltp": 29.35,
-          "oi": 1400,
+          "ltp": 28.5,
+          "oi": 1392,
           "oi_chg": null,
           "volume": 3,
-          "pct_change": 26.78,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 49.46,
-          "delta": -0.8037,
-          "gamma": 0.009836,
-          "theta": -0.2496,
-          "vega": 0.1519
+          "iv": 49.68,
+          "delta": -0.7984,
+          "gamma": 0.010176,
+          "theta": -0.2494,
+          "vega": 0.1551
         }
       },
       {
@@ -647,31 +647,31 @@
           "token": "578263",
           "symbol": "NATURALGAS23SEP26305CE",
           "ltp": 2.2,
-          "oi": 7174,
+          "oi": 6920,
           "oi_chg": null,
-          "volume": 17,
-          "pct_change": -34.33,
+          "volume": 18,
+          "pct_change": -2.22,
           "buildup": "No prior data",
-          "iv": 50.99,
-          "delta": 0.1558,
-          "gamma": 0.008457,
-          "theta": -0.2254,
-          "vega": 0.1324
+          "iv": 49.69,
+          "delta": 0.1584,
+          "gamma": 0.008738,
+          "theta": -0.2229,
+          "vega": 0.1343
         },
         "PE": {
           "token": "578343",
           "symbol": "NATURALGAS23SEP26305PE",
-          "ltp": 33.3,
-          "oi": 105,
+          "ltp": 32.45,
+          "oi": 100,
           "oi_chg": null,
           "volume": 0,
-          "pct_change": 22.43,
+          "pct_change": -1.07,
           "buildup": "No prior data",
-          "iv": 46.9,
-          "delta": -0.8415,
-          "gamma": 0.008457,
-          "theta": -0.219,
-          "vega": 0.1324
+          "iv": 47.65,
+          "delta": -0.8389,
+          "gamma": 0.008738,
+          "theta": -0.2167,
+          "vega": 0.1343
         }
       },
       {
@@ -680,31 +680,31 @@
           "token": "578251",
           "symbol": "NATURALGAS23SEP26310CE",
           "ltp": 1.75,
-          "oi": 5608,
+          "oi": 5213,
           "oi_chg": null,
-          "volume": 22,
-          "pct_change": -33.96,
+          "volume": 24,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 52.16,
-          "delta": 0.1271,
-          "gamma": 0.007199,
-          "theta": -0.2007,
-          "vega": 0.1153
+          "iv": 50.95,
+          "delta": 0.129,
+          "gamma": 0.007419,
+          "theta": -0.199,
+          "vega": 0.117
         },
         "PE": {
           "token": "578252",
           "symbol": "NATURALGAS23SEP26310PE",
-          "ltp": 38.5,
-          "oi": 156,
+          "ltp": 37.1,
+          "oi": 155,
           "oi_chg": null,
           "volume": 0,
-          "pct_change": 23.79,
+          "pct_change": -2.24,
           "buildup": "No prior data",
-          "iv": 53.42,
-          "delta": -0.8703,
-          "gamma": 0.007199,
-          "theta": -0.1936,
-          "vega": 0.1153
+          "iv": 49.59,
+          "delta": -0.8683,
+          "gamma": 0.007419,
+          "theta": -0.192,
+          "vega": 0.117
         }
       },
       {
@@ -713,16 +713,16 @@
           "token": "578303",
           "symbol": "NATURALGAS23SEP26315CE",
           "ltp": 1.35,
-          "oi": 1869,
+          "oi": 1759,
           "oi_chg": null,
           "volume": 8,
-          "pct_change": -32.5,
+          "pct_change": -3.57,
           "buildup": "No prior data",
-          "iv": 52.84,
-          "delta": 0.1014,
-          "gamma": 0.006051,
-          "theta": -0.1731,
-          "vega": 0.0981
+          "iv": 51.71,
+          "delta": 0.1029,
+          "gamma": 0.006223,
+          "theta": -0.1719,
+          "vega": 0.0996
         },
         "PE": {
           "token": "578383",
@@ -731,13 +731,13 @@
           "oi": 40,
           "oi_chg": null,
           "volume": 0,
-          "pct_change": 17.78,
+          "pct_change": 11.87,
           "buildup": "No prior data",
-          "iv": 46.7,
-          "delta": -0.8959,
-          "gamma": 0.006051,
-          "theta": -0.1652,
-          "vega": 0.0981
+          "iv": 56.89,
+          "delta": -0.8945,
+          "gamma": 0.006223,
+          "theta": -0.1642,
+          "vega": 0.0996
         }
       },
       {
@@ -746,16 +746,16 @@
           "token": "578304",
           "symbol": "NATURALGAS23SEP26320CE",
           "ltp": 1.1,
-          "oi": 5195,
+          "oi": 5123,
           "oi_chg": null,
-          "volume": 14,
-          "pct_change": -29.03,
+          "volume": 15,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 54.24,
-          "delta": 0.0836,
-          "gamma": 0.005111,
-          "theta": -0.1541,
-          "vega": 0.0851
+          "iv": 53.16,
+          "delta": 0.0847,
+          "gamma": 0.005245,
+          "theta": -0.1531,
+          "vega": 0.0863
         },
         "PE": {
           "token": "578384",
@@ -764,13 +764,13 @@
           "oi": 214,
           "oi_chg": null,
           "volume": 0,
-          "pct_change": 19.6,
+          "pct_change": 8.99,
           "buildup": "No prior data",
-          "iv": 56.76,
-          "delta": -0.9137,
-          "gamma": 0.005111,
-          "theta": -0.1454,
-          "vega": 0.0851
+          "iv": 65.71,
+          "delta": -0.9126,
+          "gamma": 0.005245,
+          "theta": -0.1446,
+          "vega": 0.0863
         }
       },
       {
@@ -778,17 +778,17 @@
         "CE": {
           "token": "578305",
           "symbol": "NATURALGAS23SEP26325CE",
-          "ltp": 0.85,
-          "oi": 2658,
+          "ltp": 0.95,
+          "oi": 2541,
           "oi_chg": null,
-          "volume": 2,
-          "pct_change": -32.0,
+          "volume": 3,
+          "pct_change": -24.0,
           "buildup": "No prior data",
-          "iv": 54.9,
-          "delta": 0.0665,
-          "gamma": 0.00424,
-          "theta": -0.1309,
-          "vega": 0.0714
+          "iv": 55.22,
+          "delta": 0.0725,
+          "gamma": 0.004489,
+          "theta": -0.1413,
+          "vega": 0.0767
         },
         "PE": {
           "token": "578385",
@@ -800,10 +800,10 @@
           "pct_change": 0.0,
           "buildup": "No prior data",
           "iv": null,
-          "delta": -0.9308,
-          "gamma": 0.00424,
-          "theta": -0.1214,
-          "vega": 0.0714
+          "delta": -0.9248,
+          "gamma": 0.004489,
+          "theta": -0.132,
+          "vega": 0.0767
         }
       },
       {
@@ -812,16 +812,16 @@
           "token": "578306",
           "symbol": "NATURALGAS23SEP26330CE",
           "ltp": 0.7,
-          "oi": 2806,
+          "oi": 2626,
           "oi_chg": null,
           "volume": 6,
           "pct_change": -26.32,
           "buildup": "No prior data",
-          "iv": 56.27,
-          "delta": 0.0551,
-          "gamma": 0.003573,
-          "theta": -0.1159,
-          "vega": 0.0617
+          "iv": 55.29,
+          "delta": 0.0558,
+          "gamma": 0.003654,
+          "theta": -0.1153,
+          "vega": 0.0625
         },
         "PE": {
           "token": "578386",
@@ -833,10 +833,10 @@
           "pct_change": 0.0,
           "buildup": "No prior data",
           "iv": null,
-          "delta": -0.9422,
-          "gamma": 0.003573,
-          "theta": -0.1056,
-          "vega": 0.0617
+          "delta": -0.9416,
+          "gamma": 0.003654,
+          "theta": -0.1052,
+          "vega": 0.0625
         }
       },
       {
@@ -844,17 +844,17 @@
         "CE": {
           "token": "578307",
           "symbol": "NATURALGAS23SEP26335CE",
-          "ltp": 0.6,
-          "oi": 372,
+          "ltp": 0.55,
+          "oi": 353,
           "oi_chg": null,
           "volume": 0,
-          "pct_change": -20.0,
+          "pct_change": -26.67,
           "buildup": "No prior data",
-          "iv": 58.0,
-          "delta": 0.0471,
-          "gamma": 0.003058,
-          "theta": -0.1053,
-          "vega": 0.0544
+          "iv": 56.11,
+          "delta": 0.0447,
+          "gamma": 0.003018,
+          "theta": -0.0981,
+          "vega": 0.0524
         },
         "PE": {
           "token": "578387",
@@ -866,10 +866,10 @@
           "pct_change": -2.86,
           "buildup": "No prior data",
           "iv": null,
-          "delta": -0.9502,
-          "gamma": 0.003058,
-          "theta": -0.0942,
-          "vega": 0.0544
+          "delta": -0.9526,
+          "gamma": 0.003018,
+          "theta": -0.0872,
+          "vega": 0.0524
         }
       }
     ]
@@ -877,49 +877,49 @@
   "NATGASMINI": {
     "contract": "NATGASMINI",
     "expiry": "2026-09-23",
-    "underlying_price": 273.5,
+    "underlying_price": 274.4,
     "atm_strike": 275.0,
     "strike_step": 5.0,
-    "timestamp": "2026-09-08 16:43:33",
-    "total_ce_oi": 144643,
-    "total_pe_oi": 65715,
-    "total_ce_vol": 2722,
-    "total_pe_vol": 2338,
-    "pcr": 0.454,
-    "vol_pcr": 0.859,
+    "timestamp": "2026-09-08 19:36:27",
+    "total_ce_oi": 125779,
+    "total_pe_oi": 56514,
+    "total_ce_vol": 2994,
+    "total_pe_vol": 2499,
+    "pcr": 0.449,
+    "vol_pcr": 0.835,
     "max_oi_resistance": 280.0,
-    "max_oi_support": 270.0,
+    "max_oi_support": 250.0,
     "top_resistance": [
       {
         "strike": 280.0,
-        "oi": 37749
+        "oi": 31966
       },
       {
         "strike": 285.0,
-        "oi": 26603
+        "oi": 23732
       },
       {
         "strike": 275.0,
-        "oi": 19393
+        "oi": 14305
       }
     ],
     "top_support": [
       {
-        "strike": 270.0,
-        "oi": 9516
+        "strike": 250.0,
+        "oi": 8566
       },
       {
-        "strike": 250.0,
-        "oi": 8742
+        "strike": 270.0,
+        "oi": 7583
       },
       {
         "strike": 260.0,
-        "oi": 6917
+        "oi": 6062
       }
     ],
     "max_pain": 275.0,
-    "atm_straddle": 21.15,
-    "expected_move_pct": 7.73,
+    "atm_straddle": 20.55,
+    "expected_move_pct": 7.49,
     "iv_available": true,
     "strikes": [
       {
@@ -933,11 +933,11 @@
           "volume": 0,
           "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 136.46,
-          "delta": 0.8411,
-          "gamma": 0.003163,
-          "theta": -0.6152,
-          "vega": 0.1327
+          "iv": 130.6,
+          "delta": 0.8517,
+          "gamma": 0.003143,
+          "theta": -0.5646,
+          "vega": 0.127
         },
         "PE": {
           "token": "578521",
@@ -948,11 +948,11 @@
           "volume": 0,
           "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 47.87,
-          "delta": -0.1562,
-          "gamma": 0.003163,
-          "theta": -0.6023,
-          "vega": 0.1327
+          "iv": 48.44,
+          "delta": -0.1456,
+          "gamma": 0.003143,
+          "theta": -0.5519,
+          "vega": 0.127
         }
       },
       {
@@ -966,11 +966,11 @@
           "volume": 0,
           "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 127.69,
-          "delta": 0.8318,
-          "gamma": 0.00351,
-          "theta": -0.5971,
-          "vega": 0.1378
+          "iv": 122.1,
+          "delta": 0.843,
+          "gamma": 0.003495,
+          "theta": -0.5481,
+          "vega": 0.132
         },
         "PE": {
           "token": "578520",
@@ -981,11 +981,11 @@
           "volume": 0,
           "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 43.75,
-          "delta": -0.1655,
-          "gamma": 0.00351,
-          "theta": -0.5851,
-          "vega": 0.1378
+          "iv": 44.32,
+          "delta": -0.1543,
+          "gamma": 0.003495,
+          "theta": -0.5363,
+          "vega": 0.132
         }
       },
       {
@@ -999,11 +999,11 @@
           "volume": 0,
           "pct_change": -29.81,
           "buildup": "No prior data",
-          "iv": 119.35,
-          "delta": 0.821,
-          "gamma": 0.00391,
-          "theta": -0.5806,
-          "vega": 0.1434
+          "iv": 114.06,
+          "delta": 0.8328,
+          "gamma": 0.003902,
+          "theta": -0.5335,
+          "vega": 0.1377
         },
         "PE": {
           "token": "578519",
@@ -1014,11 +1014,11 @@
           "volume": 0,
           "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 39.69,
-          "delta": -0.1763,
-          "gamma": 0.00391,
-          "theta": -0.5694,
-          "vega": 0.1434
+          "iv": 40.27,
+          "delta": -0.1646,
+          "gamma": 0.003902,
+          "theta": -0.5225,
+          "vega": 0.1377
         }
       },
       {
@@ -1032,26 +1032,26 @@
           "volume": 0,
           "pct_change": 35.25,
           "buildup": "No prior data",
-          "iv": 110.72,
-          "delta": 0.8095,
-          "gamma": 0.004385,
-          "theta": -0.5598,
-          "vega": 0.1493
+          "iv": 105.71,
+          "delta": 0.8218,
+          "gamma": 0.004387,
+          "theta": -0.5147,
+          "vega": 0.1435
         },
         "PE": {
           "token": "578518",
           "symbol": "NATGASMINI23SEP26230PE",
-          "ltp": 0.35,
-          "oi": 2281,
+          "ltp": 0.4,
+          "oi": 2203,
           "oi_chg": null,
-          "volume": 6,
-          "pct_change": 0.0,
+          "volume": 7,
+          "pct_change": 14.29,
           "buildup": "No prior data",
-          "iv": 47.64,
-          "delta": -0.1879,
-          "gamma": 0.004385,
-          "theta": -0.5496,
-          "vega": 0.1493
+          "iv": 49.56,
+          "delta": -0.1755,
+          "gamma": 0.004387,
+          "theta": -0.5046,
+          "vega": 0.1435
         }
       },
       {
@@ -1063,28 +1063,28 @@
           "oi": 4,
           "oi_chg": null,
           "volume": 0,
-          "pct_change": 16.05,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 129.22,
-          "delta": 0.7592,
-          "gamma": 0.004316,
-          "theta": -0.7473,
-          "vega": 0.1714
+          "iv": 125.18,
+          "delta": 0.7676,
+          "gamma": 0.004353,
+          "theta": -0.7124,
+          "vega": 0.1686
         },
         "PE": {
           "token": "578517",
           "symbol": "NATGASMINI23SEP26235PE",
-          "ltp": 0.55,
-          "oi": 1027,
+          "ltp": 0.4,
+          "oi": 1019,
           "oi_chg": null,
-          "volume": 4,
-          "pct_change": 37.5,
+          "volume": 5,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 46.66,
-          "delta": -0.2382,
-          "gamma": 0.004316,
-          "theta": -0.7364,
-          "vega": 0.1714
+          "iv": 44.51,
+          "delta": -0.2297,
+          "gamma": 0.004353,
+          "theta": -0.7016,
+          "vega": 0.1686
         }
       },
       {
@@ -1092,32 +1092,32 @@
         "CE": {
           "token": "578436",
           "symbol": "NATGASMINI23SEP26240CE",
-          "ltp": 34.55,
-          "oi": 410,
+          "ltp": 35.0,
+          "oi": 408,
           "oi_chg": null,
           "volume": 1,
-          "pct_change": -17.05,
+          "pct_change": 2.04,
           "buildup": "No prior data",
-          "iv": 49.25,
-          "delta": 0.9104,
-          "gamma": 0.00579,
-          "theta": -0.1501,
-          "vega": 0.0877
+          "iv": 44.38,
+          "delta": 0.935,
+          "gamma": 0.004971,
+          "theta": -0.1072,
+          "vega": 0.0683
         },
         "PE": {
           "token": "578516",
           "symbol": "NATGASMINI23SEP26240PE",
-          "ltp": 0.9,
-          "oi": 5215,
+          "ltp": 0.8,
+          "oi": 5312,
           "oi_chg": null,
-          "volume": 15,
-          "pct_change": 28.57,
+          "volume": 18,
+          "pct_change": -5.88,
           "buildup": "No prior data",
-          "iv": 46.37,
-          "delta": -0.0869,
-          "gamma": 0.00579,
-          "theta": -0.1437,
-          "vega": 0.0877
+          "iv": 45.91,
+          "delta": -0.0624,
+          "gamma": 0.004971,
+          "theta": -0.1009,
+          "vega": 0.0683
         }
       },
       {
@@ -1129,28 +1129,28 @@
           "oi": 3,
           "oi_chg": null,
           "volume": 0,
-          "pct_change": -8.99,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 69.25,
-          "delta": 0.8013,
-          "gamma": 0.007196,
-          "theta": -0.3595,
-          "vega": 0.1532
+          "iv": 64.33,
+          "delta": 0.8227,
+          "gamma": 0.007187,
+          "theta": -0.3126,
+          "vega": 0.1431
         },
         "PE": {
           "token": "578515",
           "symbol": "NATGASMINI23SEP26245PE",
-          "ltp": 1.35,
-          "oi": 3894,
+          "ltp": 1.0,
+          "oi": 2740,
           "oi_chg": null,
-          "volume": 48,
-          "pct_change": 58.82,
+          "volume": 65,
+          "pct_change": -4.76,
           "buildup": "No prior data",
-          "iv": 45.46,
-          "delta": -0.196,
-          "gamma": 0.007196,
-          "theta": -0.3528,
-          "vega": 0.1532
+          "iv": 42.72,
+          "delta": -0.1746,
+          "gamma": 0.007187,
+          "theta": -0.3061,
+          "vega": 0.1431
         }
       },
       {
@@ -1158,32 +1158,32 @@
         "CE": {
           "token": "578434",
           "symbol": "NATGASMINI23SEP26250CE",
-          "ltp": 25.65,
-          "oi": 422,
+          "ltp": 25.85,
+          "oi": 402,
           "oi_chg": null,
-          "volume": 1,
-          "pct_change": -20.59,
+          "volume": 2,
+          "pct_change": -1.15,
           "buildup": "No prior data",
-          "iv": 46.32,
-          "delta": 0.84,
-          "gamma": 0.009362,
-          "theta": -0.2104,
-          "vega": 0.1333
+          "iv": 41.75,
+          "delta": 0.8711,
+          "gamma": 0.008919,
+          "theta": -0.165,
+          "vega": 0.1152
         },
         "PE": {
           "token": "578514",
           "symbol": "NATGASMINI23SEP26250PE",
-          "ltp": 2.0,
-          "oi": 8742,
+          "ltp": 1.75,
+          "oi": 8566,
           "oi_chg": null,
-          "volume": 63,
-          "pct_change": 48.15,
+          "volume": 67,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 44.7,
-          "delta": -0.1573,
-          "gamma": 0.009362,
-          "theta": -0.2054,
-          "vega": 0.1333
+          "iv": 43.73,
+          "delta": -0.1263,
+          "gamma": 0.008919,
+          "theta": -0.1601,
+          "vega": 0.1152
         }
       },
       {
@@ -1191,32 +1191,32 @@
         "CE": {
           "token": "578433",
           "symbol": "NATGASMINI23SEP26255CE",
-          "ltp": 21.75,
+          "ltp": 21.3,
           "oi": 263,
           "oi_chg": null,
-          "volume": 2,
-          "pct_change": -23.42,
+          "volume": 3,
+          "pct_change": -1.39,
           "buildup": "No prior data",
-          "iv": 46.53,
-          "delta": 0.783,
-          "gamma": 0.011291,
-          "theta": -0.2544,
-          "vega": 0.1615
+          "iv": 38.72,
+          "delta": 0.8326,
+          "gamma": 0.011502,
+          "theta": -0.1817,
+          "vega": 0.1378
         },
         "PE": {
           "token": "578513",
           "symbol": "NATGASMINI23SEP26255PE",
-          "ltp": 3.1,
-          "oi": 4296,
+          "ltp": 2.6,
+          "oi": 4133,
           "oi_chg": null,
-          "volume": 47,
-          "pct_change": 47.62,
+          "volume": 52,
+          "pct_change": -7.14,
           "buildup": "No prior data",
-          "iv": 45.29,
-          "delta": -0.2143,
-          "gamma": 0.011291,
-          "theta": -0.2499,
-          "vega": 0.1615
+          "iv": 43.21,
+          "delta": -0.1647,
+          "gamma": 0.011502,
+          "theta": -0.1775,
+          "vega": 0.1378
         }
       },
       {
@@ -1224,32 +1224,32 @@
         "CE": {
           "token": "578432",
           "symbol": "NATGASMINI23SEP26260CE",
-          "ltp": 18.1,
-          "oi": 1297,
+          "ltp": 18.3,
+          "oi": 1179,
           "oi_chg": null,
-          "volume": 20,
-          "pct_change": -24.9,
+          "volume": 24,
+          "pct_change": -0.81,
           "buildup": "No prior data",
-          "iv": 46.29,
-          "delta": 0.7193,
-          "gamma": 0.013054,
-          "theta": -0.2898,
-          "vega": 0.1858
+          "iv": 43.78,
+          "delta": 0.7407,
+          "gamma": 0.013211,
+          "theta": -0.2644,
+          "vega": 0.179
         },
         "PE": {
           "token": "578512",
           "symbol": "NATGASMINI23SEP26260PE",
-          "ltp": 4.55,
-          "oi": 6917,
+          "ltp": 4.0,
+          "oi": 6062,
           "oi_chg": null,
-          "volume": 144,
-          "pct_change": 59.65,
+          "volume": 155,
+          "pct_change": -3.61,
           "buildup": "No prior data",
-          "iv": 45.82,
-          "delta": -0.2781,
-          "gamma": 0.013054,
-          "theta": -0.2858,
-          "vega": 0.1858
+          "iv": 44.13,
+          "delta": -0.2566,
+          "gamma": 0.013211,
+          "theta": -0.2605,
+          "vega": 0.179
         }
       },
       {
@@ -1257,32 +1257,32 @@
         "CE": {
           "token": "578431",
           "symbol": "NATGASMINI23SEP26265CE",
-          "ltp": 15.05,
-          "oi": 2076,
+          "ltp": 14.85,
+          "oi": 1833,
           "oi_chg": null,
-          "volume": 30,
-          "pct_change": -26.59,
+          "volume": 37,
+          "pct_change": -2.3,
           "buildup": "No prior data",
-          "iv": 47.26,
-          "delta": 0.6454,
-          "gamma": 0.01414,
-          "theta": -0.3263,
-          "vega": 0.2054
+          "iv": 43.37,
+          "delta": 0.6684,
+          "gamma": 0.014968,
+          "theta": -0.293,
+          "vega": 0.2009
         },
         "PE": {
           "token": "578511",
           "symbol": "NATGASMINI23SEP26265PE",
-          "ltp": 6.45,
-          "oi": 5740,
+          "ltp": 5.75,
+          "oi": 5230,
           "oi_chg": null,
-          "volume": 157,
-          "pct_change": 51.76,
+          "volume": 173,
+          "pct_change": -2.54,
           "buildup": "No prior data",
-          "iv": 46.66,
-          "delta": -0.352,
-          "gamma": 0.01414,
-          "theta": -0.3225,
-          "vega": 0.2054
+          "iv": 44.74,
+          "delta": -0.3289,
+          "gamma": 0.014968,
+          "theta": -0.2894,
+          "vega": 0.2009
         }
       },
       {
@@ -1290,32 +1290,32 @@
         "CE": {
           "token": "578430",
           "symbol": "NATGASMINI23SEP26270CE",
-          "ltp": 12.25,
-          "oi": 9233,
+          "ltp": 12.1,
+          "oi": 7814,
           "oi_chg": null,
-          "volume": 147,
-          "pct_change": -28.36,
+          "volume": 182,
+          "pct_change": -2.02,
           "buildup": "No prior data",
-          "iv": 47.52,
-          "delta": 0.5706,
-          "gamma": 0.014854,
-          "theta": -0.3459,
-          "vega": 0.217
+          "iv": 44.42,
+          "delta": 0.5873,
+          "gamma": 0.015701,
+          "theta": -0.3217,
+          "vega": 0.2158
         },
         "PE": {
           "token": "578510",
           "symbol": "NATGASMINI23SEP26270PE",
-          "ltp": 8.65,
-          "oi": 9516,
+          "ltp": 7.95,
+          "oi": 7583,
           "oi_chg": null,
-          "volume": 331,
-          "pct_change": 45.38,
+          "volume": 368,
+          "pct_change": -1.24,
           "buildup": "No prior data",
-          "iv": 47.02,
-          "delta": -0.4267,
-          "gamma": 0.014854,
-          "theta": -0.3421,
-          "vega": 0.217
+          "iv": 45.52,
+          "delta": -0.4101,
+          "gamma": 0.015701,
+          "theta": -0.3182,
+          "vega": 0.2158
         }
       },
       {
@@ -1323,32 +1323,32 @@
         "CE": {
           "token": "578429",
           "symbol": "NATGASMINI23SEP26275CE",
-          "ltp": 9.85,
-          "oi": 19393,
+          "ltp": 9.95,
+          "oi": 14305,
           "oi_chg": null,
-          "volume": 296,
-          "pct_change": -30.14,
+          "volume": 365,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 47.85,
-          "delta": 0.4955,
-          "gamma": 0.014997,
-          "theta": -0.3536,
-          "vega": 0.2206
+          "iv": 46.26,
+          "delta": 0.5081,
+          "gamma": 0.015458,
+          "theta": -0.343,
+          "vega": 0.2213
         },
         "PE": {
           "token": "578509",
           "symbol": "NATGASMINI23SEP26275PE",
-          "ltp": 11.3,
-          "oi": 6081,
+          "ltp": 10.6,
+          "oi": 4452,
           "oi_chg": null,
-          "volume": 406,
-          "pct_change": 42.14,
+          "volume": 438,
+          "pct_change": -0.47,
           "buildup": "No prior data",
-          "iv": 47.64,
-          "delta": -0.5018,
-          "gamma": 0.014997,
-          "theta": -0.3498,
-          "vega": 0.2206
+          "iv": 46.5,
+          "delta": -0.4893,
+          "gamma": 0.015458,
+          "theta": -0.3393,
+          "vega": 0.2213
         }
       },
       {
@@ -1356,32 +1356,32 @@
         "CE": {
           "token": "578428",
           "symbol": "NATGASMINI23SEP26280CE",
-          "ltp": 7.85,
-          "oi": 37749,
+          "ltp": 8.0,
+          "oi": 31966,
           "oi_chg": null,
-          "volume": 695,
-          "pct_change": -31.44,
+          "volume": 758,
+          "pct_change": 0.63,
           "buildup": "No prior data",
-          "iv": 48.33,
-          "delta": 0.4232,
-          "gamma": 0.014581,
-          "theta": -0.3504,
-          "vega": 0.2166
+          "iv": 47.24,
+          "delta": 0.4341,
+          "gamma": 0.014941,
+          "theta": -0.3453,
+          "vega": 0.2184
         },
         "PE": {
           "token": "578508",
           "symbol": "NATGASMINI23SEP26280PE",
-          "ltp": 14.3,
-          "oi": 6328,
+          "ltp": 13.75,
+          "oi": 5027,
           "oi_chg": null,
-          "volume": 653,
-          "pct_change": 38.83,
+          "volume": 674,
+          "pct_change": 0.73,
           "buildup": "No prior data",
-          "iv": 48.18,
-          "delta": -0.5741,
-          "gamma": 0.014581,
-          "theta": -0.3464,
-          "vega": 0.2166
+          "iv": 48.0,
+          "delta": -0.5633,
+          "gamma": 0.014941,
+          "theta": -0.3415,
+          "vega": 0.2184
         }
       },
       {
@@ -1389,32 +1389,32 @@
         "CE": {
           "token": "578427",
           "symbol": "NATGASMINI23SEP26285CE",
-          "ltp": 6.3,
-          "oi": 26603,
+          "ltp": 6.35,
+          "oi": 23732,
           "oi_chg": null,
-          "volume": 692,
-          "pct_change": -32.26,
+          "volume": 727,
+          "pct_change": 0.79,
           "buildup": "No prior data",
-          "iv": 49.33,
-          "delta": 0.3578,
-          "gamma": 0.013625,
-          "theta": -0.3409,
-          "vega": 0.2066
+          "iv": 48.01,
+          "delta": 0.3657,
+          "gamma": 0.014058,
+          "theta": -0.3353,
+          "vega": 0.2088
         },
         "PE": {
           "token": "578507",
           "symbol": "NATGASMINI23SEP26285PE",
-          "ltp": 17.6,
-          "oi": 2406,
+          "ltp": 16.7,
+          "oi": 1318,
           "oi_chg": null,
-          "volume": 312,
-          "pct_change": 36.43,
+          "volume": 321,
+          "pct_change": -1.18,
           "buildup": "No prior data",
-          "iv": 48.51,
-          "delta": -0.6396,
-          "gamma": 0.013625,
-          "theta": -0.3366,
-          "vega": 0.2066
+          "iv": 46.94,
+          "delta": -0.6317,
+          "gamma": 0.014058,
+          "theta": -0.3312,
+          "vega": 0.2088
         }
       },
       {
@@ -1423,31 +1423,31 @@
           "token": "578426",
           "symbol": "NATGASMINI23SEP26290CE",
           "ltp": 4.95,
-          "oi": 11462,
+          "oi": 10089,
           "oi_chg": null,
-          "volume": 318,
-          "pct_change": -33.11,
+          "volume": 338,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 49.88,
-          "delta": 0.2977,
-          "gamma": 0.01251,
-          "theta": -0.3198,
-          "vega": 0.1918
+          "iv": 48.48,
+          "delta": 0.303,
+          "gamma": 0.012932,
+          "theta": -0.3144,
+          "vega": 0.194
         },
         "PE": {
           "token": "578506",
           "symbol": "NATGASMINI23SEP26290PE",
-          "ltp": 21.3,
-          "oi": 1644,
+          "ltp": 20.25,
+          "oi": 1298,
           "oi_chg": null,
-          "volume": 102,
-          "pct_change": 33.12,
+          "volume": 106,
+          "pct_change": -1.46,
           "buildup": "No prior data",
-          "iv": 49.32,
-          "delta": -0.6996,
-          "gamma": 0.01251,
-          "theta": -0.3151,
-          "vega": 0.1918
+          "iv": 47.14,
+          "delta": -0.6943,
+          "gamma": 0.012932,
+          "theta": -0.3098,
+          "vega": 0.194
         }
       },
       {
@@ -1455,32 +1455,32 @@
         "CE": {
           "token": "578425",
           "symbol": "NATGASMINI23SEP26295CE",
-          "ltp": 3.8,
-          "oi": 7320,
+          "ltp": 3.9,
+          "oi": 6942,
           "oi_chg": null,
-          "volume": 156,
-          "pct_change": -33.91,
+          "volume": 164,
+          "pct_change": 2.63,
           "buildup": "No prior data",
-          "iv": 50.08,
-          "delta": 0.243,
-          "gamma": 0.011258,
-          "theta": -0.29,
-          "vega": 0.1733
+          "iv": 49.39,
+          "delta": 0.2498,
+          "gamma": 0.011548,
+          "theta": -0.2912,
+          "vega": 0.1765
         },
         "PE": {
           "token": "578505",
           "symbol": "NATGASMINI23SEP26295PE",
-          "ltp": 24.95,
-          "oi": 539,
+          "ltp": 24.35,
+          "oi": 492,
           "oi_chg": null,
           "volume": 30,
-          "pct_change": 28.28,
+          "pct_change": -0.2,
           "buildup": "No prior data",
-          "iv": 48.38,
-          "delta": -0.7543,
-          "gamma": 0.011258,
-          "theta": -0.2848,
-          "vega": 0.1733
+          "iv": 48.85,
+          "delta": -0.7475,
+          "gamma": 0.011548,
+          "theta": -0.2862,
+          "vega": 0.1765
         }
       },
       {
@@ -1488,32 +1488,32 @@
         "CE": {
           "token": "578424",
           "symbol": "NATGASMINI23SEP26300CE",
-          "ltp": 3.0,
-          "oi": 9135,
+          "ltp": 3.05,
+          "oi": 8338,
           "oi_chg": null,
-          "volume": 171,
-          "pct_change": -33.33,
+          "volume": 183,
+          "pct_change": 1.67,
           "buildup": "No prior data",
-          "iv": 51.04,
-          "delta": 0.1993,
-          "gamma": 0.009863,
-          "theta": -0.2638,
-          "vega": 0.1548
+          "iv": 50.2,
+          "delta": 0.204,
+          "gamma": 0.010133,
+          "theta": -0.2639,
+          "vega": 0.1574
         },
         "PE": {
           "token": "578504",
           "symbol": "NATGASMINI23SEP26300PE",
-          "ltp": 29.25,
-          "oi": 826,
+          "ltp": 28.35,
+          "oi": 813,
           "oi_chg": null,
           "volume": 15,
-          "pct_change": 27.17,
+          "pct_change": -0.35,
           "buildup": "No prior data",
-          "iv": 49.87,
-          "delta": -0.798,
-          "gamma": 0.009863,
-          "theta": -0.258,
-          "vega": 0.1548
+          "iv": 48.71,
+          "delta": -0.7934,
+          "gamma": 0.010133,
+          "theta": -0.2583,
+          "vega": 0.1574
         }
       },
       {
@@ -1521,32 +1521,32 @@
         "CE": {
           "token": "578423",
           "symbol": "NATGASMINI23SEP26305CE",
-          "ltp": 2.35,
-          "oi": 4716,
+          "ltp": 2.25,
+          "oi": 4562,
           "oi_chg": null,
-          "volume": 68,
-          "pct_change": -31.88,
+          "volume": 74,
+          "pct_change": -6.25,
           "buildup": "No prior data",
-          "iv": 51.87,
-          "delta": 0.1621,
-          "gamma": 0.008525,
-          "theta": -0.2354,
-          "vega": 0.1359
+          "iv": 50.06,
+          "delta": 0.1604,
+          "gamma": 0.008744,
+          "theta": -0.2264,
+          "vega": 0.1354
         },
         "PE": {
           "token": "578503",
           "symbol": "NATGASMINI23SEP26305PE",
-          "ltp": 33.75,
+          "ltp": 33.25,
           "oi": 124,
           "oi_chg": null,
           "volume": 4,
-          "pct_change": 23.85,
+          "pct_change": -0.15,
           "buildup": "No prior data",
-          "iv": 51.75,
-          "delta": -0.8352,
-          "gamma": 0.008525,
-          "theta": -0.229,
-          "vega": 0.1359
+          "iv": 53.5,
+          "delta": -0.8369,
+          "gamma": 0.008744,
+          "theta": -0.2202,
+          "vega": 0.1354
         }
       },
       {
@@ -1555,31 +1555,31 @@
           "token": "578253",
           "symbol": "NATGASMINI23SEP26310CE",
           "ltp": 1.85,
-          "oi": 6665,
+          "oi": 6418,
           "oi_chg": null,
-          "volume": 61,
-          "pct_change": -31.48,
+          "volume": 66,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 52.79,
-          "delta": 0.1316,
-          "gamma": 0.007284,
-          "theta": -0.2083,
-          "vega": 0.1182
+          "iv": 51.79,
+          "delta": 0.1333,
+          "gamma": 0.007464,
+          "theta": -0.2068,
+          "vega": 0.1196
         },
         "PE": {
           "token": "578254",
           "symbol": "NATGASMINI23SEP26310PE",
-          "ltp": 38.6,
-          "oi": 138,
+          "ltp": 37.2,
+          "oi": 141,
           "oi_chg": null,
           "volume": 1,
-          "pct_change": 22.35,
+          "pct_change": -1.59,
           "buildup": "No prior data",
-          "iv": 55.63,
-          "delta": -0.8657,
-          "gamma": 0.007284,
-          "theta": -0.2012,
-          "vega": 0.1182
+          "iv": 50.47,
+          "delta": -0.8641,
+          "gamma": 0.007464,
+          "theta": -0.1998,
+          "vega": 0.1196
         }
       },
       {
@@ -1587,17 +1587,17 @@
         "CE": {
           "token": "578463",
           "symbol": "NATGASMINI23SEP26315CE",
-          "ltp": 1.45,
-          "oi": 1330,
+          "ltp": 1.4,
+          "oi": 1189,
           "oi_chg": null,
-          "volume": 15,
-          "pct_change": -30.95,
+          "volume": 16,
+          "pct_change": -3.45,
           "buildup": "No prior data",
-          "iv": 53.64,
-          "delta": 0.1063,
-          "gamma": 0.006165,
-          "theta": -0.182,
-          "vega": 0.1017
+          "iv": 52.21,
+          "delta": 0.1052,
+          "gamma": 0.006266,
+          "theta": -0.1764,
+          "vega": 0.1012
         },
         "PE": {
           "token": "578543",
@@ -1609,10 +1609,10 @@
           "pct_change": 0.0,
           "buildup": "No prior data",
           "iv": null,
-          "delta": -0.891,
-          "gamma": 0.006165,
-          "theta": -0.1741,
-          "vega": 0.1017
+          "delta": -0.8921,
+          "gamma": 0.006266,
+          "theta": -0.1687,
+          "vega": 0.1012
         }
       },
       {
@@ -1621,16 +1621,16 @@
           "token": "578464",
           "symbol": "NATGASMINI23SEP26320CE",
           "ltp": 1.2,
-          "oi": 2177,
+          "oi": 2086,
           "oi_chg": null,
-          "volume": 21,
-          "pct_change": -27.27,
+          "volume": 23,
+          "pct_change": 0.0,
           "buildup": "No prior data",
-          "iv": 55.19,
-          "delta": 0.0887,
-          "gamma": 0.005245,
-          "theta": -0.1639,
-          "vega": 0.089
+          "iv": 54.29,
+          "delta": 0.0896,
+          "gamma": 0.005355,
+          "theta": -0.163,
+          "vega": 0.09
         },
         "PE": {
           "token": "578544",
@@ -1642,10 +1642,10 @@
           "pct_change": 0.0,
           "buildup": "No prior data",
           "iv": null,
-          "delta": -0.9087,
-          "gamma": 0.005245,
-          "theta": -0.1552,
-          "vega": 0.089
+          "delta": -0.9077,
+          "gamma": 0.005355,
+          "theta": -0.1545,
+          "vega": 0.09
         }
       },
       {
@@ -1654,16 +1654,16 @@
           "token": "578465",
           "symbol": "NATGASMINI23SEP26325CE",
           "ltp": 1.0,
-          "oi": 647,
+          "oi": 638,
           "oi_chg": null,
-          "volume": 8,
+          "volume": 9,
           "pct_change": -23.08,
           "buildup": "No prior data",
-          "iv": 56.72,
-          "delta": 0.0743,
-          "gamma": 0.004467,
-          "theta": -0.1474,
-          "vega": 0.0779
+          "iv": 55.86,
+          "delta": 0.075,
+          "gamma": 0.004554,
+          "theta": -0.1468,
+          "vega": 0.0787
         },
         "PE": {
           "token": "578545",
@@ -1675,10 +1675,10 @@
           "pct_change": 0.0,
           "buildup": "No prior data",
           "iv": null,
-          "delta": -0.923,
-          "gamma": 0.004467,
-          "theta": -0.1379,
-          "vega": 0.0779
+          "delta": -0.9223,
+          "gamma": 0.004554,
+          "theta": -0.1374,
+          "vega": 0.0787
         }
       },
       {
@@ -1686,17 +1686,17 @@
         "CE": {
           "token": "578466",
           "symbol": "NATGASMINI23SEP26330CE",
-          "ltp": 0.8,
-          "oi": 2209,
+          "ltp": 0.75,
+          "oi": 2084,
           "oi_chg": null,
-          "volume": 18,
-          "pct_change": -23.81,
+          "volume": 19,
+          "pct_change": -28.57,
           "buildup": "No prior data",
-          "iv": 57.65,
-          "delta": 0.0606,
-          "gamma": 0.003754,
-          "theta": -0.128,
-          "vega": 0.0665
+          "iv": 56.08,
+          "delta": 0.0585,
+          "gamma": 0.003742,
+          "theta": -0.1215,
+          "vega": 0.0649
         },
         "PE": {
           "token": "578546",
@@ -1705,13 +1705,13 @@
           "oi": 1,
           "oi_chg": null,
           "volume": 0,
-          "pct_change": -1.33,
+          "pct_change": -3.9,
           "buildup": "No prior data",
           "iv": null,
-          "delta": -0.9367,
-          "gamma": 0.003754,
-          "theta": -0.1177,
-          "vega": 0.0665
+          "delta": -0.9388,
+          "gamma": 0.003742,
+          "theta": -0.1114,
+          "vega": 0.0649
         }
       },
       {
@@ -1719,17 +1719,17 @@
         "CE": {
           "token": "578467",
           "symbol": "NATGASMINI23SEP26335CE",
-          "ltp": 0.7,
-          "oi": 1526,
+          "ltp": 0.75,
+          "oi": 1521,
           "oi_chg": null,
-          "volume": 2,
-          "pct_change": -22.22,
+          "volume": 3,
+          "pct_change": -16.67,
           "buildup": "No prior data",
-          "iv": 59.58,
-          "delta": 0.0526,
-          "gamma": 0.003248,
-          "theta": -0.1183,
-          "vega": 0.0595
+          "iv": 59.6,
+          "delta": 0.0556,
+          "gamma": 0.003384,
+          "theta": -0.1241,
+          "vega": 0.0624
         },
         "PE": {
           "token": "578547",
@@ -1741,10 +1741,10 @@
           "pct_change": 0.0,
           "buildup": "No prior data",
           "iv": null,
-          "delta": -0.9447,
-          "gamma": 0.003248,
-          "theta": -0.1071,
-          "vega": 0.0595
+          "delta": -0.9417,
+          "gamma": 0.003384,
+          "theta": -0.1131,
+          "vega": 0.0624
         }
       }
     ]
